@@ -11,9 +11,9 @@
 	}
 </script>
 <script lang="ts">
-    import Hero from "$lib/components/Hero.svelte";
+    import Hero from "$lib/Hero.svelte";
     export let trad;
 </script>
 
 <Hero />
-{trad.hero.heroTittle}
+<!-- {trad.hero.heroTittle} -->
