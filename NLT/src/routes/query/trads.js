@@ -1,8 +1,7 @@
 export async function get({ params }) {
     const trad = {
-        hero:{
             heroTittle:"willmase willmase",
-        }
+            history:"Here is the story",
     }
     console.log(trad)
     return {

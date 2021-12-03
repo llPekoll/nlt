@@ -12,8 +12,13 @@
 </script>
 <script lang="ts">
     import Hero from "$lib/Hero.svelte";
+	import Share from '$lib/Share.svelte';
+	import About from '$lib/About.svelte';
+
     export let trad;
+	console.log(trad)
 </script>
 
 <Hero />
-<!-- {trad.hero.heroTittle} -->
+<About {trad}/>
+<Share />
