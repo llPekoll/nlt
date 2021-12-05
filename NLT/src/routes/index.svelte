@@ -19,6 +19,7 @@
 	console.log(trad)
 </script>
 
+
 <Hero />
 <About {trad}/>
 <Share />
