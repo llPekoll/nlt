@@ -1,9 +1,9 @@
 export async function get({ params }) {
 	const trad = {
 		nlt: '- NLT -',
-		tittle: 'Nasty Little Tortule',
+		tittle: 'Nasty Little Turtle',
 		content:
-			'The natsty little tortles usualy comes by series of 20ish. <br />You can find some punks, karens, smokers, and some more ... ',
+			'The nasty little turtles usually comes by series of 20ish. <br />You can find some Punks, Karen\'s, Smokers, and some more ... ',
 		twitter: 'Follow me on twitter',
 		discord: 'Join the Discord Club',
 		socials: 'Join the Club',
