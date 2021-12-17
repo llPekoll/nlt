@@ -3,7 +3,7 @@ export async function get({ params }) {
 		nlt: '- NLT -',
 		tittle: 'Nasty Little Turtle',
 		content:
-			'The nasty little turtles usually comes by series of 20ish. <br />You can find some Punks, Karen\'s, Smokers, and some more ... ',
+			'The Nasty Little Turtles usually comes by series of 20ish. <br />You can find some Punks, Karen\'s, Smokers, and some more ... ',
 		twitter: 'Follow me on twitter',
 		discord: 'Join the Discord Club',
 		socials: 'Join the Club',
@@ -15,8 +15,8 @@ export async function get({ params }) {
         they started to vaccin the world, without restriction, but the vaccin didn't stop Cabri-16 from spread.\
         Eveyone though the new hope were found to save the world, but after the first thouaond vaccined people \
         varian start to emerge, the vaccin didnt't gave protection against propagation, <br /> Cabri-16 were so powerfull that he made it \
-        back to animals, it made back to tortule this time, we started to see mutaion to tortules, and it virus came with a bit of the human genome this time,\
-        the genome, tortules to speak and get nasty, with the hability to talk we could see Karens tortles coming, Punks, Alcooholic, somker and many more cases....\
+        back to animals, it made back to turtle this time, we started to see mutaion to turtles, and it virus came with a bit of the human genome this time,\
+        the genome, turtles to speak and get nasty, with the hability to talk we could see Karens turtles coming, Punks, Alcooholic, somker and many more cases....\
         This is how Nasty little turtule start to appear."
 	};
 	return {
