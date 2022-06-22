@@ -1,7 +1,7 @@
 <div class="bg">
 
     <div class="">
-        <div class="up ">
+        <div class="up">
         </div>
         <div class="down  ">
         </div>
@@ -16,6 +16,7 @@
         height: 446px;
     }
     .up {
+        z-index: -1;
         margin-top:446px;
         content: "";
         width: 100%;
