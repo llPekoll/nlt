@@ -1,0 +1,9 @@
+{
+  "name":"Base NLT",
+  "description":"NLT Tier1",
+  "descriptionHTML":"NLT Tier1 Base<br/> The base NLT for playing the game",
+  "nft_id":1,
+  "tier":1,
+  "image":"https://nlt.rocks/metadata/0.webp",
+  "external_url":"https://nlt.rocks"
+}
