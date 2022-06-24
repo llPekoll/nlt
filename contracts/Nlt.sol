@@ -23,11 +23,11 @@ contract NLTNFT is ERC1155, Ownable {
         tiers = [0, 1, 2];
         mintPrices = [1 ether, 2 ether, 4 ether];
         totalSupplys = [1, 1, 1];
-        maxSupplys = [120, 100, 30];
+        maxSupplys = [300, 100, 30];
         isPublicMintEnable = true;
         maxPerWallet = 3;
         basetokenUri = 'https://nlt.rocks/metadata/';
-        for(uint i=0; i<tiers.length - 1; i++){
+        for(uint i=0; i<tiers.length; i++){
             _mint(msg.sender , tiers[i], 1, '');
         }   
     }
@@ -35,7 +35,7 @@ contract NLTNFT is ERC1155, Ownable {
     function mint(uint256 id) payable public{
         require(isPublicMintEnable,'Public mint is not enabled');
         require(walletMint[msg.sender] <= maxPerWallet,'to much NFT on your wallet');
-        for(uint i=0; i<tiers.length - 1; i++){
+        for(uint i=0; i<tiers.length; i++){
             if (id == i){
                 require(totalSupplys[i] <= maxSupplys[i],'Max supply reached');
                 require(msg.value == mintPrices[i],'wrong mint price should be id 0');

@@ -1,9 +1,11 @@
 {
   "name":"Karen",
   "description":"NLT Tier3",
-  "descriptionHTML":"NLT Tier3 Karen<br/> The Best NLT it will give you max lives",
+  "descriptionHTML":"The Best NLT it will give you max lives",
   "nft_id":3,
   "tier":3,
   "image":"https://nlt.rocks/metadata/2.webp",
-  "external_url":"https://nlt.rocks"
+  "external_url":"https://nlt.rocks",
+  "attributes":
+  {"lives":3, "ticketPrice":"FREE"}
 }
