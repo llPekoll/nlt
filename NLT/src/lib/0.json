@@ -1,11 +1,10 @@
 {
-  "name":"Base NLT",
-  "description":"NLT Tier1",
-  "descriptionHTML":"The base NLT for playing the game",
-  "nft_id":1,
-  "tier":1,
-  "image":"https://nlt.rocks/metadata/0.webp",
-  "external_url":"https://nlt.rocks",
-  "attributes":
-    {"lives":0, "ticketPrice":"50%"} 
+	"name": "Base NLT",
+	"description": "NLT Tier1",
+	"descriptionHTML": "The base NLT \nfor playing the \ngame",
+	"nft_id": 1,
+	"tier": 1,
+	"image": "https://nlt.rocks/metadata/0.webp",
+	"external_url": "https://nlt.rocks",
+	"attributes": { "lives": 0, "ticketPrice": "50%" }
 }

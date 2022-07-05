@@ -1,8 +1,8 @@
 {
-  "name":"NFT1",
-  "description":"NFT1 description",
-  "nft_id":1,
-  "tier_id":1,
-  "image":"https://nlt.rocks/metadata/skin.webp",
-  "external_url":"https://jose.com"
+	"name": "NFT1",
+	"description": "NFT1 description",
+	"nft_id": 1,
+	"tier_id": 1,
+	"image": "https://nlt.rocks/metadata/skin.webp",
+	"external_url": "https://jose.com"
 }

@@ -3,9 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
-body{
-    margin: 0;
-    background-color: green;
-    font-family: 'Merriweather Sans', cursive;
+body {
+	margin: 0;
+	background-color: green;
+	font-family: 'Merriweather Sans', cursive;
 }

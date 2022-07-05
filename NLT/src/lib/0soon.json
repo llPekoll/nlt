@@ -1,9 +1,9 @@
 {
-    "name":"coming soon",
-    "description":"coming soon",
-    "descriptionHTML":"coming soon",
-    "nft_id":"?",
-    "tier":"?",
-    "image":"/soon.png",
-    "external_url":"https://nlt.rocks"
-  }
+	"name": "coming soon",
+	"description": "coming soon",
+	"descriptionHTML": "coming soon",
+	"nft_id": "?",
+	"tier": "?",
+	"image": "/soon.png",
+	"external_url": "https://nlt.rocks"
+}

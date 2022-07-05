@@ -1,9 +1,9 @@
 {
-  "name":"Punk",
-  "description":"NLT Tier2",
-  "descriptionHTML":"NLT Tier2 Punk<br/> will give you and extra life",
-  "nft_id":2,
-  "tier":2,
-  "image":"https://nlt.rocks/metadata/1.webp",
-  "external_url":"https://nlt.rocks"
+	"name": "Punk",
+	"description": "NLT Tier2",
+	"descriptionHTML": "NLT Tier2 Punk<br/> will give you and extra life",
+	"nft_id": 2,
+	"tier": 2,
+	"image": "https://nlt.rocks/metadata/1.webp",
+	"external_url": "https://nlt.rocks"
 }

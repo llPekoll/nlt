@@ -5,17 +5,17 @@ import adapter from '@sveltejs/adapter-node';
 const config = {
 	kit: {
 		adapter: adapter(),
-		vite:{ 
+		vite: {
 			optimizeDeps: {
-				include: ['pixi.js'],
-		  }
+				include: ['pixi.js']
+			}
 		}
 	},
 	preprocess: [
 		preprocess({
 			postcss: true
 		})
-	],
+	]
 };
 
 export default config;
