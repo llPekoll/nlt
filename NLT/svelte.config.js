@@ -6,6 +6,11 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		vite: {
+			rollupOptions: {
+				external: [
+				  /^node:.*/,
+				]
+			  },
 			optimizeDeps: {
 				include: ['pixi.js']
 			}
