@@ -5,6 +5,8 @@
 	let w;
 	let h;
 
+  export let pressed;
+
 	const { app } = getApp();
 
 	let count = 0;
@@ -15,6 +17,9 @@
 		count += 0.01 * delta;
 		tilePosition = { x: tilePosition.x - 1.2, y: 0 };
 	});
+  const userPressed = () =>{
+    pressed = true
+  }
 </script>
 
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
@@ -25,4 +30,6 @@
 	{scale}
 	width={w}
 	height={h}
+  interactive
+  on:pointerdown={userPressed}
 />

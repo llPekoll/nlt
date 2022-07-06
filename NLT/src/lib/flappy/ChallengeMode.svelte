@@ -23,7 +23,7 @@
 
 <Container {x} {y}>
 	<Container
-		x="2"
+		x=100
 		y={y1}
 		interactive
 		on:pointerup={() => {
@@ -54,7 +54,7 @@
 	/>
 	</Container>
 	<Container
-		x="-200"
+		x=-100
 		y={y2}
 		interactive
 

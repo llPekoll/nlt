@@ -4,10 +4,14 @@
   
     export let x;
     export let y;
+    export let inGame;
     let width = 140
     let height = 55
     let counter = 0
 
+        const startGame = () =>{
+            inGame = true;
+        }
   </script>
 <Container {x} {y}>
     <NineSlicePlane
@@ -19,6 +23,8 @@
       {width}
       {height}
       pivot={{ x: width / 2, y: height / 2}}
+      interactive
+      on:pointerdown={startGame}
       
     />
     <Text
