@@ -2,8 +2,9 @@
 	import { TilingSprite, onTick, getApp, Text } from 'svelte-pixi';
 	import * as PIXI from 'pixi.js';
 
-	const { app } = getApp();
-	console.log(app);
+	export let speed;
+  const { app } = getApp();
+	
 
 	let w;
 	let h;
@@ -13,14 +14,14 @@
 	let instance;
 	onTick((delta) => {
 		count += 0.01 * delta;
-		tilePosition = { x: tilePosition.x - 3, y: 0 };
+		tilePosition = { x: tilePosition.x - speed, y: 0 };
 	});
 </script>
 
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
 
 <TilingSprite
-	b
+  y=70
 	texture={PIXI.Texture.from('/flappy/ground.png')}
 	{tilePosition}
 	{scale}

@@ -7,16 +7,13 @@
     export let pressed;
 
     let y = h/2;
-    let x;
-    let gratity = .2
-    let lift =-7;
+    let gratity = .6
+    let lift =-15;
     let velocity=0;
-    // let 
 	onTick((delta) => {
         if (pressed){
-            console.log(pressed)
             velocity += lift;
-            velocity += 0.8;
+            velocity += 0.9;
             pressed=false;
         }
         velocity += gratity

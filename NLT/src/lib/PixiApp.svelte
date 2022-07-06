@@ -9,6 +9,7 @@
   import NoNFTBtn from './flappy/NoNFTBtn.svelte';
   import ChallengeMode from './flappy/ChallengeMode.svelte';
   import Turtle from './flappy/Turtle.svelte';
+  import Pipe from './flappy/Pipe.svelte';
 	import NTL1 from './0.json';
 	import NTL2 from './1.json';
 	import NTL3 from './2.json';
@@ -16,6 +17,7 @@
 	let app;
 	let h = 0;
 	let w = 0;
+  let speed = 1.5;
 	let nftSelected = 0;
   let inGame = false;
   let pressed = false;
@@ -32,10 +34,10 @@
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
 <Application bind:instance={app}  backgroundColor="0x33A5FF">
 	<Bg bind:pressed/>
-	<Ground />
   <!-- menu -->
   {#if !inGame}
   <Container>
+    <Ground bind:speed/>
     <Title />
     <Text
       anchor={0.5}
@@ -55,6 +57,8 @@
   {:else}
   <Container>
     <Turtle bind:pressed {w} {h} />
+    <Pipe {w} bind:speed/>
+    <Ground bind:speed/>
   </Container>
   {/if}
 </Application>
