@@ -10,19 +10,25 @@
   import ChallengeMode from './flappy/ChallengeMode.svelte';
   import Turtle from './flappy/Turtle.svelte';
   import Pipe from './flappy/Pipe.svelte';
+  import Bush from './flappy/Bush.svelte';
 	import NTL1 from './0.json';
 	import NTL2 from './1.json';
 	import NTL3 from './2.json';
-
-	let app;
+import Town from './flappy/Town.svelte';
+import Clouds from './flappy/Clouds.svelte';
+  
+  let app;
 	let h = 0;
 	let w = 0;
   let speed = 1.5;
 	let nftSelected = 0;
   let inGame = false;
   let pressed = false;
-	let nltChosen = `NLT choosen 0`;
   let challengeMode = false;
+  let score=0
+  let gameOver = false;
+  let xTurtle =0;
+  let yTurtle;
 	$: if (app && h && h) {
 		app.renderer.resize(w, h);
 	}
@@ -32,12 +38,13 @@
 </script>
 
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
+<!-- <FPS /> -->
 <Application bind:instance={app}  backgroundColor="0x33A5FF">
-	<Bg bind:pressed/>
   <!-- menu -->
   {#if !inGame}
   <Container>
-    <Ground bind:speed/>
+
+    <Ground bind:speed bind:score/>
     <Title />
     <Text
       anchor={0.5}
@@ -56,9 +63,14 @@
   </Container>
   {:else}
   <Container>
-    <Turtle bind:pressed {w} {h} />
-    <Pipe {w} bind:speed/>
-    <Ground bind:speed/>
+    <Bg bind:pressed/>
+    <Clouds bind:speed/>
+    <Town bind:speed/>
+    <Bush bind:speed/>
+    <Turtle bind:pressed {w} {h} bind:xTurtle bind:yTurtle bind:gameOver/>
+    <Pipe {w} {h} bind:speed {xTurtle} {yTurtle} bind:score bind:gameOver/>
+    <Ground bind:speed bind:score/>
+
   </Container>
   {/if}
 </Application>

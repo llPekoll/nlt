@@ -1,5 +1,5 @@
 <script>
-	import { TilingSprite, onTick, getApp } from 'svelte-pixi';
+	import { TilingSprite, onTick, getApp,Loader } from 'svelte-pixi';
 	import * as PIXI from 'pixi.js';
 
 	let w;
@@ -23,13 +23,14 @@
 </script>
 
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
-
-<TilingSprite
-	texture={PIXI.Texture.from('/flappy/bg.png')}
+<Loader resources={['/flappy/sprite.json']}>
+  <TilingSprite
+	texture={PIXI.Texture.from('bg_sky_0.png')}
 	{tilePosition}
 	{scale}
 	width={w}
 	height={h}
   interactive
   on:pointerdown={userPressed}
-/>
+  />
+</Loader>

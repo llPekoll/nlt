@@ -4215,6 +4215,11 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.2.3:
   resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.3.0.tgz"
   integrity sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw==
 
+pixi-fps@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/pixi-fps/-/pixi-fps-2.0.1.tgz#6ad5672fc5c7f3d4045630f145571659b5427c36"
+  integrity sha512-KJrI/DUMZ1FgC+Oofl260MYSZ83/WhAXjdM/vnsR6EGSxqChEbayfwPKzgEcRhCeUCnVnGzvZPG1mEJEpQ0TmA==
+
 pixi.js@^6.3.0:
   version "6.4.2"
   resolved "https://registry.yarnpkg.com/pixi.js/-/pixi.js-6.4.2.tgz#1cbac71a6535568f59a8684274792aa1bd271646"
@@ -5093,6 +5098,11 @@ stable@^0.1.8:
   version "0.1.8"
   resolved "https://registry.npmjs.org/stable/-/stable-0.1.8.tgz"
   integrity sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==
+
+stats.js@^0.17.0:
+  version "0.17.0"
+  resolved "https://registry.yarnpkg.com/stats.js/-/stats.js-0.17.0.tgz#b1c3dc46d94498b578b7fd3985b81ace7131cc7d"
+  integrity sha512-hNKz8phvYLPEcRkeG1rsGmV5ChMjKDAWU7/OJJdDErPBNChQXxCo3WZurGpnWc6gZhAzEPFad1aVgyOANH1sMw==
 
 statuses@2.0.1:
   version "2.0.1"
