@@ -1,33 +1,26 @@
 <script>
-	import { TilingSprite, onTick, Loader,Text } from 'svelte-pixi';
+	import { TilingSprite, onTick, Loader, Text } from 'svelte-pixi';
 	import * as PIXI from 'pixi.js';
+  
 
 	export let speed;
-  export let score
-	
+  
+	export let h
 
 	let w;
-	let h;
-	let tilePosition = { x: 0, y: 0 };
+	let tilePosition = { x: 0, y: h };
 	onTick((delta) => {
-		tilePosition = { x: tilePosition.x - speed, y: 0 };
+		tilePosition = { x: tilePosition.x - speed, y:h };
 	});
   
 </script>
 
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
 <Loader resources={['/flappy/sprite.json']}>
-  <TilingSprite
-    texture={PIXI.Texture.from('bg_ground_0.png')}
-    {tilePosition}
-    width={w}
-    height={h}
-  />
-
-  <Text
-  anchor={0.5}
-  text={score}
-  style={{ fill: 'black', fontFamily: 'VT323' }}
-  x={w / 2}
-  />
-</Loader>
+    <TilingSprite
+      texture={PIXI.Texture.from('bg_ground_0.png')}
+      {tilePosition}
+      width={w}
+      height={h}
+    />
+</Loader> 

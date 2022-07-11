@@ -41,6 +41,8 @@
             textures={[
                 PIXI.Texture.from('bg_turtle_0.png'),
                 PIXI.Texture.from('bg_turtle_1.png'),
+                PIXI.Texture.from('bg_turtle_2.png'),
+                PIXI.Texture.from('bg_turtle_1.png'),
             ]}
             playing
             animationSpeed={0.1}

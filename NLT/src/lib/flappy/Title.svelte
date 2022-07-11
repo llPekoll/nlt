@@ -1,11 +1,11 @@
 <script>
 	import * as PIXI from 'pixi.js';
-	import { AnimatedSprite, onTick, Text, Container } from 'svelte-pixi';
+	import { AnimatedSprite, onTick, Text, Container, Loader } from 'svelte-pixi';
 
 	let w;
-	// let h
+
 	let h = 470;
-	let y = 80;
+	let y = 0;
 	let count = 0;
 	onTick((delta) => {
 		count += delta * 0.05;
@@ -15,19 +15,19 @@
 
 <svelte:window bind:innerWidth={w} bind:innerHeight={h} />
 
-<Container x={w / 2 + 30} {y}>
-	<Text anchor={0.5} text="NLT Fly's" style={{ fill: 'white', fontFamily: 'VT323' }} x="-40" />
+
+<Loader resources={['/flappy/sprite.json']}>
 	<AnimatedSprite
 		textures={[
-			PIXI.Texture.from('/flappy/anim/frame-1.png'),
-			PIXI.Texture.from('/flappy/anim/frame-2.png'),
-			PIXI.Texture.from('/flappy/anim/frame-3.png'),
-			PIXI.Texture.from('/flappy/anim/frame-4.png')
+			PIXI.Texture.from('bg_turtle_0.png'),
+			PIXI.Texture.from('bg_turtle_1.png'),
+			PIXI.Texture.from('bg_turtle_2.png'),
+			PIXI.Texture.from('bg_turtle_1.png'),
 		]}
 		playing
 		animationSpeed={0.1}
-		x="50"
-		anchor={0.5}
-		scale={0.1}
+		{y}
+		x={0}
 	/>
-</Container>
+</Loader>
+
