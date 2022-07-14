@@ -1,153 +1,15 @@
 <script>
 	import * as PIXI from 'pixi.js';
-	import { Container, Ticker } from 'pixi.js';
-
-	// 	import { Application, Text, Container } from 'svelte-pixi';
-	// 	import Bg from '$lib/flappy/Bg.svelte';
-	// 	import Bg2 from '$lib/flappy/Bg.svelte';
-	// 	import Ground from '$lib/flappy/Ground.svelte';
-	// 	import Title from '$lib/flappy/Title.svelte';
-	// 	import Card from '$lib/flappy/Card.svelte';
-	//   import ButtonStart from './flappy/ButtonStart.svelte';
-	//   import FlashInfo from './flappy/FlashInfo.svelte';
-	//   import NoNFTBtn from './flappy/NoNFTBtn.svelte';
-	//   import ChallengeMode from './flappy/ChallengeMode.svelte';
-	//   import Turtle from './flappy/Turtle.svelte';
-	//   import Pipe from './flappy/Pipe.svelte';
-	//   import Bush from './flappy/Bush.svelte';
 	// 	import NTL1 from './0.json';
 	// 	import NTL2 from './1.json';
 	// 	import NTL3 from './2.json';
-	// import Town from './flappy/Town.svelte';
-	// import Clouds from './flappy/Clouds.svelte';
 	import { onMount } from 'svelte';
 
-	//   // let app;
-	// 	let h = 0;
-	// 	let w = 0;
-	//   let speed = 1.5;
-	// 	let nftSelected = 0;
-	//   let inGame = false;
-	//   let pressed = false;
-	//   let challengeMode = false;
-	//   let score=0
-	//   let gameOver = false;
-	//   let xTurtle =0;
-	//   let yTurtle;
-	// 	$: if (app && h && h) {
-	// 		app.renderer.resize(w, h);
-	// 	}
+	let inGame = true;
 
-	// 	$: nltChosen = `NLT choosen ${nftSelected}`;
-	//   let app = new PIXI.Application({ width: w, height: h });
-
-	//   PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-	//   let sky;
-	//   let clouds;
-	//   let turtle;
-	//   let town;
-	//   let bushes;
-	//   let ground;
-	//   let pipe;
-	//   let frameCount =1;
-	//   // let pipeTexture;
-	//   const gameLoop = () => {
-	//     frameCount ++;
-	//       ground.tilePosition.x -= 2;
-	//       bushes.tilePosition.x -= 1.7;
-	//       town.tilePosition.x -= 1.5;
-	//       clouds.tilePosition.x -= 1.2;
-	//       pipe.x -= 1.2;
-	//       let joses = []
-	//       if(frameCount%40 ==0){
-	//         const pipeTexture = PIXI.Texture.from('bg_pipes_0.png')
-	//         const jose = new PIXI.Sprite(pipeTexture);
-	//         jose.x = w/2;
-	//         joses.push(jose)
-	//         app.stage.addChild(jose);
-	//         frameCount=1;
-
-	//       }
-	//       for(let i=0; i<joses.length; i++){
-	//         console.log(joses)
-	//         console.log(joses[0])
-	//         joses[i].x -= 1.2;
-	//       }
-	//       console.log()
-	//       const fly = () =>{
-	//         turtle.x +=.1;
-	//         }
-	//         sky.on('pointerdown', fly);
-
-	//   }
-	//   const onAssetsLoaded = (loader, resources) =>{
-	//     const textures = [
-	//       PIXI.Texture.from('bg_turtle_0.png'),
-	//       PIXI.Texture.from('bg_turtle_1.png'),
-	//       PIXI.Texture.from('bg_turtle_2.png'),
-	//       PIXI.Texture.from('bg_turtle_1.png')
-	//     ];
-	//     turtle = new PIXI.AnimatedSprite(textures);
-	//     turtle.x = 150;
-	//     turtle.y = app.screen.height / 1.5;
-	//     turtle.anchor.set(0.5);
-	//     turtle.play()
-	//     turtle.animationSpeed = 0.1;
-
-	//     const skyTexture = PIXI.Texture.from('bg_sky_0.png');
-
-	//     sky = new PIXI.Sprite(skyTexture);
-	//     sky.scale ={x:2,y:1}
-	//     sky.interactive = true;
-
-	//     const cloudsTexture = PIXI.Texture.from('bg_clouds_0.png');
-	//     clouds = new PIXI.TilingSprite(
-	//       cloudsTexture,
-	//       app.screen.width,
-	//       cloudsTexture.height,
-	//     );
-
-	//     const townTexture = PIXI.Texture.from('bg_town_0.png');
-	//     town = new PIXI.TilingSprite(
-	//       townTexture,
-	//       app.screen.width,
-	//       townTexture.height,
-	//     );
-
-	//     const bushesTexture = PIXI.Texture.from('bg_bushes_0.png');
-	//     bushes = new PIXI.TilingSprite(
-	//       bushesTexture,
-	//       app.screen.width,
-	//       bushesTexture.height,
-	//     );
-
-	//     const groundTexture = PIXI.Texture.from('bg_ground_0.png')
-	//     ground = new PIXI.TilingSprite(
-	//         groundTexture,
-	//         app.screen.width,
-	//         groundTexture.height,
-	//       );
-
-	//     const pipeTexture = PIXI.Texture.from('bg_pipes_0.png')
-	//     pipe = new PIXI.Sprite(pipeTexture);
-
-	//     app.stage.addChild(sky);
-	//     app.stage.addChild(clouds);
-	//     app.stage.addChild(town);
-	//     app.stage.addChild(bushes);
-	//     app.stage.addChild(pipe);
-	//     app.stage.addChild(ground);
-	//     app.stage.addChild(turtle);
-	//     app.ticker.add(gameLoop);
-	//   }
-
-	// const loader = new PIXI.Loader();
-
-	//   loader
-	//     .add('spritesheet', "/flappy/sprite.json")
-	//     .load(onAssetsLoaded);
-	let h = 100;
-	let w = 100;
+    PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+	let w = 288;
+	let h = 512;
 	let bushes;
 	let sky;
 	let clouds;
@@ -155,13 +17,17 @@
 	let town;
 	let ground;
 	let turtle;
+	let turtleGraphics;
+	let containerTurtle;
+	let scoreText;
+	let score = 0;	
+	let scorePassed =false;
 	const loader = PIXI.Loader.shared;
 	const stage = new PIXI.Container();
 
 	onMount(() => {
-		const canvas = document.getElementById('myCanvas');
-		// document.body.appendChild(app.view);
-		console.log(canvas);
+		const canvas = document.getElementById('theGame');
+		
 		const renderer = new PIXI.Renderer({
 			view: canvas,
 			width: w,
@@ -170,12 +36,9 @@
 			autoDensity: true
 		});
 		const resize = () => {
-			//  w = window.innerWidth
-			//   h = window.innerHeight
 			renderer.resize(w, h);
 		};
 		window.addEventListener('resize', resize);
-		let mask;
         let gratity = .6
         let lift =-15;
         let velocity=0;
@@ -183,40 +46,44 @@
         const onClick = ()=>{
              velocity += lift;
              velocity += 0.9;
-            
         }
 		const handleLoadComplete = () => {
 			texture = loader.resources.sheet.spritesheet;
-			const wText = texture.textures['bg_ground_0.png'].orig.width;
-			const hText = texture.textures['bg_ground_0.png'].orig.height;
-			sky = new PIXI.Sprite(texture.textures['bg_sky_0.png']);
-            sky.interactive = true;
-            sky.on('pointerdown', onClick);
-			clouds = new PIXI.TilingSprite(texture.textures['bg_clouds_0.png'], wText, hText);
-			town = new PIXI.TilingSprite(texture.textures['bg_town_0.png'], wText, hText);
-			bushes = new PIXI.TilingSprite(texture.textures['bg_bushes_0.png'], wText, hText);
-			ground = new PIXI.TilingSprite(texture.textures['bg_ground_0.png'], wText, hText);
 			const textures = [
-				texture.textures['bg_turtle_0.png'],
-				texture.textures['bg_turtle_1.png'],
-				texture.textures['bg_turtle_2.png'],
-				texture.textures['bg_turtle_1.png']
+				texture.textures['bg 0.ase'],
+				texture.textures['bg 1.ase'],
+				texture.textures['bg 2.ase'],
+				texture.textures['bg 1.ase']
 			];
 			turtle = new PIXI.AnimatedSprite(textures);
 			turtle.animationSpeed = 0.1;
-			turtle.y = h / 4;
-			turtle.x = -250;
-			ground.scale.x = 1;
+			turtle.anchor.x =.5
+			turtle.anchor.y =.5
 			turtle.play();
-			stage.addChild(sky);
-			stage.addChild(clouds);
-			stage.addChild(town);
-			stage.addChild(bushes);
+
 			stage.addChild(turtle);
-			stage.addChild(ground);
-			mask = new PIXI.Graphics();
-			mask.beginFill(0xffff00);
-			mask.drawRect(0, 0, 1000, 553);
+			turtleGraphics = new PIXI.Graphics();
+			turtleGraphics.beginFill(0xFF3300, 0.25);
+			turtleGraphics.lineStyle(1, 0xffd900, 1);
+			turtleGraphics.moveTo(0, 67);
+			turtleGraphics.lineTo(40, 67);
+			turtleGraphics.lineTo(40, 0);
+			turtleGraphics.lineTo(0, 0);
+			
+			turtleGraphics.closePath();
+			turtleGraphics.endFill();
+			
+			containerTurtle = new PIXI.Container();
+			containerTurtle.addChild(turtle);
+			containerTurtle.addChild(turtleGraphics);
+			turtle.x =-60
+			turtle.y =-35
+			turtleGraphics.x = 100
+			turtle.scale.x =.5
+			turtle.scale.y =.5
+			turtleGraphics.scale.y =.5
+			turtleGraphics.scale.y =.5
+			stage.addChild(containerTurtle);
 		};
 		const handleLoadAsset = (loader, resource) => {
 			console.log(`asset Loaded, ${resource.name}`);
@@ -227,7 +94,7 @@
 		const handleLoadProgess = (loader, resource) => {
 			console.log(`${loader.progress}%`);
 		};
-		loader.add('sheet', '/flappy/sprite.json');
+        loader.add('sheet', '/flappy/turtle.json');
 		loader.onComplete.add(handleLoadComplete);
 		loader.onProgress.add(handleLoadProgess);
 		loader.onLoad.add(handleLoadAsset);
@@ -239,104 +106,166 @@
 		ticker.start();
 		let frameCount = 1;
 		let pipes = [];
+        const spacingBase = 70;
+        let pipeSpeed =2
+        let gameOver = false;
+
+		const cloudsTexture = PIXI.Texture.from('/flappy/clouds.png');
+		const townTexture = PIXI.Texture.from('/flappy/town.png');
+		const bushesTexture = PIXI.Texture.from('/flappy/bushes.png');
+		const groundTexture = PIXI.Texture.from('/flappy/assets/ground-sprite.png');
+		const skyTexture = PIXI.Texture.from('/flappy/sky.png');
+		sky = new PIXI.TilingSprite(
+			skyTexture,
+				w,
+				h,
+			);
+		clouds = new PIXI.TilingSprite(
+			cloudsTexture,
+				w,
+				h,
+			);
+		town = new PIXI.TilingSprite(
+			townTexture,
+				w,
+				h,
+			);
+		bushes = new PIXI.TilingSprite(
+			bushesTexture,
+				w*2,
+				h,
+			);
+		bushes.scale.x=.6
+		bushes.scale.y=.6
+		bushes.y=145
+		ground = new PIXI.TilingSprite(
+			groundTexture,
+				w,
+				h,
+			);
+		ground.y = 450
+		ground.name = 'ground';
+		sky.interactive = true;
+		sky.on('pointerdown', onClick);
+
+		stage.addChild(sky);
+		stage.addChild(clouds);
+		stage.addChild(town);
+		stage.addChild(bushes);
+		stage.addChild(ground);
+		const style = new PIXI.TextStyle({
+    		fontFamily: "VT323"
+		});
+		scoreText = new PIXI.Text(score, style);
+		scoreText.anchor.x = .5
+		scoreText.anchor.x = .5
+		scoreText.x = w/2;
+		scoreText.y = 20;
+		scoreText.name = 'jism'
+		stage.addChild(scoreText);
+
 		function animate() {
 			frameCount++;
-            const randTiming = Math.floor(Math.random() * 10);
-
+            // const randTiming = Math.floor(Math.random() * 5);
             const randSpacing = Math.floor(Math.random() * 50);
-
             const sign = Math.random() < 0.5 ? -1 : 1;
             const randHightOffset = Math.floor(Math.random() * 100) * sign;
-
-            const spacingBase = 70;
-            const posTopBase = 540;
-            const posBotBase = 33;
-			for (let i = pipes.length - 1; i >= 0; i--) {
-				stage.removeChild(pipes[i]);
-				pipes[i].x -= 2;
-				if (pipes[i].x < -400) {
-					pipes.splice(i, 1);
-				}
-				if (pipes.length > 0) {
-					stage.addChild(pipes[i]);
-				}
-                if(pipes[i].x - 308>turtle.x){
-                    console.log(`pipe${i} passed`)
+            
+			if(!gameOver){
+                for (let i = pipes.length - 1; i >= 0; i--) {
+					// pipe management
+                    stage.removeChild(pipes[i]);
+                    pipes[i].x -= pipeSpeed;
+                    if (pipes[i].x < -60) {
+						pipes.splice(i, 1);
+						scorePassed = false;
+                    }
+					// colisiton check
+					const aBox = pipes[i].children[0].getBounds();
+					const bBox = turtleGraphics.getBounds();
+					if (
+						aBox.x + aBox.width > bBox.x &&
+						aBox.x < bBox.x + bBox.width &&
+						aBox.y + aBox.height > bBox.y &&
+						aBox.y < bBox.y + bBox.height
+					){
+						// console.log('trou de bol')
+						pipes[i].children[0].alpha = .5
+					}
+					const cBox = pipes[i].children[1].getBounds();
+					if (
+						cBox.x + cBox.width > bBox.x &&
+						cBox.x < bBox.x + bBox.width &&
+						cBox.y + cBox.height > bBox.y &&
+						cBox.y < bBox.y + bBox.height
+					){
+						// console.log('trou de bol')
+						pipes[i].children[1].alpha = .5
+					}
+					if(aBox.x < bBox.x - bBox.width && !scorePassed){
+						score +=1;
+						scorePassed=true;
+						scoreText.text = score
+					
+					}
+				stage.addChild(pipes[i]);
                 }
-			}
+            }
 			if (turtle) {
-				ground.tilePosition.x -= 2;
-				clouds.tilePosition.x -= 1.2;
-				town.tilePosition.x -= 1.3;
-				bushes.tilePosition.x -= 1.7;
-                // turtle animation
+				// bg animation
+				sky.tilePosition.x -= 0.1*pipeSpeed;
+				ground.tilePosition.x -= 1*pipeSpeed;
+				clouds.tilePosition.x -= .5*pipeSpeed;
+				town.tilePosition.x -= .7*pipeSpeed;
+				bushes.tilePosition.x -= .8*pipeSpeed;
+                
+				// turtle animation
                 velocity += gratity
-                turtle.y += velocity;
-                console.log(turtle.y)
-                if (turtle.y >= 380){
-                    turtle.y = 380
+                containerTurtle.y += velocity;
+                if (containerTurtle.y >= 417){
+                    velocity=0
+                    containerTurtle.y = 417
                 }
+                if (containerTurtle.y <= -10){
+                    velocity=0
+                    containerTurtle.y = -10
+                }
+
                 // pipe generation
-				if (frameCount % (120 + randTiming) == 0) {
+				if (frameCount % (120) == 0) {
 					frameCount = 1;
 					const container = new PIXI.Container();
-					const pipeInstanceBot = new PIXI.Sprite(texture.textures['bg_pipes_0.png']);
-					const pipeInstanceTop = new PIXI.Sprite(texture.textures['bg_pipes_0.png']);
+					const pipeInstanceBot = PIXI.Sprite.from('/flappy/assets/pipe-green-bottom.png');
+					const pipeInstanceTop = PIXI.Sprite.from('/flappy/assets/pipe-green-top.png');
+					
+					// Gap managment
+					pipeInstanceTop.y=-400 + randHightOffset - spacingBase + randSpacing;
+					pipeInstanceBot.y=-50 + randHightOffset + spacingBase + randSpacing
 
-					pipeInstanceTop.y = posTopBase + randHightOffset - spacingBase - randSpacing;
-					pipeInstanceBot.y = posBotBase + randHightOffset + spacingBase + randSpacing;
-					pipeInstanceTop.scale.y = -1;
+					// container
 					container.addChild(pipeInstanceBot);
 					container.addChild(pipeInstanceTop);
-					container.x = 400;
-					container.mask = mask;
+					container.x = 700;
+					container.y = h/2;
 					pipes.push(container);
 				}
 			}
+			// layer in correct order
+			const jsim = stage.getChildByName('jism');
+			const mmd = stage.getChildByName('ground');
+			stage.removeChild(jsim)
+			stage.removeChild(mmd)
+			stage.addChild(scoreText);
+			stage.addChild(ground);
 			renderer.render(stage);
 		}
 	});
 </script>
 
-<svelte:window bind:innerWidth={w} bind:innerHeight={h} />
-<canvas id="myCanvas" />
-<!-- <FPS /> -->
-<!-- <Application bind:instance={app} render="demand" backgroundColor="0x33A5FF">
-
-  {#if !inGame}
-  <Container>
-
-    <Bg2 />
-    <Clouds bind:speed/>
-    <Town bind:speed/>
-    <Bush bind:speed/>
-    <Ground bind:speed bind:score {h}/>
-    <Title />
-    <Text
-      anchor={0.5}
-      text="Chose your NFT"
-      style={{ fill: 'black', fontFamily: 'VT323' }}
-      x={w / 2}
-      y="180"
-    />
-    <Card nft={NTL1} x={w / 2 - 150} y={230} id="1" bind:nftSelected />
-    <Card nft={NTL2} x={w / 2 - 20} y={230} id="2" bind:nftSelected />
-    <Card nft={NTL3} x={w / 2 + 100} y={230} id="3" bind:nftSelected />
-    <NoNFTBtn x={5 + w / 2} y="420" />
-    <ChallengeMode bind:challengeMode x={w/2} y=480/>
-    <ButtonStart x={w/2} y=550 bind:inGame/>
-    <FlashInfo x={w/2} y={h} w={w}/>
-  </Container>
-  {:else}
-  <Container>
-    <Bg bind:pressed/>
-    <Clouds bind:speed/>
-    <Town bind:speed/>
-    <Bush bind:speed/>
-    <Turtle bind:pressed {w} {h} bind:xTurtle bind:yTurtle bind:gameOver/>
-    <Pipe {w} {h} bind:speed {xTurtle} {yTurtle} bind:score bind:gameOver/>
-    <Ground bind:speed bind:score/>
-
-  </Container>
-  {/if}
-</Application> -->
+{#if inGame}
+<div class="flex items-center justify-center">
+	<canvas id="theGame" />
+</div>
+{:else}
+	<canvas id="theMenu" />
+{/if}

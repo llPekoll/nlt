@@ -1,0 +1,42 @@
+{ "frames": {
+   "bg 0.ase": {
+    "frame": { "x": 1, "y": 1, "w": 90, "h": 74 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 356, "y": 108, "w": 88, "h": 72 },
+    "sourceSize": { "w": 720, "h": 636 },
+    "duration": 100
+   },
+   "bg 1.ase": {
+    "frame": { "x": 92, "y": 1, "w": 90, "h": 74 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 356, "y": 108, "w": 88, "h": 72 },
+    "sourceSize": { "w": 720, "h": 636 },
+    "duration": 100
+   },
+   "bg 2.ase": {
+    "frame": { "x": 183, "y": 1, "w": 90, "h": 74 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 356, "y": 108, "w": 88, "h": 72 },
+    "sourceSize": { "w": 720, "h": 636 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://www.aseprite.org/",
+  "version": "1.2.35-x64",
+  "image": "turtle.png",
+  "format": "RGBA8888",
+  "size": { "w": 273, "h": 75 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "turtle", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
