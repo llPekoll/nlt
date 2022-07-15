@@ -20,6 +20,7 @@
 	let turtleGraphics;
 	let containerTurtle;
 	let scoreText;
+	let challengeText;
 	let score = 0;	
 	let scorePassed =false;
 	const loader = PIXI.Loader.shared;
@@ -154,7 +155,14 @@
 		stage.addChild(bushes);
 		stage.addChild(ground);
 		const style = new PIXI.TextStyle({
-    		fontFamily: "VT323"
+			fontSize:64,
+			fill:'#FFFFFF',
+			stroke: '#000000',
+    		strokeThickness: 5,
+    		fontFamily: "Press Start 2P",
+			fontWeight: 'bold',
+		    dropShadow: true,
+    		dropShadowColor: '#000000',
 		});
 		scoreText = new PIXI.Text(score, style);
 		scoreText.anchor.x = .5
@@ -164,9 +172,35 @@
 		scoreText.name = 'jism'
 		stage.addChild(scoreText);
 
+		const styleChal = new PIXI.TextStyle({
+			fontSize:12,
+			fill:'#FFFFFF',
+			stroke: '#000000',
+    		strokeThickness: 2,
+    		fontFamily: "Press Start 2P",
+			fontWeight: 'bold',
+		    dropShadow: true,
+    		dropShadowColor: '#000000',
+		});
+
+		challengeText = new PIXI.Text(score, styleChal);
+		challengeText.name = 'chal'
+		challengeText.y = 480
+		challengeText.x = 500
+		challengeText.text = "PRICE -> 1:3409NFTL, 2:213NFTL, 3: 90NFTL      SCORE-> 1: 13Pts, 0x03..23, 2: 5Pts, 0x03..23, 3: 4Pts, 0x03..23"
+		stage.addChild(challengeText);
+
+
+
 		function animate() {
 			frameCount++;
             // const randTiming = Math.floor(Math.random() * 5);
+			challengeText.x -= 1;
+			const bounds = challengeText.getBounds()
+			console.log(bounds.width)
+			if (challengeText.x < - bounds.width){
+				challengeText.x = w + 20
+			}
             const randSpacing = Math.floor(Math.random() * 50);
             const sign = Math.random() < 0.5 ? -1 : 1;
             const randHightOffset = Math.floor(Math.random() * 100) * sign;
@@ -253,10 +287,13 @@
 			// layer in correct order
 			const jsim = stage.getChildByName('jism');
 			const mmd = stage.getChildByName('ground');
+			const sako = stage.getChildByName('chal');
 			stage.removeChild(jsim)
 			stage.removeChild(mmd)
+			stage.removeChild(sako)
 			stage.addChild(scoreText);
 			stage.addChild(ground);
+			stage.addChild(challengeText);
 			renderer.render(stage);
 		}
 	});
