@@ -1,5 +1,6 @@
 <script>
 	import * as PIXI from 'pixi.js';
+    import { NFTLLogo } from './assets';
 	// import NTL1 from './0.json';
 	// import NTL2 from './1.json';
 	// import NTL3 from './2.json';
@@ -49,8 +50,8 @@
 
 			stage.addChild(turtle);
 
-			turtle.x = -60;
-			turtle.y = -35;
+			turtle.x = -20;
+			turtle.y = 135;
 			turtle.scale.x = 0.5;
 			turtle.scale.y = 0.5;
 			stage.addChild(turtle);
@@ -137,6 +138,8 @@
 		stage.addChild(bushes);
 		stage.addChild(ground);
 		stage.addChild(containerBtnStart);
+        const logo = NFTLLogo()
+		stage.addChild(logo);
 
 		challengeText = new PIXI.Text('f', styleChal);
 		challengeText.name = 'chal';
@@ -146,20 +149,6 @@
 			'PRICE -> 1:3409NFTL, 2:213NFTL, 3: 90NFTL      SCORE-> 1: 13Pts, 0x03..23, 2: 5Pts, 0x03..23, 3: 4Pts, 0x03..23';
 		stage.addChild(challengeText);
 
-		let renderer2 = PIXI.autoDetectRenderer();
-		let renderTexture = PIXI.RenderTexture.create({ width: 5, height: 5 });
-		var graphics = new PIXI.Graphics();
-		graphics.beginFill(0x44ffff);
-		graphics.drawCircle(8, 8, 8);
-		graphics.endFill();
-		renderer2.render(graphics, { renderTexture });
-
-		for (var i = 0; i < 10; i++) {
-			var s = new PIXI.Sprite(texture);
-			s.position.x = Math.random() * renderer.width;
-			s.position.y = Math.random() * renderer.height;
-			stage.addChild(s);
-		}
 
 		function animate() {
 			const pipeSpeed = 2;
@@ -170,6 +159,7 @@
 			bushes.tilePosition.x -= 0.8 * pipeSpeed;
 			challengeText.x -= 1;
 			renderer.render(stage);
+            console.log('sako')
 		}
 	});
 </script>

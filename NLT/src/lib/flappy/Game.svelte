@@ -1,6 +1,9 @@
 <script>
 	import * as PIXI from 'pixi.js';
 	import { onMount } from 'svelte';
+	import { Howl, Howler } from 'howler';
+	import { collision, pipePassed } from './utils';
+	import { NFTLLogo } from './assets';
 
 	export let inGame;
 
@@ -19,9 +22,18 @@
 	let scoreText;
 	let challengeText;
 	let score = 0;
+	let gameOver = false;
 	let scorePassed = false;
+    const nftlLLogo = NFTLLogo();
 	const debug = false;
 	const loader = PIXI.Loader.shared;
+	var soundCoin = new Howl({ src: ['/flappy/sounds/sfx_point.wav'] });
+	var sounddie = new Howl({ src: ['/flappy/sounds/sfx_die.wav'] });
+	var soundHit = new Howl({ src: ['/flappy/sounds/sfx_hit.wav'] });
+	soundHit.on('end', function () {
+		sounddie.play();
+	});
+
 	const stage = new PIXI.Container();
 
 	onMount(() => {
@@ -38,9 +50,11 @@
 		let lift = -15;
 		let velocity = 0;
 
-		const onClick = () => {
-			velocity += lift;
-			velocity += 0.9;
+		const jumpTurtle = () => {
+            if(!gameOver){
+                velocity += lift;
+                velocity += 0.9;
+            }
 		};
 		const handleLoadComplete = () => {
 			texture = loader.resources.koko.spritesheet;
@@ -76,6 +90,7 @@
 			containerTurtle.addChild(turtleGraphics);
 			turtle.x = -60;
 			turtle.y = -35;
+            turtle.name= 'turtle';
 			turtleGraphics.x = 100;
 			turtle.scale.x = 0.5;
 			turtle.scale.y = 0.5;
@@ -106,13 +121,13 @@
 		let pipes = [];
 		const spacingBase = 100;
 		let pipeSpeed = 2;
-		let gameOver = false;
 
 		const cloudsTexture = PIXI.Texture.from('/flappy/clouds.png');
 		const townTexture = PIXI.Texture.from('/flappy/town.png');
 		const bushesTexture = PIXI.Texture.from('/flappy/bushes.png');
 		const groundTexture = PIXI.Texture.from('/flappy/assets/ground-sprite.png');
 		const skyTexture = PIXI.Texture.from('/flappy/sky.png');
+		
 		sky = new PIXI.TilingSprite(skyTexture, w, h);
 		clouds = new PIXI.TilingSprite(cloudsTexture, w, h);
 		town = new PIXI.TilingSprite(townTexture, w, h);
@@ -124,13 +139,16 @@
 		ground.y = 450;
 		ground.name = 'ground';
 		sky.interactive = true;
-		sky.on('pointerdown', onClick);
+		sky.on('pointerdown', jumpTurtle);
+        
 
 		stage.addChild(sky);
 		stage.addChild(clouds);
 		stage.addChild(town);
 		stage.addChild(bushes);
 		stage.addChild(ground);
+		
+
 		const style = new PIXI.TextStyle({
 			fontSize: 64,
 			fill: '#FFFFFF',
@@ -191,34 +209,24 @@
 						scorePassed = false;
 					}
 					// colisiton check
-					const aBox = pipes[i].children[0].getBounds();
-					const bBox = turtleGraphics.getBounds();
-					if (
-						aBox.x + aBox.width > bBox.x &&
-						aBox.x < bBox.x + bBox.width &&
-						aBox.y + aBox.height > bBox.y &&
-						aBox.y < bBox.y + bBox.height
-					) {
-						// console.log('trou de bol')
-						pipes[i].children[0].alpha = 0.5;
+					if (collision(pipes[i], turtleGraphics)) {
+						if (!gameOver) {
+							soundHit.stop();
+						} else {
+							soundHit.play();
+						}
+						gameOver = true;
 					}
-					const cBox = pipes[i].children[1].getBounds();
-					if (
-						cBox.x + cBox.width > bBox.x &&
-						cBox.x < bBox.x + bBox.width &&
-						cBox.y + cBox.height > bBox.y &&
-						cBox.y < bBox.y + bBox.height
-					) {
-						// console.log('trou de bol')
-						pipes[i].children[1].alpha = 0.5;
-					}
-					if (aBox.x < bBox.x - bBox.width && !scorePassed) {
+					if (pipePassed(pipes[i], turtleGraphics, scorePassed)) {
 						score += 1;
 						scorePassed = true;
 						scoreText.text = score;
+						soundCoin.play();
 					}
 					stage.addChild(pipes[i]);
 				}
+			} else {
+				pipeSpeed = 0;
 			}
 			if (turtle) {
 				// bg animation
@@ -263,12 +271,16 @@
 			const jsim = stage.getChildByName('jism');
 			const mmd = stage.getChildByName('ground');
 			const sako = stage.getChildByName('chal');
+			// const turtle = stage.getChildByName('turtle');
 			stage.removeChild(jsim);
 			stage.removeChild(mmd);
 			stage.removeChild(sako);
+			// stage.removeChild(turtle);
 			stage.addChild(scoreText);
 			stage.addChild(ground);
 			stage.addChild(challengeText);
+            stage.addChild(nftlLLogo);
+			// stage.addChild(turtle);
 			renderer.render(stage);
 		}
 	});
