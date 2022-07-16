@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
 	import * as PIXI from 'pixi.js';
 	import { onMount } from 'svelte';
 	import { Howl, Howler } from 'howler';
 	import { collision, pipePassed } from './utils';
 	import { NFTLLogo, scoreBoard } from './assets';
 
-	export let inGame;
+	export let inGame: boolean;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 	let w = 288;

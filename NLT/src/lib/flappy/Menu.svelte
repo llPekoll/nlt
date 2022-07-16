@@ -1,4 +1,4 @@
-<script>
+<script lang='ts'>
 	import * as PIXI from 'pixi.js';
     import { NFTLLogo } from './assets';
 	// import NTL1 from './0.json';
@@ -9,17 +9,17 @@
 	export let inGame;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-	let w = 288;
-	let h = 512;
-	let bushes;
-	let sky;
-	let clouds;
+	let w:number = 288;
+	let h:number = 512;
+	let bushes: PIXI.TilingSprite;
+	let sky: PIXI.TilingSprite;
+	let clouds: PIXI.TilingSprite;
 	let texture;
-	let town;
-	let ground;
+	let town: PIXI.TilingSprite;
+	let ground: PIXI.TilingSprite;
 	let turtle;
 	let challengeText;
-	let containerBtnStart;
+	let containerBtnStart: PIXI.Container;
 
 	const loader = PIXI.Loader.shared;
 	const stage = new PIXI.Container();
