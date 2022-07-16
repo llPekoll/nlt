@@ -159,7 +159,7 @@
 			bushes.tilePosition.x -= 0.8 * pipeSpeed;
 			challengeText.x -= 1;
 			renderer.render(stage);
-            console.log('sako')
+            
 		}
 	});
 </script>

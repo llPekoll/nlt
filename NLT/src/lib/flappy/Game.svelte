@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { Howl, Howler } from 'howler';
 	import { collision, pipePassed } from './utils';
-	import { NFTLLogo } from './assets';
+	import { NFTLLogo, scoreBoard } from './assets';
 
 	export let inGame;
 
@@ -191,7 +191,6 @@
 			// const randTiming = Math.floor(Math.random() * 5);
 			challengeText.x -= 1;
 			const bounds = challengeText.getBounds();
-			console.log(bounds.width);
 			if (challengeText.x < -bounds.width) {
 				challengeText.x = w + 20;
 			}
@@ -227,6 +226,8 @@
 				}
 			} else {
 				pipeSpeed = 0;
+                const scoreboard = scoreBoard();
+                stage.addChild(scoreboard);
 			}
 			if (turtle) {
 				// bg animation

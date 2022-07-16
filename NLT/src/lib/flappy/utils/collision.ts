@@ -1,8 +1,10 @@
-export const collision = (pipe, turtleGraphics) => {
+import type * as PIXI from 'pixi.js';
 
-    const aBox = pipe.children[0].getBounds();
-    const bBox = turtleGraphics.getBounds();
-    const cBox = pipe.children[1].getBounds();
+export const collision = (pipe: PIXI.Container, turtleGraphics:PIXI.Graphics): boolean => {
+
+    const aBox: PIXI.Rectangle = pipe.children[0].getBounds();
+    const bBox: PIXI.Rectangle = turtleGraphics.getBounds();
+    const cBox: PIXI.Rectangle = pipe.children[1].getBounds();
     if (
         aBox.x + aBox.width > bBox.x &&
         aBox.x < bBox.x + bBox.width &&
