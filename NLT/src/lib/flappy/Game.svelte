@@ -2,7 +2,7 @@
 	import * as PIXI from 'pixi.js';
 	import { onMount } from 'svelte';
 	import { Howl, Howler } from 'howler';
-	import { collision, pipePassed } from './utils';
+	import { collision, pipePassed, setTurtleGraphic } from './utils';
 	import { NFTLLogo, scoreBoard } from './assets';
 
 	export let inGame: boolean;
@@ -24,11 +24,11 @@
 	let score = 0;
 	let gameOver = false;
 	let scorePassed = false;
-	let livesUsed:number = 0;
-	const priceScaler:number[] = [500, 5000, 50000]
+	let livesUsed: number = 0;
+	const priceScaler: number[] = [500, 5000, 50000]
 
-	const gratity:number = 0.6;
-	const lift:number = -15;
+	const gratity: number = 0.6;
+	const lift: number = -15;
 	let velocity = 0;
 
     const nftlLLogo = NFTLLogo();
@@ -75,19 +75,7 @@
 			turtle.play();
 
 			stage.addChild(turtle);
-			turtleGraphics = new PIXI.Graphics();
-			turtleGraphics.beginFill(0xff3300, 0.25);
-			turtleGraphics.lineStyle(1, 0xffd900, 1);
-			turtleGraphics.moveTo(0, 67);
-			turtleGraphics.lineTo(40, 67);
-			turtleGraphics.lineTo(40, 0);
-			turtleGraphics.lineTo(0, 0);
-
-			turtleGraphics.closePath();
-			turtleGraphics.endFill();
-			if (!debug) {
-				turtleGraphics.alpha = 0;
-			}
+			turtleGraphics = setTurtleGraphic(debug);
 
 			containerTurtle = new PIXI.Container();
 			containerTurtle.addChild(turtle);
@@ -98,7 +86,7 @@
 			turtleGraphics.x = 100;
 			turtle.scale.x = 0.5;
 			turtle.scale.y = 0.5;
-			turtleGraphics.scale.y = 0.5;
+			turtleGraphics.scale.x = 0.5;
 			turtleGraphics.scale.y = 0.5;
 			stage.addChild(containerTurtle);
 		};
@@ -164,7 +152,6 @@
 			dropShadowColor: '#000000'
 		});
 		scoreText = new PIXI.Text(score, style);
-		scoreText.anchor.x = 0.5;
 		scoreText.anchor.x = 0.5;
 		scoreText.x = w / 2;
 		scoreText.y = 20;
