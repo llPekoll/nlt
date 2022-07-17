@@ -17,7 +17,7 @@ export const NFTLLogo = (): PIXI.Container => {
 	});
 	const subtitle: PIXI.Text = new PIXI.Text('Sponsored', style);
 	subtitle.x = 10;
-	subtitle.y = 70;
+	subtitle.y = 65;
 	container.addChild(NFTLLogo);
 	container.addChild(subtitle);
 	return container;
