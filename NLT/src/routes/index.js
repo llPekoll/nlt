@@ -4,8 +4,7 @@ export async function get() {
 	const trad = {
 		nlt: '- NLT -',
 		tittle: 'Nasty Little Turtle',
-		content:
-			"The Nasty Little Turtles usually comes by series of 20ish. <br />You can find some Punks, Karen's, Smokers, and some more ... ",
+		content: "The Nasty Little Turtles usually comes by series of 20ish. <br />You can find some Punks, Karen's, Smokers, and some more ... ",
 		twitter: 'Follow me on twitter',
 		discord: 'Join the Discord Club',
 		socials: 'Join the Club',

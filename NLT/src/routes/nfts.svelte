@@ -25,6 +25,8 @@
 			const signer = provider.getSigner();
 			const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
 			console.log(account);
+			// TODO:
+			// Make an array and push that into an array instead
 			tier1 = await contract.balanceOf(account, 0);
 			tier2 = await contract.balanceOf(account, 1);
 			tier3 = await contract.balanceOf(account, 2);

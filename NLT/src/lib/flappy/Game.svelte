@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
 	import * as PIXI from 'pixi.js';
 	import { onMount } from 'svelte';
 	import { Howl, Howler } from 'howler';
-	import { collision, pipePassed } from './utils';
+	import { collision, pipePassed, setTurtleGraphic } from './utils';
 	import { NFTLLogo, scoreBoard } from './assets';
 
-	export let inGame;
+	export let inGame: boolean;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 	let w = 288;
@@ -24,6 +24,13 @@
 	let score = 0;
 	let gameOver = false;
 	let scorePassed = false;
+	let livesUsed: number = 0;
+	const priceScaler: number[] = [500, 5000, 50000]
+
+	const gratity: number = 0.6;
+	const lift: number = -15;
+	let velocity = 0;
+
     const nftlLLogo = NFTLLogo();
 	const debug = false;
 	const loader = PIXI.Loader.shared;
@@ -46,10 +53,7 @@
 			resolution: window.devicePixelRatio,
 			autoDensity: true
 		});
-		let gratity = 0.6;
-		let lift = -15;
-		let velocity = 0;
-
+		
 		const jumpTurtle = () => {
             if(!gameOver){
                 velocity += lift;
@@ -71,19 +75,7 @@
 			turtle.play();
 
 			stage.addChild(turtle);
-			turtleGraphics = new PIXI.Graphics();
-			turtleGraphics.beginFill(0xff3300, 0.25);
-			turtleGraphics.lineStyle(1, 0xffd900, 1);
-			turtleGraphics.moveTo(0, 67);
-			turtleGraphics.lineTo(40, 67);
-			turtleGraphics.lineTo(40, 0);
-			turtleGraphics.lineTo(0, 0);
-
-			turtleGraphics.closePath();
-			turtleGraphics.endFill();
-			if (!debug) {
-				turtleGraphics.alpha = 0;
-			}
+			turtleGraphics = setTurtleGraphic(debug);
 
 			containerTurtle = new PIXI.Container();
 			containerTurtle.addChild(turtle);
@@ -94,7 +86,7 @@
 			turtleGraphics.x = 100;
 			turtle.scale.x = 0.5;
 			turtle.scale.y = 0.5;
-			turtleGraphics.scale.y = 0.5;
+			turtleGraphics.scale.x = 0.5;
 			turtleGraphics.scale.y = 0.5;
 			stage.addChild(containerTurtle);
 		};
@@ -161,7 +153,6 @@
 		});
 		scoreText = new PIXI.Text(score, style);
 		scoreText.anchor.x = 0.5;
-		scoreText.anchor.x = 0.5;
 		scoreText.x = w / 2;
 		scoreText.y = 20;
 		scoreText.name = 'jism';
@@ -226,7 +217,9 @@
 				}
 			} else {
 				pipeSpeed = 0;
-                const scoreboard = scoreBoard();
+				const scores = [{socre:25,wallet:'0x01be...h1f',price:60000},{socre:17,wallet:'0x012e...31f',price:6000},{socre:12,wallet:'0x012e...54a',price:600}]
+				livesUsed = 1;
+                const scoreboard = scoreBoard(w,h, scores, livesUsed,priceScaler);
                 stage.addChild(scoreboard);
 			}
 			if (turtle) {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let nlt;
-	let src = nlt.image;
+	let src:string = nlt.image;
 </script>
 
 <div>
