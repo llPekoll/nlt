@@ -1,6 +1,6 @@
-<script lang='ts'>
+<script lang="ts">
 	import * as PIXI from 'pixi.js';
-    import { NFTLLogo } from './assets';
+	import { NFTLLogo } from './assets';
 	// import NTL1 from './0.json';
 	// import NTL2 from './1.json';
 	// import NTL3 from './2.json';
@@ -9,8 +9,8 @@
 	export let inGame;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-	let w:number = 288;
-	let h:number = 512;
+	let w: number = 288;
+	let h: number = 512;
 	let bushes: PIXI.TilingSprite;
 	let sky: PIXI.TilingSprite;
 	let clouds: PIXI.TilingSprite;
@@ -103,11 +103,8 @@
 		});
 
 		const startGame = (up) => {
-            if(up)
-                containerBtnStart.y += 3;
-            else
-                containerBtnStart.y -= 3;
-            
+			if (up) containerBtnStart.y += 3;
+			else containerBtnStart.y -= 3;
 		};
 		const startGame2 = () => {
 			inGame = true;
@@ -123,9 +120,13 @@
 		startBtn.width = 130;
 		containerBtnStart.interactive = true;
 
-		containerBtnStart.on('pointerdown', ()=>{startGame(true)});
+		containerBtnStart.on('pointerdown', () => {
+			startGame(true);
+		});
 		containerBtnStart.on('pointerup', startGame2);
-		containerBtnStart.on('pointerupoutside', ()=>{startGame(false)});
+		containerBtnStart.on('pointerupoutside', () => {
+			startGame(false);
+		});
 
 		containerBtnStart.addChild(startBtn);
 		containerBtnStart.addChild(startText);
@@ -138,7 +139,7 @@
 		stage.addChild(bushes);
 		stage.addChild(ground);
 		stage.addChild(containerBtnStart);
-        const logo = NFTLLogo()
+		const logo = NFTLLogo();
 		stage.addChild(logo);
 
 		challengeText = new PIXI.Text('f', styleChal);
@@ -149,7 +150,6 @@
 			'PRICE -> 1:3409NFTL, 2:213NFTL, 3: 90NFTL      SCORE-> 1: 13Pts, 0x03..23, 2: 5Pts, 0x03..23, 3: 4Pts, 0x03..23';
 		stage.addChild(challengeText);
 
-
 		function animate() {
 			const pipeSpeed = 2;
 			sky.tilePosition.x -= 0.1 * pipeSpeed;
@@ -159,7 +159,6 @@
 			bushes.tilePosition.x -= 0.8 * pipeSpeed;
 			challengeText.x -= 1;
 			renderer.render(stage);
-            
 		}
 	});
 </script>

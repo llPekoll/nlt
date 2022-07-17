@@ -7,10 +7,8 @@ const config = {
 		adapter: adapter(),
 		vite: {
 			rollupOptions: {
-				external: [
-				  /^node:.*/,
-				]
-			  },
+				external: [/^node:.*/]
+			},
 			optimizeDeps: {
 				include: ['pixi.js']
 			}

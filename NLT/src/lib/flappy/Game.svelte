@@ -24,14 +24,16 @@
 	let score = 0;
 	let gameOver = false;
 	let scorePassed = false;
-	let livesUsed:number = 0;
-	const priceScaler:number[] = [500, 5000, 50000]
+	let livesUsed: number = 0;
+	const priceScaler: number[] = [500, 5000, 50000];
+	let highestScore: number;
+	let challengeScore: number;
 
-	const gratity:number = 0.6;
-	const lift:number = -15;
+	const gratity: number = 0.6;
+	const lift: number = -15;
 	let velocity = 0;
 
-    const nftlLLogo = NFTLLogo();
+	const nftlLLogo = NFTLLogo();
 	const debug = false;
 	const loader = PIXI.Loader.shared;
 	var soundCoin = new Howl({ src: ['/flappy/sounds/sfx_point.wav'] });
@@ -53,12 +55,12 @@
 			resolution: window.devicePixelRatio,
 			autoDensity: true
 		});
-		
+
 		const jumpTurtle = () => {
-            if(!gameOver){
-                velocity += lift;
-                velocity += 0.9;
-            }
+			if (!gameOver) {
+				velocity += lift;
+				velocity += 0.9;
+			}
 		};
 		const handleLoadComplete = () => {
 			texture = loader.resources.koko.spritesheet;
@@ -89,17 +91,17 @@
 				turtleGraphics.alpha = 0;
 			}
 
-			containerTurtle = new PIXI.Container();
-			containerTurtle.addChild(turtle);
-			containerTurtle.addChild(turtleGraphics);
 			turtle.x = -60;
 			turtle.y = -35;
-            turtle.name= 'turtle';
+			turtle.name = 'turtle';
 			turtleGraphics.x = 100;
 			turtle.scale.x = 0.5;
 			turtle.scale.y = 0.5;
 			turtleGraphics.scale.y = 0.5;
 			turtleGraphics.scale.y = 0.5;
+			containerTurtle = new PIXI.Container();
+			containerTurtle.addChild(turtle);
+			containerTurtle.addChild(turtleGraphics);
 			stage.addChild(containerTurtle);
 		};
 		const handleLoadAsset = (loader, resource) => {
@@ -131,7 +133,7 @@
 		const bushesTexture = PIXI.Texture.from('/flappy/bushes.png');
 		const groundTexture = PIXI.Texture.from('/flappy/assets/ground-sprite.png');
 		const skyTexture = PIXI.Texture.from('/flappy/sky.png');
-		
+
 		sky = new PIXI.TilingSprite(skyTexture, w, h);
 		clouds = new PIXI.TilingSprite(cloudsTexture, w, h);
 		town = new PIXI.TilingSprite(townTexture, w, h);
@@ -144,14 +146,12 @@
 		ground.name = 'ground';
 		sky.interactive = true;
 		sky.on('pointerdown', jumpTurtle);
-        
 
 		stage.addChild(sky);
 		stage.addChild(clouds);
 		stage.addChild(town);
 		stage.addChild(bushes);
 		stage.addChild(ground);
-		
 
 		const style = new PIXI.TextStyle({
 			fontSize: 64,
@@ -230,10 +230,24 @@
 				}
 			} else {
 				pipeSpeed = 0;
-				const scores = [{socre:25,wallet:'0x01be...h1f',price:60000},{socre:17,wallet:'0x012e...31f',price:6000},{socre:12,wallet:'0x012e...54a',price:600}]
+				const scores = [
+					{ socre: 25, wallet: '0x01be...h1f', price: 60000 },
+					{ socre: 17, wallet: '0x012e...31f', price: 6000 },
+					{ socre: 12, wallet: '0x012e...54a', price: 600 }
+				];
 				livesUsed = 1;
-                const scoreboard = scoreBoard(w,h, scores, livesUsed,priceScaler);
-                stage.addChild(scoreboard);
+				highestScore = 34;
+				challengeScore = 12;
+				const scoreboard = scoreBoard(
+					w,
+					h,
+					scores,
+					livesUsed,
+					priceScaler,
+					highestScore,
+					challengeScore
+				);
+				stage.addChild(scoreboard);
 			}
 			if (turtle) {
 				// bg animation
@@ -249,10 +263,12 @@
 				if (containerTurtle.y >= 417) {
 					velocity = 0;
 					containerTurtle.y = 417;
+					// gameOver =true;
 				}
 				if (containerTurtle.y <= -10) {
 					velocity = 0;
 					containerTurtle.y = -10;
+					gameOver =true;
 				}
 
 				// pipe generation
@@ -286,7 +302,7 @@
 			stage.addChild(scoreText);
 			stage.addChild(ground);
 			stage.addChild(challengeText);
-            stage.addChild(nftlLLogo);
+			stage.addChild(nftlLLogo);
 			// stage.addChild(turtle);
 			renderer.render(stage);
 		}
