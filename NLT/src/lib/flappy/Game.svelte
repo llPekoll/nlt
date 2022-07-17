@@ -25,6 +25,7 @@
 	let gameOver = false;
 	let scorePassed = false;
 	let livesUsed:number = 0;
+	const priceScaler:number[] = [500, 5000, 50000]
 
 	const gratity:number = 0.6;
 	const lift:number = -15;
@@ -231,7 +232,7 @@
 				pipeSpeed = 0;
 				const scores = [{socre:25,wallet:'0x01be...h1f',price:60000},{socre:17,wallet:'0x012e...31f',price:6000},{socre:12,wallet:'0x012e...54a',price:600}]
 				livesUsed = 1;
-                const scoreboard = scoreBoard(w,h, scores, livesUsed);
+                const scoreboard = scoreBoard(w,h, scores, livesUsed,priceScaler);
                 stage.addChild(scoreboard);
 			}
 			if (turtle) {

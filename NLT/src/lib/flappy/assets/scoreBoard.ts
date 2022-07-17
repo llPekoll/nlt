@@ -7,7 +7,25 @@ interface Score {
     price: number;
   }
 
-export const scoreBoard = (w:number,h:number, livesUsed:number, scores: [Score]): PIXI.Container => {
+export const scoreBoard = (w:number,h:number, livesUsed:number, scores: [Score], priceScaler:number[]): PIXI.Container => {
+
+    let price
+    switch (livesUsed){
+        case 0:
+            price = priceScaler[0]
+            break;
+        case 1:
+            price = priceScaler[1]
+            break;
+        case 2:
+            price = priceScaler[2]
+            break;
+    default:
+            price = priceScaler[0]
+            break;
+    }
+
+
 
 
     const styleChal = new PIXI.TextStyle({
@@ -28,9 +46,7 @@ export const scoreBoard = (w:number,h:number, livesUsed:number, scores: [Score])
     board.x = w/8 - 8;
     board.width = w/1.2;
     board.y = 150;
-    
-    
-    
+
     const tryAgainText = new PIXI.Text('Try Again?', styleChal);
     tryAgainText.x = w/2;
     tryAgainText.anchor.x = .5
@@ -38,19 +54,27 @@ export const scoreBoard = (w:number,h:number, livesUsed:number, scores: [Score])
     tryAgainText.y = h/2+10;
 
     const yesText = new PIXI.Text('Yes', styleChal);
-    yesText.x = w/2;
+    yesText.x = w/2 -50;
     yesText.anchor.x = .5
     yesText.anchor.y = .5
-    yesText.y = h/2+40;
-    const yesPriceText = new PIXI.Text('300$NFTL', styleChal);
-    yesPriceText.x = w/2;
+    yesText.y = h/1.35;
+
+    const noText = new PIXI.Text('No', styleChal);
+    noText.x = w/2 +50;
+    noText.anchor.x = .5
+    noText.anchor.y = .5
+    noText.y = h/1.35;
+
+    const yesPriceText = new PIXI.Text(`${price} $NFTL`, styleChal);
+    yesPriceText.x = w/2 - 50;
     yesPriceText.anchor.x = .5
     yesPriceText.anchor.y = .5
-    yesPriceText.y = h/2+60;
+    yesPriceText.y = h/1.35+20;
 
     boardContainer.addChild(board)
     boardContainer.addChild(tryAgainText)
     boardContainer.addChild(yesText)
+    boardContainer.addChild(noText)
     boardContainer.addChild(yesPriceText)
     
     return boardContainer;
