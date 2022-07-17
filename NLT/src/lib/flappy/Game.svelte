@@ -24,6 +24,12 @@
 	let score = 0;
 	let gameOver = false;
 	let scorePassed = false;
+	let livesUsed:number = 0;
+
+	const gratity:number = 0.6;
+	const lift:number = -15;
+	let velocity = 0;
+
     const nftlLLogo = NFTLLogo();
 	const debug = false;
 	const loader = PIXI.Loader.shared;
@@ -46,10 +52,7 @@
 			resolution: window.devicePixelRatio,
 			autoDensity: true
 		});
-		let gratity = 0.6;
-		let lift = -15;
-		let velocity = 0;
-
+		
 		const jumpTurtle = () => {
             if(!gameOver){
                 velocity += lift;
@@ -226,7 +229,9 @@
 				}
 			} else {
 				pipeSpeed = 0;
-                const scoreboard = scoreBoard();
+				const scores = [{socre:25,wallet:'0x01be...h1f',price:60000},{socre:17,wallet:'0x012e...31f',price:6000},{socre:12,wallet:'0x012e...54a',price:600}]
+				livesUsed = 1;
+                const scoreboard = scoreBoard(w,h, scores, livesUsed);
                 stage.addChild(scoreboard);
 			}
 			if (turtle) {
