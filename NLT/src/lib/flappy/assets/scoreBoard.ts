@@ -95,18 +95,45 @@ export const scoreBoard = (
 	board.width = w / 1.2;
 	board.y = 100;
 
+	const btnAction = (obj: PIXI.Container, pushed: boolean) => {
+		if (pushed) {
+			obj.y -= 10;
+		} else {
+			obj.y += 10;
+		}
+	};
+
 	const boardYes = new PIXI.NineSlicePlane(textureBtn, 4, 4, 4, 6);
 	boardYes.width = 100;
 	boardYes.height = 40;
 	boardYes.x = 40;
 	boardYes.y = toBot - 20;
+	boardYes.interactive = true;
+	boardYes.buttonMode = true;
+
+	boardYes.on('pointerdown', () => {
+		btnAction(boardYes, true);
+	});
+	boardYes.on('pointerupoutside', () => {
+		btnAction(boardYes, false);
+	});
 
 	const boardNo = new PIXI.NineSlicePlane(textureBtn, 4, 4, 4, 6);
 	boardNo.width = 100;
 	boardNo.height = 40;
 	boardNo.x = w - 140;
 	boardNo.y = toBot - 20;
+	boardNo.interactive = true;
+	boardNo.buttonMode = true;
 
+	boardNo.on('pointerdown', () => {
+		btnAction(boardNo, true);
+	});
+	boardNo.on('pointerupoutside', () => {
+		btnAction(boardNo, false);
+	});
+
+	// boardNo.on('pointerup', startGame2);
 	const useNLTLife = new PIXI.Text('Use my NLT life', smallFont);
 	useNLTLife.x = w / 2;
 	useNLTLife.anchor.x = 0.5;

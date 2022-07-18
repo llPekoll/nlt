@@ -119,6 +119,7 @@
 		startBtn.height = 30;
 		startBtn.width = 130;
 		containerBtnStart.interactive = true;
+		containerBtnStart.buttonMode = true;
 
 		containerBtnStart.on('pointerdown', () => {
 			startGame(true);

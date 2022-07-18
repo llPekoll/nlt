@@ -6,6 +6,8 @@
 	import { NFTLLogo, scoreBoard } from './assets';
 
 	export let inGame: boolean;
+	export let score: number = 0;
+	export let livesUsed: number = 0;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 	let w = 288;
@@ -21,10 +23,8 @@
 	let containerTurtle;
 	let scoreText;
 	let challengeText;
-	let score = 0;
 	let gameOver = false;
 	let scorePassed = false;
-	let livesUsed: number = 0;
 	const priceScaler: number[] = [500, 5000, 50000];
 	let highestScore: number;
 	let challengeScore: number;
@@ -203,33 +203,70 @@
 			const randHightOffset = Math.floor(Math.random() * 120) * sign;
 
 			if (!gameOver) {
-				for (let i = pipes.length - 1; i >= 0; i--) {
-					// pipe management
-					stage.removeChild(pipes[i]);
-					pipes[i].x -= pipeSpeed;
-					if (pipes[i].x < -60) {
-						pipes.splice(i, 1);
-						scorePassed = false;
+				if (turtle) {
+					if (frameCount % 120 == 0) {
+						frameCount = 1;
+						const container = new PIXI.Container();
+						const pipeInstanceBot = PIXI.Sprite.from('/flappy/assets/pipe-green-bottom.png');
+						const pipeInstanceTop = PIXI.Sprite.from('/flappy/assets/pipe-green-top.png');
+
+						// Gap managment
+						pipeInstanceTop.y = -400 + randHightOffset - (spacingBase - randSpacing);
+						pipeInstanceBot.y = -50 + randHightOffset + (spacingBase - randSpacing);
+
+						// container
+						container.addChild(pipeInstanceBot);
+						container.addChild(pipeInstanceTop);
+						container.x = 700;
+						container.y = h / 2;
+						pipes.push(container);
 					}
-					// colisiton check
-					if (collision(pipes[i], turtleGraphics)) {
-						if (!gameOver) {
-							soundHit.stop();
-						} else {
-							soundHit.play();
-						}
+
+					sky.tilePosition.x -= 0.1 * pipeSpeed;
+					ground.tilePosition.x -= 1 * pipeSpeed;
+					clouds.tilePosition.x -= 0.5 * pipeSpeed;
+					town.tilePosition.x -= 0.7 * pipeSpeed;
+					bushes.tilePosition.x -= 0.8 * pipeSpeed;
+
+					if (containerTurtle.y >= 417) {
+						velocity = 0;
+						containerTurtle.y = 417;
 						gameOver = true;
 					}
-					if (pipePassed(pipes[i], turtleGraphics, scorePassed)) {
-						score += 1;
-						scorePassed = true;
-						scoreText.text = score;
-						soundCoin.play();
+					if (containerTurtle.y <= -10) {
+						velocity = 0;
+						containerTurtle.y = -10;
+						gameOver = true;
 					}
-					stage.addChild(pipes[i]);
+
+					for (let i = pipes.length - 1; i >= 0; i--) {
+						// pipe management
+						stage.removeChild(pipes[i]);
+						pipes[i].x -= pipeSpeed;
+						if (pipes[i].x < -60) {
+							pipes.splice(i, 1);
+							scorePassed = false;
+						}
+						// colisiton check
+						if (collision(pipes[i], turtleGraphics)) {
+							if (!gameOver) {
+								soundHit.stop();
+							} else {
+								soundHit.play();
+							}
+							gameOver = true;
+						}
+						if (pipePassed(pipes[i], turtleGraphics, scorePassed)) {
+							score += 1;
+							scorePassed = true;
+							scoreText.text = score;
+							soundCoin.play();
+						}
+						stage.addChild(pipes[i]);
+					}
 				}
-			} else {
-				pipeSpeed = 0;
+			}
+			if (gameOver && containerTurtle.y == 417) {
 				const scores = [
 					{ score: 25, wallet: '0x01...h1f', price: 60000 },
 					{ score: 17, wallet: '0x01...31f', price: 6000 },
@@ -250,44 +287,8 @@
 				stage.addChild(scoreboard);
 			}
 			if (turtle) {
-				// bg animation
-				sky.tilePosition.x -= 0.1 * pipeSpeed;
-				ground.tilePosition.x -= 1 * pipeSpeed;
-				clouds.tilePosition.x -= 0.5 * pipeSpeed;
-				town.tilePosition.x -= 0.7 * pipeSpeed;
-				bushes.tilePosition.x -= 0.8 * pipeSpeed;
-				// turtle animation
 				velocity += gratity;
 				containerTurtle.y += velocity;
-				if (containerTurtle.y >= 417) {
-					velocity = 0;
-					containerTurtle.y = 417;
-					// gameOver =true;
-				}
-				if (containerTurtle.y <= -10) {
-					velocity = 0;
-					containerTurtle.y = -10;
-					gameOver = true;
-				}
-
-				// pipe generation
-				if (frameCount % 120 == 0) {
-					frameCount = 1;
-					const container = new PIXI.Container();
-					const pipeInstanceBot = PIXI.Sprite.from('/flappy/assets/pipe-green-bottom.png');
-					const pipeInstanceTop = PIXI.Sprite.from('/flappy/assets/pipe-green-top.png');
-
-					// Gap managment
-					pipeInstanceTop.y = -400 + randHightOffset - (spacingBase - randSpacing);
-					pipeInstanceBot.y = -50 + randHightOffset + (spacingBase - randSpacing);
-
-					// container
-					container.addChild(pipeInstanceBot);
-					container.addChild(pipeInstanceTop);
-					container.x = 700;
-					container.y = h / 2;
-					pipes.push(container);
-				}
 			}
 			// layer in correct order
 			const jsim = stage.getChildByName('jism');
