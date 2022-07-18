@@ -9,21 +9,19 @@
 	export let inGame;
 	export let challenge;
 	export let turtle;
-
+	export let w: number = 288;
+	export let h: number = 512;
+	export let bushes: PIXI.TilingSprite;
+	export let sky: PIXI.TilingSprite;
+	export let clouds: PIXI.TilingSprite;
+	export let town: PIXI.TilingSprite;
+	export let ground: PIXI.TilingSprite;
+	
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-	let w: number = 288;
-	let h: number = 512;
-	let bushes: PIXI.TilingSprite;
-	let sky: PIXI.TilingSprite;
-	let clouds: PIXI.TilingSprite;
-	let town: PIXI.TilingSprite;
-	let ground: PIXI.TilingSprite;
-	let challengeText;
-	let containerBtnStart: PIXI.Container;
-
+	
 	const loader = PIXI.Loader.shared;
 	const stage = new PIXI.Container();
-
+	
 	onMount(() => {
 		const canvas = document.getElementById('theMenu');
 		const renderer = new PIXI.Renderer({
@@ -33,27 +31,14 @@
 			resolution: window.devicePixelRatio,
 			autoDensity: true
 		});
-
-		console.log(turtle)
+		
 		const ticker = new PIXI.Ticker();
 		ticker.add(animate);
 		ticker.start();
-
-		const cloudsTexture = PIXI.Texture.from('/flappy/clouds.png');
-		const townTexture = PIXI.Texture.from('/flappy/town.png');
-		const bushesTexture = PIXI.Texture.from('/flappy/bushes.png');
-		const groundTexture = PIXI.Texture.from('/flappy/assets/ground-sprite.png');
-		const skyTexture = PIXI.Texture.from('/flappy/sky.png');
-		sky = new PIXI.TilingSprite(skyTexture, w, h);
-		clouds = new PIXI.TilingSprite(cloudsTexture, w, h);
-		town = new PIXI.TilingSprite(townTexture, w, h);
-		bushes = new PIXI.TilingSprite(bushesTexture, w * 2, h);
-		bushes.scale.x = 0.6;
-		bushes.scale.y = 0.6;
-		bushes.y = 145;
-		ground = new PIXI.TilingSprite(groundTexture, w, h);
-		ground.y = 450;
-
+		
+		let challengeText;
+		let containerBtnStart: PIXI.Container;
+		
 		const styleChal = new PIXI.TextStyle({
 			fontSize: 12,
 			fill: '#FFFFFF',

@@ -8,6 +8,9 @@
 	let inGame = false;
 	let challenge = false;
 	let turtle;
+
+	let w:number = 288;
+	let h:number = 512;
 	
 	const loader = PIXI.Loader.shared;
 	const handleLoadComplete = () => {
@@ -47,10 +50,27 @@
 	loader.onError.add(handleLoadError);
 	loader.load();
 
+	const cloudsTexture = PIXI.Texture.from('/flappy/clouds.png');
+	const townTexture = PIXI.Texture.from('/flappy/town.png');
+	const bushesTexture = PIXI.Texture.from('/flappy/bushes.png');
+	const groundTexture = PIXI.Texture.from('/flappy/assets/ground-sprite.png');
+	const skyTexture = PIXI.Texture.from('/flappy/sky.png');
+
+	const sky = new PIXI.TilingSprite(skyTexture, w, h);
+	const clouds = new PIXI.TilingSprite(cloudsTexture, w, h);
+	const town = new PIXI.TilingSprite(townTexture, w, h);
+	const bushes = new PIXI.TilingSprite(bushesTexture, w * 2, h);
+	const ground = new PIXI.TilingSprite(groundTexture, w, h);
+
+	bushes.scale.x = 0.6;
+	bushes.scale.y = 0.6;
+	bushes.y = 145;
+	ground.y = 450;
+
 </script>
 
 {#if inGame}
-	<Game bind:inGame {challenge} {turtle}/>
+	<Game bind:inGame {challenge} {turtle} {sky} {clouds} {town} {bushes} {ground}/>
 {:else}
-	<Menu bind:inGame bind:challenge {turtle}/>
+	<Menu bind:inGame bind:challenge {turtle} {sky} {clouds} {town} {bushes} {ground}/>
 {/if}
