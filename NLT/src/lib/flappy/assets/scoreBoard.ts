@@ -103,6 +103,8 @@ export const scoreBoard = (
 		}
 	};
 
+
+	const contYes = new PIXI.Container()
 	const boardYes = new PIXI.NineSlicePlane(textureBtn, 4, 4, 4, 6);
 	boardYes.width = 100;
 	boardYes.height = 40;
@@ -110,7 +112,9 @@ export const scoreBoard = (
 	boardYes.y = toBot - 20;
 	boardYes.interactive = true;
 	boardYes.buttonMode = true;
-
+	boardYes.name = 'yesBtn'
+	contYes.addChild(boardYes)
+	
 	boardYes.on('pointerdown', () => {
 		btnAction(boardYes, true);
 	});
@@ -118,6 +122,7 @@ export const scoreBoard = (
 		btnAction(boardYes, false);
 	});
 
+	const contNo = new PIXI.Container()
 	const boardNo = new PIXI.NineSlicePlane(textureBtn, 4, 4, 4, 6);
 	boardNo.width = 100;
 	boardNo.height = 40;
@@ -125,6 +130,8 @@ export const scoreBoard = (
 	boardNo.y = toBot - 20;
 	boardNo.interactive = true;
 	boardNo.buttonMode = true;
+	boardNo.name = 'noBtn'
+	contNo.addChild(boardNo)
 
 	boardNo.on('pointerdown', () => {
 		btnAction(boardNo, true);
@@ -161,22 +168,25 @@ export const scoreBoard = (
 	tryAgainText.y = toBot - 30;
 
 	const yesText = new PIXI.Text('Yes', bigFont);
-	yesText.x = w / 2 - 50;
+	yesText.x = 100/2 ;
 	yesText.anchor.x = 0.5;
 	yesText.anchor.y = 0.5;
-	yesText.y = toBot;
-
+	yesText.y = 40/2;
+	boardYes.addChild(yesText)
+	
 	const yesPriceText = new PIXI.Text(`${price} $NFTL`, smallFont);
-	yesPriceText.x = w / 2 - 50;
+	yesPriceText.x = 100/2;
 	yesPriceText.anchor.x = 0.5;
 	yesPriceText.anchor.y = 0.5;
-	yesPriceText.y = toBot + 15;
-
+	yesPriceText.y = 40/2 + 15;
+	boardYes.addChild(yesPriceText)
+	
 	const noText = new PIXI.Text('No', bigFont);
 	noText.x = w / 2 + 70;
 	noText.anchor.x = 0.5;
 	noText.anchor.y = 0.5;
 	noText.y = toBot;
+	boardNo.addChild(noText)
 
 	const boardContainer = new PIXI.Container();
 	boardContainer.addChild(board);
@@ -200,8 +210,8 @@ export const scoreBoard = (
 	boardContainer.addChild(nlt);
 	boardContainer.addChild(remainingLife);
 	boardContainer.addChild(tryAgainText);
-	boardContainer.addChild(yesText);
-	boardContainer.addChild(yesPriceText);
+	boardContainer.addChild(contYes);
+	// boardContainer.addChild(yesPriceText);
 	boardContainer.addChild(noText);
 	boardContainer.name = 'boardContainer';
 

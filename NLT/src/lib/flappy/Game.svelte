@@ -2,10 +2,11 @@
 	import * as PIXI from 'pixi.js';
 	import { onMount } from 'svelte';
 	import { Howl, Howler } from 'howler';
-	import { collision, pipePassed } from './utils';
+	import { collision, pipePassed, pipeGenerator } from './utils';
 	import { NFTLLogo, scoreBoard } from './assets';
 
 	export let inGame: boolean;
+	export let turtle
 	export let score: number = 0;
 	export let livesUsed: number = 0;
 
@@ -18,7 +19,6 @@
 	let texture;
 	let town;
 	let ground;
-	let turtle;
 	let turtleGraphics;
 	let containerTurtle;
 	let scoreText;
@@ -62,15 +62,7 @@
 				velocity += 0.9;
 			}
 		};
-		const handleLoadComplete = () => {
-			texture = loader.resources.koko.spritesheet;
-			const textures = [
-				texture.textures['bg 0.ase'],
-				texture.textures['bg 1.ase'],
-				texture.textures['bg 2.ase'],
-				texture.textures['bg 1.ase']
-			];
-			turtle = new PIXI.AnimatedSprite(textures);
+
 			turtle.animationSpeed = 0.1;
 			turtle.anchor.x = 0.5;
 			turtle.anchor.y = 0.5;
@@ -93,7 +85,7 @@
 
 			turtle.x = -60;
 			turtle.y = -35;
-			turtle.name = 'turtle';
+			turtle.name = 'turtleGame';
 			turtleGraphics.x = 100;
 			turtle.scale.x = 0.5;
 			turtle.scale.y = 0.5;
@@ -103,29 +95,12 @@
 			containerTurtle.addChild(turtle);
 			containerTurtle.addChild(turtleGraphics);
 			stage.addChild(containerTurtle);
-		};
-		const handleLoadAsset = (loader, resource) => {
-			console.log(`asset Loaded, ${resource.name}`);
-		};
-		const handleLoadError = (loader, resource) => {
-			console.log('load error');
-		};
-		const handleLoadProgess = (loader, resource) => {
-			console.log(`${loader.progress}%`);
-		};
-		loader.add('koko', '/flappy/turtle.json');
-		loader.onComplete.add(handleLoadComplete);
-		loader.onProgress.add(handleLoadProgess);
-		loader.onLoad.add(handleLoadAsset);
-		loader.onError.add(handleLoadError);
-		loader.load();
 
 		const ticker = new PIXI.Ticker();
 		ticker.add(animate);
 		ticker.start();
 		let frameCount = 1;
-		let pipes = [];
-		const spacingBase = 100;
+		let pipes:PIXI.Container[] = [];
 		let pipeSpeed = 2;
 
 		const cloudsTexture = PIXI.Texture.from('/flappy/clouds.png');
@@ -198,30 +173,11 @@
 			if (challengeText.x < -bounds.width) {
 				challengeText.x = w + 20;
 			}
-			const sign = Math.random() < 0.5 ? -1 : 1;
-			const randSpacing = Math.floor(Math.random() * 70);
-			const randHightOffset = Math.floor(Math.random() * 120) * sign;
 
 			if (!gameOver) {
 				if (turtle) {
-					if (frameCount % 120 == 0) {
-						frameCount = 1;
-						const container = new PIXI.Container();
-						const pipeInstanceBot = PIXI.Sprite.from('/flappy/assets/pipe-green-bottom.png');
-						const pipeInstanceTop = PIXI.Sprite.from('/flappy/assets/pipe-green-top.png');
-
-						// Gap managment
-						pipeInstanceTop.y = -400 + randHightOffset - (spacingBase - randSpacing);
-						pipeInstanceBot.y = -50 + randHightOffset + (spacingBase - randSpacing);
-
-						// container
-						container.addChild(pipeInstanceBot);
-						container.addChild(pipeInstanceTop);
-						container.x = 700;
-						container.y = h / 2;
-						pipes.push(container);
-					}
-
+					pipeGenerator(h, frameCount, pipes)
+					
 					sky.tilePosition.x -= 0.1 * pipeSpeed;
 					ground.tilePosition.x -= 1 * pipeSpeed;
 					clouds.tilePosition.x -= 0.5 * pipeSpeed;
@@ -301,10 +257,26 @@
 			stage.addChild(ground);
 			stage.addChild(challengeText);
 			stage.addChild(nftlLLogo);
-			const board = stage.getChildByName('boardContainer');
+			const board:PIXI.DisplayObject = stage.getChildByName('boardContainer');
+
 			if (board) {
 				stage.removeChild(board);
 				stage.addChild(board);
+
+				const yesBtn = board.getChildByName('yesBtn');
+				const noBtn = board.getChildByName('noBtn');
+				if (yesBtn){
+					yesBtn.on('pointerup', () => {
+						yesBtn.y = 400
+
+					});
+				}
+				if (noBtn){
+					noBtn.on('pointerup', () => {
+						noBtn.y = 400
+						inGame = false;
+					});
+				}
 			}
 			renderer.render(stage);
 		}

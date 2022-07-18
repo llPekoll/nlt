@@ -7,6 +7,8 @@
 	import { onMount } from 'svelte';
 
 	export let inGame;
+	export let challenge;
+	export let turtle;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 	let w: number = 288;
@@ -14,10 +16,8 @@
 	let bushes: PIXI.TilingSprite;
 	let sky: PIXI.TilingSprite;
 	let clouds: PIXI.TilingSprite;
-	let texture;
 	let town: PIXI.TilingSprite;
 	let ground: PIXI.TilingSprite;
-	let turtle;
 	let challengeText;
 	let containerBtnStart: PIXI.Container;
 
@@ -34,44 +34,7 @@
 			autoDensity: true
 		});
 
-		const handleLoadComplete = () => {
-			texture = loader.resources.sheet.spritesheet;
-			const textures = [
-				texture.textures['bg 0.ase'],
-				texture.textures['bg 1.ase'],
-				texture.textures['bg 2.ase'],
-				texture.textures['bg 1.ase']
-			];
-			turtle = new PIXI.AnimatedSprite(textures);
-			turtle.animationSpeed = 0.1;
-			turtle.anchor.x = 0.5;
-			turtle.anchor.y = 0.5;
-			turtle.play();
-
-			stage.addChild(turtle);
-
-			turtle.x = -20;
-			turtle.y = 135;
-			turtle.scale.x = 0.5;
-			turtle.scale.y = 0.5;
-			stage.addChild(turtle);
-		};
-		const handleLoadAsset = (loader, resource) => {
-			console.log(`asset Loaded, ${resource.name}`);
-		};
-		const handleLoadError = (loader, resource) => {
-			console.log('load error');
-		};
-		const handleLoadProgess = (loader, resource) => {
-			console.log(`${loader.progress}%`);
-		};
-		loader.add('sheet', '/flappy/turtle.json');
-		loader.onComplete.add(handleLoadComplete);
-		loader.onProgress.add(handleLoadProgess);
-		loader.onLoad.add(handleLoadAsset);
-		loader.onError.add(handleLoadError);
-		loader.load();
-
+		console.log(turtle)
 		const ticker = new PIXI.Ticker();
 		ticker.add(animate);
 		ticker.start();
@@ -159,6 +122,17 @@
 			town.tilePosition.x -= 0.7 * pipeSpeed;
 			bushes.tilePosition.x -= 0.8 * pipeSpeed;
 			challengeText.x -= 1;
+			const jsim = stage.getChildByName('turtleMenu');
+			if(jsim){
+				console.log("jsim")
+				console.log(jsim)
+				stage.removeChild(jsim);
+				stage.addChild(jsim);
+			}
+			if(turtle){
+
+				stage.addChild(turtle);
+			}
 			renderer.render(stage);
 		}
 	});
