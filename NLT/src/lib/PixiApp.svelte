@@ -7,6 +7,7 @@
 	// 	import NTL3 from './2.json';
 	let inGame = false;
 	let challenge = false;
+	let init = false;
 	let turtle;
 	const debug = true;
 
@@ -79,10 +80,13 @@
 	bushes.scale.y = 0.6;
 	bushes.y = 145;
 	ground.y = 450;
+	$:if(inGame == true){
+		init = true
+	}
 </script>
 
 {#if inGame}
 	<Game bind:inGame {challenge} {turtle} {sky} {clouds} {town} {bushes} {ground} {turtleGraphics} />
 {:else}
-	<Menu bind:inGame bind:challenge {turtle} {sky} {clouds} {town} {bushes} {ground} />
+	<Menu bind:inGame bind:challenge {turtle} {sky} {clouds} {town} {bushes} {ground} {init}/>
 {/if}

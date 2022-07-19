@@ -10,6 +10,7 @@
 	export let inGame;
 	export let challenge;
 	export let turtle;
+	export let init;
 	export let w: number = 288;
 	export let h: number = 512;
 	export let bushes: PIXI.TilingSprite;
@@ -57,16 +58,15 @@
 
 		function animate() {
 			const pipeSpeed = 2;
-
-			animtateBg(sky, ground, clouds, town, bushes, pipeSpeed);
-
+			if(!init){
+				animtateBg(sky, ground, clouds, town, bushes, pipeSpeed);
+			}
 			if (turtle) {
 				stage.addChild(turtle);
 			}
 			challengeText.x -= 1;
 			stage.addChild(ground);
 			stage.addChild(challengeText);
-
 			renderer.render(stage);
 		}
 	});

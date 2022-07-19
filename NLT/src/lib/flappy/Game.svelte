@@ -19,6 +19,7 @@
 	export let turtleGraphics: PIXI.Graphics;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+
 	let containerTurtle;
 	let scoreText;
 	let challengeText;
@@ -70,7 +71,6 @@
 
 		let frameCount = 1;
 		let pipes: PIXI.Container[] = [];
-		let pipeSpeed = 2;
 
 		ground.name = 'ground';
 		sky.interactive = true;
@@ -129,14 +129,9 @@
 			}
 
 			if (!gameOver) {
+				const pipeSpeed = 2;
 				if (turtle) {
 					pipeGenerator(h, frameCount, pipes);
-
-					sky.tilePosition.x -= 0.1 * pipeSpeed;
-					ground.tilePosition.x -= 1 * pipeSpeed;
-					clouds.tilePosition.x -= 0.5 * pipeSpeed;
-					town.tilePosition.x -= 0.7 * pipeSpeed;
-					bushes.tilePosition.x -= 0.8 * pipeSpeed;
 
 					if (containerTurtle.y >= 417) {
 						velocity = 0;
