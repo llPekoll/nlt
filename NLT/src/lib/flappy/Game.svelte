@@ -6,7 +6,7 @@
 	import { NFTLLogo, scoreBoard } from './assets';
 
 	export let inGame: boolean;
-	export let turtle
+	export let turtle;
 	export let score: number = 0;
 	export let livesUsed: number = 0;
 	export let w: number = 288;
@@ -16,9 +16,9 @@
 	export let clouds: PIXI.TilingSprite;
 	export let town: PIXI.TilingSprite;
 	export let ground: PIXI.TilingSprite;
+	export let turtleGraphics: PIXI.Graphics;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-	let turtleGraphics;
 	let containerTurtle;
 	let scoreText;
 	let challengeText;
@@ -33,8 +33,6 @@
 	let velocity = 0;
 
 	const nftlLLogo = NFTLLogo();
-	const debug = false;
-	const loader = PIXI.Loader.shared;
 	var soundCoin = new Howl({ src: ['/flappy/sounds/sfx_point.wav'] });
 	var sounddie = new Howl({ src: ['/flappy/sounds/sfx_die.wav'] });
 	var soundHit = new Howl({ src: ['/flappy/sounds/sfx_hit.wav'] });
@@ -46,7 +44,6 @@
 
 	onMount(() => {
 		const canvas = document.getElementById('theGame');
-
 		const renderer = new PIXI.Renderer({
 			view: canvas,
 			width: w,
@@ -62,44 +59,17 @@
 			}
 		};
 
-			turtle.animationSpeed = 0.1;
-			turtle.anchor.x = 0.5;
-			turtle.anchor.y = 0.5;
-			turtle.play();
-
-			stage.addChild(turtle);
-			turtleGraphics = new PIXI.Graphics();
-			turtleGraphics.beginFill(0xff3300, 0.25);
-			turtleGraphics.lineStyle(1, 0xffd900, 1);
-			turtleGraphics.moveTo(0, 67);
-			turtleGraphics.lineTo(40, 67);
-			turtleGraphics.lineTo(40, 0);
-			turtleGraphics.lineTo(0, 0);
-
-			turtleGraphics.closePath();
-			turtleGraphics.endFill();
-			if (!debug) {
-				turtleGraphics.alpha = 0;
-			}
-
-			turtle.x = -60;
-			turtle.y = -35;
-			turtle.name = 'turtleGame';
-			turtleGraphics.x = 100;
-			turtle.scale.x = 0.5;
-			turtle.scale.y = 0.5;
-			turtleGraphics.scale.y = 0.5;
-			turtleGraphics.scale.y = 0.5;
-			containerTurtle = new PIXI.Container();
-			containerTurtle.addChild(turtle);
-			containerTurtle.addChild(turtleGraphics);
-			stage.addChild(containerTurtle);
+		containerTurtle = new PIXI.Container();
+		containerTurtle.addChild(turtleGraphics);
+		containerTurtle.addChild(turtle);
+		stage.addChild(containerTurtle);
 
 		const ticker = new PIXI.Ticker();
 		ticker.add(animate);
 		ticker.start();
+
 		let frameCount = 1;
-		let pipes:PIXI.Container[] = [];
+		let pipes: PIXI.Container[] = [];
 		let pipeSpeed = 2;
 
 		ground.name = 'ground';
@@ -160,8 +130,8 @@
 
 			if (!gameOver) {
 				if (turtle) {
-					pipeGenerator(h, frameCount, pipes)
-					
+					pipeGenerator(h, frameCount, pipes);
+
 					sky.tilePosition.x -= 0.1 * pipeSpeed;
 					ground.tilePosition.x -= 1 * pipeSpeed;
 					clouds.tilePosition.x -= 0.5 * pipeSpeed;
@@ -241,7 +211,7 @@
 			stage.addChild(ground);
 			stage.addChild(challengeText);
 			stage.addChild(nftlLLogo);
-			const board:PIXI.DisplayObject = stage.getChildByName('boardContainer');
+			const board: PIXI.DisplayObject = stage.getChildByName('boardContainer');
 
 			if (board) {
 				stage.removeChild(board);
@@ -249,19 +219,19 @@
 
 				const yesBtn = board.getChildByName('yesBtn');
 				const noBtn = board.getChildByName('noBtn');
-				if (yesBtn){
+				if (yesBtn) {
 					yesBtn.on('pointerup', () => {
-						yesBtn.y = 400
-
+						yesBtn.y = 400;
 					});
 				}
-				if (noBtn){
+				if (noBtn) {
 					noBtn.on('pointerup', () => {
-						noBtn.y = 400
+						noBtn.y = 400;
 						inGame = false;
 					});
 				}
 			}
+			stage.addChild(containerTurtle);
 			renderer.render(stage);
 		}
 	});

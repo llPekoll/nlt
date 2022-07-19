@@ -1,4 +1,4 @@
-<script lang='ts'>
+<script lang="ts">
 	import * as PIXI from 'pixi.js';
 	import Game from '$lib/flappy/Game.svelte';
 	import Menu from '$lib/flappy/Menu.svelte';
@@ -8,10 +8,11 @@
 	let inGame = false;
 	let challenge = false;
 	let turtle;
+	const debug = true;
 
-	let w:number = 288;
-	let h:number = 512;
-	
+	let w: number = 288;
+	let h: number = 512;
+
 	const loader = PIXI.Loader.shared;
 	const handleLoadComplete = () => {
 		const texture = loader.resources.sheet.spritesheet;
@@ -27,12 +28,11 @@
 		turtle.anchor.y = 0.5;
 		turtle.play();
 
-		turtle.x = -20;
+		turtle.x = 20;
 		turtle.y = 135;
 		turtle.scale.x = 0.5;
 		turtle.scale.y = 0.5;
-		turtle.name = 'turtle'
-
+		turtle.name = 'turtle';
 	};
 	const handleLoadAsset = (loader, resource) => {
 		console.log(`asset Loaded, ${resource.name}`);
@@ -62,15 +62,27 @@
 	const bushes = new PIXI.TilingSprite(bushesTexture, w * 2, h);
 	const ground = new PIXI.TilingSprite(groundTexture, w, h);
 
+	const turtleGraphics = new PIXI.Graphics();
+	turtleGraphics.beginFill(0xff3300, 0.25);
+	turtleGraphics.lineStyle(1, 0xffd900, 1);
+	turtleGraphics.moveTo(0, 67);
+	turtleGraphics.lineTo(40, 67);
+	turtleGraphics.lineTo(40, 0);
+	turtleGraphics.lineTo(0, 0);
+	turtleGraphics.scale.y = 0.5;
+	turtleGraphics.scale.y = 0.5;
+	if (!debug) {
+		turtleGraphics.alpha = 0;
+	}
+
 	bushes.scale.x = 0.6;
 	bushes.scale.y = 0.6;
 	bushes.y = 145;
 	ground.y = 450;
-
 </script>
 
 {#if inGame}
-	<Game bind:inGame {challenge} {turtle} {sky} {clouds} {town} {bushes} {ground}/>
+	<Game bind:inGame {challenge} {turtle} {sky} {clouds} {town} {bushes} {ground} {turtleGraphics} />
 {:else}
-	<Menu bind:inGame bind:challenge {turtle} {sky} {clouds} {town} {bushes} {ground}/>
+	<Menu bind:inGame bind:challenge {turtle} {sky} {clouds} {town} {bushes} {ground} />
 {/if}
