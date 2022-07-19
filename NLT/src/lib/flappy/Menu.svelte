@@ -59,13 +59,18 @@
 		function animate() {
 			const pipeSpeed = 2;
 			if(!init){
+				challengeText.x -= 1;
 				animtateBg(sky, ground, clouds, town, bushes, pipeSpeed);
 			}
 			if (turtle) {
 				stage.addChild(turtle);
 			}
-			challengeText.x -= 1;
+			const bounds = challengeText.getBounds();
+			if (challengeText.x < -bounds.width) {
+				challengeText.x = w + 20;
+			}
 			stage.addChild(ground);
+			challengeText.x -= 1;
 			stage.addChild(challengeText);
 			renderer.render(stage);
 		}

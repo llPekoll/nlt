@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { Howl, Howler } from 'howler';
 	import { collision, pipePassed, pipeGenerator } from './utils';
-	import { NFTLLogo, scoreBoard } from './assets';
+	import { NFTLLogo, scoreBoard, labelHighScore } from './assets';
 
 	export let inGame: boolean;
 	export let turtle;
@@ -20,9 +20,7 @@
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
-	let containerTurtle;
 	let scoreText;
-	let challengeText;
 	let gameOver = false;
 	let scorePassed = false;
 	const priceScaler: number[] = [500, 5000, 50000];
@@ -60,15 +58,6 @@
 			}
 		};
 
-		containerTurtle = new PIXI.Container();
-		containerTurtle.addChild(turtleGraphics);
-		containerTurtle.addChild(turtle);
-		stage.addChild(containerTurtle);
-
-		const ticker = new PIXI.Ticker();
-		ticker.add(animate);
-		ticker.start();
-
 		let frameCount = 1;
 		let pipes: PIXI.Container[] = [];
 
@@ -100,47 +89,33 @@
 		scoreText.name = 'jism';
 		stage.addChild(scoreText);
 
-		const styleChal = new PIXI.TextStyle({
-			fontSize: 12,
-			fill: '#FFFFFF',
-			stroke: '#000000',
-			strokeThickness: 2,
-			fontFamily: 'Press Start 2P',
-			fontWeight: 'bold',
-			dropShadow: true,
-			dropShadowColor: '#000000'
-		});
+		const challengeText = labelHighScore();
 
-		challengeText = new PIXI.Text(score, styleChal);
-		challengeText.name = 'chal';
-		challengeText.y = 480;
-		challengeText.x = 500;
-		challengeText.text =
-			'PRICE -> 1:3409NFTL, 2:213NFTL, 3: 90NFTL      SCORE-> 1: 13Pts, 0x03..23, 2: 5Pts, 0x03..23, 3: 4Pts, 0x03..23';
-		stage.addChild(challengeText);
+		turtle.x =-100;
+		turtleGraphics.x =100;
+		turtleGraphics.y = 100;
+
+		const ticker = new PIXI.Ticker();
+		ticker.add(animate);
+		ticker.start();
 
 		function animate() {
 			frameCount++;
 			// const randTiming = Math.floor(Math.random() * 5);
-			challengeText.x -= 1;
-			const bounds = challengeText.getBounds();
-			if (challengeText.x < -bounds.width) {
-				challengeText.x = w + 20;
-			}
 
 			if (!gameOver) {
 				const pipeSpeed = 2;
 				if (turtle) {
 					pipeGenerator(h, frameCount, pipes);
 
-					if (containerTurtle.y >= 417) {
+					if (turtleGraphics.y >= 417) {
 						velocity = 0;
-						containerTurtle.y = 417;
+						turtleGraphics.y = 417;
 						gameOver = true;
 					}
-					if (containerTurtle.y <= -10) {
+					if (turtleGraphics.y <= -10) {
 						velocity = 0;
-						containerTurtle.y = -10;
+						turtleGraphics.y = -10;
 						gameOver = true;
 					}
 
@@ -171,7 +146,7 @@
 					}
 				}
 			}
-			if (gameOver && containerTurtle.y == 417) {
+			if (gameOver && turtleGraphics.y == 417) {
 				const scores = [
 					{ score: 25, wallet: '0x01...h1f', price: 60000 },
 					{ score: 17, wallet: '0x01...31f', price: 6000 },
@@ -191,10 +166,6 @@
 				);
 				stage.addChild(scoreboard);
 			}
-			if (turtle) {
-				velocity += gratity;
-				containerTurtle.y += velocity;
-			}
 			// layer in correct order
 			const jsim = stage.getChildByName('jism');
 			const mmd = stage.getChildByName('ground');
@@ -206,8 +177,15 @@
 			stage.addChild(ground);
 			stage.addChild(challengeText);
 			stage.addChild(nftlLLogo);
+			
+			if (turtle && inGame) {
+				stage.addChild(turtleGraphics);
+				stage.addChild(turtle);
+				velocity += gratity;
+				turtle.y += velocity;
+				turtleGraphics.y += velocity;
+			}
 			const board: PIXI.DisplayObject = stage.getChildByName('boardContainer');
-
 			if (board) {
 				stage.removeChild(board);
 				stage.addChild(board);
@@ -226,7 +204,8 @@
 					});
 				}
 			}
-			stage.addChild(containerTurtle);
+			challengeText.x -= 1;
+			stage.addChild(challengeText);
 			renderer.render(stage);
 		}
 	});
