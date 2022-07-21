@@ -16,19 +16,14 @@ export const scoreBoard = (
 	challengeScore: number
 ): PIXI.Container => {
 	let price;
-	switch (livesUsed) {
-		case 0:
-			price = priceScaler[0];
-			break;
-		case 1:
-			price = priceScaler[1];
-			break;
-		case 2:
-			price = priceScaler[2];
-			break;
-		default:
-			price = priceScaler[0];
-			break;
+	if (livesUsed == 0) {
+		price = priceScaler[0];
+	} else if (livesUsed == 1) {
+		price = priceScaler[1];
+	} else if (livesUsed == 2) {
+		price = priceScaler[2];
+	} else {
+		price = priceScaler[2] * 10;
 	}
 
 	const bigFont = new PIXI.TextStyle({
@@ -139,7 +134,6 @@ export const scoreBoard = (
 		btnAction(boardNo, false);
 	});
 
-	// boardNo.on('pointerup', startGame2);
 	const useNLTLife = new PIXI.Text('Use my NLT life', smallFont);
 	useNLTLife.x = w / 2;
 	useNLTLife.anchor.x = 0.5;
@@ -173,11 +167,12 @@ export const scoreBoard = (
 	yesText.y = 40 / 2;
 	boardYes.addChild(yesText);
 
-	const yesPriceText = new PIXI.Text(`${price} $NFTL`, smallFont);
+	const yesPriceText = new PIXI.Text('', smallFont);
 	yesPriceText.x = 100 / 2;
 	yesPriceText.anchor.x = 0.5;
 	yesPriceText.anchor.y = 0.5;
 	yesPriceText.y = 40 / 2 + 15;
+	yesPriceText.text = `${price} $NFTL`;
 	boardYes.addChild(yesPriceText);
 
 	const noText = new PIXI.Text('No', bigFont);
@@ -210,7 +205,6 @@ export const scoreBoard = (
 	boardContainer.addChild(remainingLife);
 	boardContainer.addChild(tryAgainText);
 	boardContainer.addChild(contYes);
-	// boardContainer.addChild(yesPriceText);
 	boardContainer.addChild(noText);
 	boardContainer.name = 'boardContainer';
 

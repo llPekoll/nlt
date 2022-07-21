@@ -10,7 +10,6 @@
 	export let inGame;
 	export let challenge;
 	export let turtle;
-	export let init;
 	export let w: number = 288;
 	export let h: number = 512;
 	export let bushes: PIXI.TilingSprite;
@@ -18,51 +17,46 @@
 	export let clouds: PIXI.TilingSprite;
 	export let town: PIXI.TilingSprite;
 	export let ground: PIXI.TilingSprite;
+	export let renderer: PIXI.Renderer;
+	export let stage: PIXI.Container;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
-	const stage = new PIXI.Container();
-
 	onMount(() => {
-		const canvas = document.getElementById('theMenu');
-		const renderer = new PIXI.Renderer({
-			view: canvas,
-			width: w,
-			height: h,
-			resolution: window.devicePixelRatio,
-			autoDensity: true
-		});
-
 		const startBtn = btnStart(w, h);
 		const logo = NFTLLogo();
 		const challengeText = labelHighScore();
-
 		startBtn.on('pointerup', () => {
+			turtle.y = 135;
 			inGame = true;
 		});
 
-		stage.addChild(sky);
-		stage.addChild(clouds);
-		stage.addChild(town);
-		stage.addChild(bushes);
-		stage.addChild(startBtn);
-		stage.addChild(logo);
+		const init = () => {
+			stage.addChild(sky);
+			stage.addChild(clouds);
+			stage.addChild(town);
+			stage.addChild(bushes);
+			stage.addChild(startBtn);
+			stage.addChild(logo);
 
-		if (turtle) {
-			turtle.x = -20;
-			turtle.y = 135;
-		}
+			if (turtle) {
+			}
+		};
+		init();
 		const ticker = new PIXI.Ticker();
 		ticker.add(animate);
 		ticker.start();
 
 		function animate() {
 			const pipeSpeed = 2;
-			if(!init){
-				challengeText.x -= 1;
-				animtateBg(sky, ground, clouds, town, bushes, pipeSpeed);
-			}
+			challengeText.x -= 1;
+
+			animtateBg(sky, ground, clouds, town, bushes, pipeSpeed);
+
 			if (turtle) {
+				// async load that's why we check here
+				turtle.x = -40;
+				turtle.y = 135;
 				stage.addChild(turtle);
 			}
 			const bounds = challengeText.getBounds();
@@ -70,7 +64,6 @@
 				challengeText.x = w + 20;
 			}
 			stage.addChild(ground);
-			challengeText.x -= 1;
 			stage.addChild(challengeText);
 			renderer.render(stage);
 		}
