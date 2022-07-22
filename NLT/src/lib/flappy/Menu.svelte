@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as PIXI from 'pixi.js';
-	import { NFTLLogo, labelHighScore, btnStart } from './assets';
+	import { NFTLLogo, labelHighScore, btnStart, challengeBtns } from './assets';
 	// import NTL1 from './0.json';
 	// import NTL2 from './1.json';
 	// import NTL3 from './2.json';
@@ -8,7 +8,7 @@
 	import { animtateBg } from './utils';
 
 	export let inGame;
-	export let challenge;
+	export let challenge: boolean;
 	export let turtle;
 	export let w: number = 288;
 	export let h: number = 512;
@@ -24,11 +24,25 @@
 
 	onMount(() => {
 		const startBtn = btnStart(w, h);
+		const { freeContainer, ChallengeContainer, selected, noAds } = challengeBtns(w, h);
+
 		const logo = NFTLLogo();
 		const challengeText = labelHighScore();
 		startBtn.on('pointerup', () => {
-			turtle.y = 135;
 			inGame = true;
+			turtle.y = 135;
+		});
+		freeContainer.on('pointerup', () => {
+			freeContainer.y -= 3;
+			challenge = false;
+			selected.text = 'Selected: \nFree to play';
+			noAds.text = '- no Ads if nlt -';
+		});
+		ChallengeContainer.on('pointerup', () => {
+			ChallengeContainer.y -= 3;
+			challenge = true;
+			selected.text = 'Selected: \nChallenge Mode';
+			noAds.text = '';
 		});
 
 		const init = () => {
@@ -37,10 +51,10 @@
 			stage.addChild(town);
 			stage.addChild(bushes);
 			stage.addChild(startBtn);
+			stage.addChild(freeContainer);
+			stage.addChild(ChallengeContainer);
+			stage.addChild(selected);
 			stage.addChild(logo);
-
-			if (turtle) {
-			}
 		};
 		init();
 		const ticker = new PIXI.Ticker();
@@ -69,7 +83,3 @@
 		}
 	});
 </script>
-
-<div class="flex items-center justify-center">
-	<canvas id="theMenu" />
-</div>

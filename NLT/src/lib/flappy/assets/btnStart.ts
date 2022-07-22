@@ -30,6 +30,7 @@ export const btnStart = (w: number, h: number): PIXI.Container => {
 	container.on('pointerdown', () => {
 		startGame(true);
 	});
+	// container.on('pointerup', startGame2);
 	container.on('pointerupoutside', () => {
 		startGame(false);
 	});

@@ -3,15 +3,17 @@
 	import Game from '$lib/flappy/Game.svelte';
 	import Menu from '$lib/flappy/Menu.svelte';
 	import { onMount } from 'svelte';
+	import { Ads } from '$lib/flappy/assets';
+
 	// 	import NTL1 from './0.json';
 	// 	import NTL2 from './1.json';
 	// 	import NTL3 from './2.json';
-	let inGame = false;
-	let restart = false;
-	let challenge = false;
-	let init = false;
-	let turtle;
-	const debug = true;
+	let inGame: boolean = false;
+	let restart: boolean = false;
+	let challenge: boolean = false;
+	let init: boolean = false;
+	let turtle: PIXI.AnimatedSprite;
+	const debug: boolean = true;
 	let livesUsed: number = 0;
 
 	let w: number = 288;
@@ -100,6 +102,8 @@
 
 		stage.destroy();
 		stage = new PIXI.Container();
+		Ads(stage, w, h);
+
 		stage.name = 'stage';
 	} else {
 		stage.destroy();

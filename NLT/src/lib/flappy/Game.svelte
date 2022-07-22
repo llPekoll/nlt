@@ -3,8 +3,9 @@
 	import { onMount } from 'svelte';
 	import { Howl, Howler } from 'howler';
 	import { collision, pipePassed, pipeGenerator, animtateBg } from './utils';
-	import { NFTLLogo, scoreBoard, labelHighScore, scoreInGame } from './assets';
+	import { NFTLLogo, scoreBoard, labelHighScore, scoreInGame, Ads } from './assets';
 
+	export let challenge: boolean;
 	export let inGame: boolean;
 	export let turtle;
 	export let score: number = 0;
@@ -20,6 +21,10 @@
 	export let renderer: PIXI.Renderer;
 	export let stage: PIXI.Container;
 	export let restart;
+	$: if (!challenge && gameOver) {
+		inGame = false;
+	}
+
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
 	let gameOver = false;
@@ -34,6 +39,7 @@
 	let velocity = 0;
 
 	const nftlLLogo = NFTLLogo();
+
 	const challengeText = labelHighScore();
 	const scoreDisplay = scoreInGame(w, score);
 	var soundCoin = new Howl({ src: ['/flappy/sounds/sfx_point.wav'] });
@@ -185,6 +191,13 @@
 			}
 			stage.addChild(nftlLLogo);
 			stage.addChild(challengeText);
+			const ads = stage.getChildByName('ads');
+			if (ads) {
+				stage.removeChild(ads);
+				if (!challenge) {
+					stage.addChild(ads);
+				}
+			}
 			renderer.render(stage);
 		}
 	});

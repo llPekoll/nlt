@@ -588,6 +588,11 @@
   resolved "https://registry.yarnpkg.com/@pixi/filter-outline/-/filter-outline-4.1.5.tgz#d44f63fb40e80ea8719a4f72a8f5453c1244b515"
   integrity sha512-tm0lQR5fGFz0g7GQamRGhf5vkzj4aYLTv0MCK98KaK1L45agzRioJgzicVkuSu6J/SMMvT4O6XSGax0z4fTs9Q==
 
+"@pixi/gif@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@pixi/gif/-/gif-1.1.1.tgz#02c54d5ff3355e948336bcd971c352e855d61cfe"
+  integrity sha512-fk9f1VkHTHioaP4SgKLaGggWYyqu/XhKlCZBITTLslLGY3IuNd1uyt4eHtdHvKYotCcFiT4DR6vK8mCyOKi3MQ==
+
 "@pixi/graphics@6.4.2":
   version "6.4.2"
   resolved "https://registry.yarnpkg.com/@pixi/graphics/-/graphics-6.4.2.tgz#a3dadc078432b67d4606b1f05c5ab3fce80db40b"
