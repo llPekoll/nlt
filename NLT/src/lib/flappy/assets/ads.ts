@@ -3,7 +3,7 @@ import { Loader } from '@pixi/loaders';
 
 Loader.registerPlugin(AnimatedGIFLoader);
 
-export const Ads = async (stage, w: number, h: number) => {
+export const Ads = async (w: number, h: number) => {
 	const url = '/flappy/PUB_GIF_NFTL-export.gif';
 	const buffer = await fetch(url).then(res => res.arrayBuffer());
 	const animation = AnimatedGIF.fromBuffer(buffer);
