@@ -8,6 +8,7 @@ export const Ads = async (w: number, h: number) => {
 	const buffer = await fetch(url).then(res => res.arrayBuffer());
 	const animation = AnimatedGIF.fromBuffer(buffer);
 	animation.y = h - animation.getBounds().height;
+    animation.x = (w - animation.getBounds().width)/2;
 	animation.name = 'ads';
 	return animation;
 };

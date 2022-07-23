@@ -1,15 +1,15 @@
 <script lang="ts">
 	import * as PIXI from 'pixi.js';
-	import { NFTLLogo, labelHighScore, btnStart, challengeBtns } from './assets';
-	// import NTL1 from './0.json';
-	// import NTL2 from './1.json';
-	// import NTL3 from './2.json';
+	import { NFTLLogo, labelHighScore, btnStart, challengeBtns, NFTCard } from './assets';
+	import NTL1 from '../0.json';
+	import NTL2 from '../1.json';
+	import NTL3 from '../2.json';
 	import { onMount } from 'svelte';
 	import { animtateBg } from './utils';
 
-	export let inGame;
+	export let inGame: boolean;
 	export let challenge: boolean;
-	export let turtle;
+	export let turtle: PIXI.AnimatedSprite;
 	export let w: number = 288;
 	export let h: number = 512;
 	export let bushes: PIXI.TilingSprite;
@@ -28,6 +28,25 @@
 
 		const logo = NFTLLogo();
 		const challengeText = labelHighScore();
+		const nft1Data = {
+			id: NTL1.nft_id,
+			image : NTL1.image,
+			name: NTL1.name,
+			lives:1,
+			priceDiscount: 0,
+    		locked:true
+		}
+		const nft1 = NFTCard(nft1Data,h/3, 10)
+		const nft2Data = {
+			id: NTL2.nft_id,
+			image : NTL2.image,
+			name: NTL2.name,
+			lives:2,
+			priceDiscount: 0,
+    		locked:false
+		}
+		const nft2 = NFTCard(nft1Data,h/3, w/3)
+		const nft3 = NFTCard(nft2Data,h/3, w/1.5)
 		startBtn.on('pointerup', () => {
 			inGame = true;
 			turtle.y = 135;
@@ -55,6 +74,9 @@
 			stage.addChild(ChallengeContainer);
 			stage.addChild(selected);
 			stage.addChild(logo);
+			stage.addChild(nft1);
+			stage.addChild(nft2);
+			stage.addChild(nft3);
 		};
 		init();
 		const ticker = new PIXI.Ticker();
