@@ -59,7 +59,7 @@
 	};
 	sky.interactive = true;
 	sky.on('pointerdown', jumpTurtle);
-	onMount(() => {
+	onMount(async () => {
 		const init = () => {
 			frameCount = 1;
 			pipes = [];
@@ -74,6 +74,8 @@
 			turtle.x = -100;
 		};
 		init();
+
+		const ads = await Ads(stage, w, h);
 
 		const ticker = new PIXI.Ticker();
 		ticker.add(animate);
@@ -191,7 +193,6 @@
 			}
 			stage.addChild(nftlLLogo);
 			stage.addChild(challengeText);
-			const ads = stage.getChildByName('ads');
 			if (ads) {
 				stage.removeChild(ads);
 				if (!challenge) {
