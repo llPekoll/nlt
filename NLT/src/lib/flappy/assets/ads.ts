@@ -1,15 +1,13 @@
-import * as PIXI from 'pixi.js';
-import { AnimatedGIF } from '@pixi/gif';
+import { AnimatedGIF, AnimatedGIFLoader } from '@pixi/gif';
+import { Loader } from '@pixi/loaders';
 
-export const Ads = (stage, w: number, h: number) => {
+Loader.registerPlugin(AnimatedGIFLoader);
+
+export const Ads = async (w: number, h: number) => {
 	const url = '/flappy/PUB_GIF_NFTL-export.gif';
-
-	fetch(url)
-		.then((res) => res.arrayBuffer())
-		.then(AnimatedGIF.fromBuffer)
-		.then((image) => {
-			image.y = h - image.getBounds().height;
-			image.name = 'ads';
-			stage.addChild(image);
-		});
+	const buffer = await fetch(url).then(res => res.arrayBuffer());
+	const animation = AnimatedGIF.fromBuffer(buffer);
+	animation.y = h - animation.getBounds().height;
+	animation.name = 'ads';
+	return animation;
 };
