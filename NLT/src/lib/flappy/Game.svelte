@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { Howl, Howler } from 'howler';
 	import { collision, pipePassed, pipeGenerator, animtateBg } from './utils';
-	import { NFTLLogo, scoreBoard, labelHighScore, scoreInGame, Ads } from './assets';
+	import { NFTLLogo, scoreBoard, labelHighScore, scoreInGame } from './assets';
 
 	export let challenge: boolean;
 	export let inGame: boolean;
@@ -20,6 +20,7 @@
 	export let turtleGraphics: PIXI.Graphics;
 	export let renderer: PIXI.Renderer;
 	export let stage: PIXI.Container;
+	export let ads
 
 	$: if (!challenge && gameOver) {
 		inGame = false;
@@ -74,8 +75,6 @@
 			turtle.x = -100;
 		};
 		init();
-
-		const ads = await Ads(w, h);
 
 		const ticker = new PIXI.Ticker();
 		ticker.add(animate);

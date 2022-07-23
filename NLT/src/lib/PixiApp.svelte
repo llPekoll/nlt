@@ -9,6 +9,7 @@
 	// 	import NTL2 from './1.json';
 	// 	import NTL3 from './2.json';
 	let inGame: boolean = false;
+	let restart: boolean = false;
 	let challenge: boolean = false;
 	let init: boolean = false;
 	let turtle: PIXI.AnimatedSprite;
@@ -18,7 +19,8 @@
 	let w: number = 288;
 	let h: number = 512;
 	let renderer;
-	onMount(() => {
+	let ads;
+	onMount(async () => {
 		const canvas = document.getElementById('theGame');
 		renderer = new PIXI.Renderer({
 			view: canvas,
@@ -64,6 +66,8 @@
 		loader.onLoad.add(handleLoadAsset);
 		loader.onError.add(handleLoadError);
 		loader.load();
+		ads = await Ads(w, h);
+
 	});
 	const cloudsTexture = PIXI.Texture.from('/flappy/clouds.png');
 	const townTexture = PIXI.Texture.from('/flappy/town.png');
@@ -95,7 +99,6 @@
 	bushes.y = 145;
 	ground.y = 450;
 	let stage = new PIXI.Container();
-	Ads(stage, w, h);
 
 	$: if (inGame) {
 		init = true;
@@ -125,6 +128,7 @@
 		{renderer}
 		{stage}
 		{livesUsed}
+		{ads}
 	/>
 {:else}
 	<Menu
