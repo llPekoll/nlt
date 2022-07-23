@@ -19,6 +19,11 @@ yarn run dev
 - [x] challenge mode/ Free mode with ads
 - [x] adapte score bord for free mode -> go to menu directly
 - [ ] try to load the GIF for ads ascynly and display it when its loaded -> https://pixijs.io/gif/docs/
+- [ ] NFTs in meny
+
+
+------- ether.js integration
+
 - [ ] pay for ticket
 - [ ] pay for continue
 - [ ] make sure to load the font in the proper order -> https://pixijs.io/examples/#/text/webfont.js

@@ -20,7 +20,7 @@
 	export let turtleGraphics: PIXI.Graphics;
 	export let renderer: PIXI.Renderer;
 	export let stage: PIXI.Container;
-	export let restart;
+
 	$: if (!challenge && gameOver) {
 		inGame = false;
 	}

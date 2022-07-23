@@ -9,7 +9,6 @@
 	// 	import NTL2 from './1.json';
 	// 	import NTL3 from './2.json';
 	let inGame: boolean = false;
-	let restart: boolean = false;
 	let challenge: boolean = false;
 	let init: boolean = false;
 	let turtle: PIXI.AnimatedSprite;
@@ -96,13 +95,13 @@
 	bushes.y = 145;
 	ground.y = 450;
 	let stage = new PIXI.Container();
+	Ads(stage, w, h);
 
 	$: if (inGame) {
 		init = true;
 
 		stage.destroy();
 		stage = new PIXI.Container();
-		Ads(stage, w, h);
 
 		stage.name = 'stage';
 	} else {
