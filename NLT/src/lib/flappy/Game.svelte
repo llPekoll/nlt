@@ -75,7 +75,7 @@
 		};
 		init();
 
-		const ads = await Ads(stage, w, h);
+		const ads = await Ads(w, h);
 
 		const ticker = new PIXI.Ticker();
 		ticker.add(animate);
