@@ -1,13 +1,14 @@
 require("@nomiclabs/hardhat-waffle");
-require('@nomiclabs/hardhat-etherscan')
-const dotenv = require("dotenv");
-dotenv.config();
+require('@nomiclabs/hardhat-ethers');
+const { mnemonic, etherscanApiKey } = require('./secrets.json');
 
+require('@nomiclabs/hardhat-ethers');
+require("@nomiclabs/hardhat-etherscan");
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
+task("accounts", "Prints the list of accounts", async () => {
+  const accounts = await ethers.getSigners();
 
   for (const account of accounts) {
     console.log(account.address);
@@ -21,21 +22,46 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: "0.8.4",
+  defaultNetwork: "mainnet",
   networks: {
-    mumbai: {
-      url: `${process.env.REACT_APP_MUMBAI_RPC_URL}${process.env.REACT_APP_PROJET_ID}`,
-      accounts: [process.env.REACT_APP_META_MASK_PRIVATE_KEY],
+    localhost: {
+      url: "http://127.0.0.1:8545"
+    },
+    hardhat: {
+    },
+    testnet: {
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
+      chainId: 97,
+      gasPrice: 20000000000,
+      accounts: {mnemonic: mnemonic}
     },
     mainnet: {
-      url: `${process.env.REACT_APP_MAINNET_RPC_URL}${process.env.REACT_APP_PROJET_ID}`,
-      accounts: [process.env.REACT_APP_META_MASK_PRIVATE_KEY],
+      url: "https://bsc-dataseed.binance.org/",
+      chainId: 56,
+      gasPrice: 20000000000,
+      accounts: {mnemonic: mnemonic}
     }
   },
-  etherscan: {
-    apiKey: {
-      polygonMumbai: process.env.REACT_APP_API_KEY_POLYGON_SCAN
+  solidity: {
+  version: "0.8.4",
+  settings: {
+    optimizer: {
+      enabled: true
     }
-    
+   }
+  },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://bscscan.com/
+    apiKey: etherscanApiKey
+  },
+  paths: {
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
+    artifacts: "./artifacts"
+  },
+  mocha: {
+    timeout: 20000
   }
-}
+};

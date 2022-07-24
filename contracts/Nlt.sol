@@ -21,7 +21,7 @@ contract NLTNFT is ERC1155, Ownable {
     
     constructor() ERC1155('https://nlt.rocks/metadata/{id}.json'){
         tiers = [0, 1, 2];
-        mintPrices = [1 ether, 2 ether, 4 ether];
+        mintPrices = [.1 ether, .2 ether, .4 ether];
         totalSupplys = [1, 1, 1];
         maxSupplys = [300, 100, 30];
         isPublicMintEnable = true;
