@@ -21,7 +21,6 @@ yarn run dev
 - [ ] try to load the GIF for ads ascynly and display it when its loaded -> https://pixijs.io/gif/docs/
 - [ ] NFTs in meny
 
-
 ------- ether.js integration
 
 - [ ] pay for ticket

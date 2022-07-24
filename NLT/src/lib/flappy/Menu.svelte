@@ -1,10 +1,14 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { env } from '$lib/env.js';
+	import NLTNFT from '../NLTNFT.json';
+
 	import * as PIXI from 'pixi.js';
 	import { NFTLLogo, labelHighScore, btnStart, challengeBtns, NFTCard } from './assets';
 	import NTL1 from '../0.json';
 	import NTL2 from '../1.json';
 	import NTL3 from '../2.json';
-	import { onMount } from 'svelte';
+
 	import { animtateBg } from './utils';
 
 	export let inGame: boolean;
@@ -21,32 +25,105 @@
 	export let stage: PIXI.Container;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+	let tier1;
+	let tier2;
+	let tier3;
 
-	onMount(() => {
+	onMount(async () => {
+		// nft detection
+		if (window.ethereum) {
+			const accounts = await window.ethereum
+				.request({
+					method: 'eth_requestAccounts'
+				})
+				.catch((err) => {
+					console.log(err.code);
+				});
+			const account = accounts[0];
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const signer = provider.getSigner();
+			const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
+			console.log(account);
+			// TODO:
+			// Make an array and push that into an array instead
+			tier1 = await contract.balanceOf(account, 0);
+			tier2 = await contract.balanceOf(account, 1);
+			tier3 = await contract.balanceOf(account, 2);
+			tier1 = ethers.utils.formatUnits(tier1, 0);
+			tier1 = parseInt(tier1);
+			tier2 = ethers.utils.formatUnits(tier2, 0);
+			tier2 = parseInt(tier2);
+			tier3 = ethers.utils.formatUnits(tier3, 0);
+			tier3 = parseInt(tier3);
+			console.log('tier1');
+			console.log(tier1);
+			console.log(tier2);
+			console.log(tier3);
+		}
+
 		const startBtn = btnStart(w, h);
 		const { freeContainer, ChallengeContainer, selected, noAds } = challengeBtns(w, h);
 
 		const logo = NFTLLogo();
 		const challengeText = labelHighScore();
+		const styler: PIXI.TextStyle = new PIXI.TextStyle({
+			fontSize: 12,
+			fill: '#FFFFFF',
+			stroke: '#000000',
+			strokeThickness: 2,
+			dropShadow: true,
+			dropShadowColor: '#000000',
+			fontFamily: 'Press Start 2P',
+			fontWeight: 'bold'
+		});
+		const textNLTSected = new PIXI.Text('No NFT Selected', styler);
+		textNLTSected.anchor.x = 0.5;
+		textNLTSected.x = w / 2;
+		textNLTSected.y = h / 2.3;
 		const nft1Data = {
 			id: NTL1.nft_id,
-			image : NTL1.image,
+			image: NTL1.image,
 			name: NTL1.name,
-			lives:1,
+			lives: 1,
 			priceDiscount: 0,
-    		locked:true
-		}
-		const nft1 = NFTCard(nft1Data,h/3, 10)
+			locked: !Boolean(tier1)
+		};
+		const nft1 = NFTCard(nft1Data, h / 4, 10);
+
 		const nft2Data = {
 			id: NTL2.nft_id,
-			image : NTL2.image,
+			image: NTL2.image,
 			name: NTL2.name,
-			lives:2,
+			lives: 2,
 			priceDiscount: 0,
-    		locked:false
-		}
-		const nft2 = NFTCard(nft1Data,h/3, w/3)
-		const nft3 = NFTCard(nft2Data,h/3, w/1.5)
+			locked: !Boolean(tier2)
+		};
+		const nft2 = NFTCard(nft2Data, h / 4, w / 3);
+
+		const nft3Data = {
+			id: NTL3.nft_id,
+			image: NTL3.image,
+			name: NTL3.name,
+			lives: 3,
+			priceDiscount: 0,
+			locked: !Boolean(tier3)
+		};
+		const nft3 = NFTCard(nft3Data, h / 4, w / 1.5);
+		nft3.on('pointerup', () => {
+			textNLTSected.text = '- NFT3 Selected -';
+			nft3.y -= 5;
+		});
+
+		nft2.on('pointerup', () => {
+			textNLTSected.text = '- NFT2 Selected -';
+			nft2.y -= 5;
+		});
+
+		nft1.on('pointerup', () => {
+			textNLTSected.text = '- NFT1 Selected -';
+			nft1.y -= 5;
+		});
+
 		startBtn.on('pointerup', () => {
 			inGame = true;
 			turtle.y = 135;
@@ -77,6 +154,7 @@
 			stage.addChild(nft1);
 			stage.addChild(nft2);
 			stage.addChild(nft3);
+			stage.addChild(textNLTSected);
 		};
 		init();
 		const ticker = new PIXI.Ticker();
@@ -92,7 +170,7 @@
 			if (turtle) {
 				// async load that's why we check here
 				turtle.x = -40;
-				turtle.y = 135;
+				turtle.y = 35;
 				stage.addChild(turtle);
 			}
 			const bounds = challengeText.getBounds();

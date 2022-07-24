@@ -47,7 +47,7 @@ export const challengeBtns = (
 	freeContainer.addChild(freeBtn);
 	freeContainer.addChild(freeText);
 	freeContainer.x = 10;
-	freeContainer.y = h / 2 + 50;
+	freeContainer.y = h / 2 + 10;
 
 	const ChallengeContainer = new PIXI.Container();
 	const startGameChall = (up) => {
@@ -68,7 +68,7 @@ export const challengeBtns = (
 	ChallengeContainer.addChild(ChalBtn);
 	ChallengeContainer.addChild(chalText);
 	ChallengeContainer.x = w - ChallengeContainer.getBounds().width - 10;
-	ChallengeContainer.y = h / 2 + 50;
+	ChallengeContainer.y = h / 2 + 10;
 	ChallengeContainer.on('pointerdown', () => {
 		startGameChall(true);
 	});
@@ -79,7 +79,7 @@ export const challengeBtns = (
 	selected.x = w / 2;
 	selected.anchor.x = 0.5;
 	selected.anchor.y = 0.5;
-	selected.y = h - 120;
+	selected.y = h / 1.55;
 	const styleChalSmall = new PIXI.TextStyle({
 		fontSize: 8,
 		fill: '#FFFFFF',

@@ -10,9 +10,9 @@ export const btnStart = (w: number, h: number): PIXI.Container => {
 		fontSize: 12,
 		fill: '#FFFFFF',
 		stroke: '#000000',
-		strokeThickness: 2,
 		fontFamily: 'Press Start 2P',
 		fontWeight: 'bold',
+		strokeThickness: 2,
 		dropShadow: true,
 		dropShadowColor: '#000000'
 	});
@@ -38,6 +38,6 @@ export const btnStart = (w: number, h: number): PIXI.Container => {
 	container.addChild(startBtn);
 	container.addChild(startText);
 	container.x = w / 2 - container.getBounds().width / 2;
-	container.y = h / 2;
+	container.y = h / 1.3;
 	return container;
 };

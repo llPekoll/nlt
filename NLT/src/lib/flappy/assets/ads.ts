@@ -5,10 +5,10 @@ Loader.registerPlugin(AnimatedGIFLoader);
 
 export const Ads = async (w: number, h: number) => {
 	const url = '/flappy/PUB_GIF_NFTL-export.gif';
-	const buffer = await fetch(url).then(res => res.arrayBuffer());
+	const buffer = await fetch(url).then((res) => res.arrayBuffer());
 	const animation = AnimatedGIF.fromBuffer(buffer);
 	animation.y = h - animation.getBounds().height;
-    animation.x = (w - animation.getBounds().width)/2;
+	animation.x = (w - animation.getBounds().width) / 2;
 	animation.name = 'ads';
 	return animation;
 };

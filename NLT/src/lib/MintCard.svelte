@@ -39,9 +39,10 @@
 			const signer = provider.getSigner();
 			const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
 			try {
-				console.log(price);
-				const j = ethers.utils.parseEther(price.toString());
-				console.log(1);
+				console.log('price =====');
+				console.log(mintPrice);
+				const j = ethers.utils.parseEther(mintPrice.toString());
+				console.log(j);
 
 				const res3 = await contract.mint(id, { value: j });
 				console.log(7);
@@ -63,8 +64,9 @@
 		<p class="text-sm py-3">
 			tier :{nlt.tier ? nlt.tier : '?'}
 		</p>
-		<p class="text-right text-xs pb-2">
-			price: {mintPrice ? mintPrice : '?'} MATIC
+		<p class="text-right font-bold pb-2 italic">
+			<span class="font-thin text-xs italic">price:</span>
+			{mintPrice ? mintPrice : '?'} BNB
 		</p>
 		<button
 			on:click={handleMint}
@@ -72,8 +74,8 @@
 		>
 			Mint
 		</button>
-		<p class="text-right text-xs">
-			minted:{total ? total : '?'}/{max ? max : '?'}
+		<p class="text-right font-bold pb-2 italic">
+			<span class="font-thin text-xs italic">minted:</span>{total ? total : '?'}/{max ? max : '?'}
 		</p>
 	</div>
 </div>

@@ -5,9 +5,6 @@
 	import { onMount } from 'svelte';
 	import { Ads } from '$lib/flappy/assets';
 
-	// 	import NTL1 from './0.json';
-	// 	import NTL2 from './1.json';
-	// 	import NTL3 from './2.json';
 	let inGame: boolean = false;
 	let challenge: boolean = false;
 	let turtle: PIXI.AnimatedSprite;
@@ -65,7 +62,6 @@
 		loader.onError.add(handleLoadError);
 		loader.load();
 		ads = await Ads(w, h);
-
 	});
 	const cloudsTexture = PIXI.Texture.from('/flappy/clouds.png');
 	const townTexture = PIXI.Texture.from('/flappy/town.png');
@@ -99,7 +95,6 @@
 	let stage = new PIXI.Container();
 
 	$: if (inGame) {
-
 		stage.destroy();
 		stage = new PIXI.Container();
 
