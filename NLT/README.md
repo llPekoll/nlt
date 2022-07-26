@@ -18,8 +18,8 @@ yarn run dev
 - [x] Score board when lose
 - [x] challenge mode/ Free mode with ads
 - [x] adapte score bord for free mode -> go to menu directly
-- [ ] try to load the GIF for ads ascynly and display it when its loaded -> https://pixijs.io/gif/docs/
-- [ ] NFTs in meny
+- [x] try to load the GIF for ads ascynly and display it when its loaded -> https://pixijs.io/gif/docs/
+- [x] NFTs in menu
 
 ------- ether.js integration
 
@@ -30,5 +30,5 @@ yarn run dev
 
 ------ NFT integration
 
-- [ ] detect NFT
+- [x] detect NFT
 - [ ] Apply NFT feature

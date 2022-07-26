@@ -7,6 +7,7 @@
 
 	export let challenge: boolean;
 	export let inGame: boolean;
+	export let selectedNFT;
 	export let turtle;
 	export let score: number = 0;
 	export let livesUsed: number;
@@ -71,8 +72,11 @@
 			turtleGraphics.x = 60;
 			turtleGraphics.y = 175;
 			boardReadyDisplay = true;
-			turtle.y = 135;
-			turtle.x = -100;
+
+			turtle.scale.x = 0.8;
+			turtle.scale.y = 0.8;
+			turtle.anchor.x = 0.5;
+			turtle.anchor.y = 0.5;
 		};
 		init();
 
@@ -82,7 +86,6 @@
 
 		function animate() {
 			frameCount++;
-			turtle.x = -100;
 
 			if (!gameOver) {
 				const pipeSpeed = 2;
@@ -184,10 +187,13 @@
 			}
 			if (turtle && inGame) {
 				stage.addChild(turtleGraphics);
-				stage.addChild(turtle);
+
 				velocity += gratity;
-				turtle.y += velocity;
+				turtle.x = 50;
 				turtleGraphics.y += velocity;
+				turtle.y = turtleGraphics.y + 135;
+
+				stage.addChild(turtle);
 			}
 			stage.addChild(nftlLLogo);
 			stage.addChild(challengeText);
@@ -197,6 +203,7 @@
 					stage.addChild(ads);
 				}
 			}
+
 			renderer.render(stage);
 		}
 	});

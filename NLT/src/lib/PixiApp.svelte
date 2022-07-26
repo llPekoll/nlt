@@ -7,7 +7,7 @@
 	import { animationLoader } from '$lib/flappy/utils';
 
 	let inGame: boolean = false;
-	let selectedNFT: number = 1
+	let selectedNFT: number = 1;
 	let challenge: boolean = false;
 	let turtle: PIXI.AnimatedSprite;
 	let karen: PIXI.AnimatedSprite;
@@ -32,12 +32,11 @@
 		const loader = PIXI.Loader.shared;
 		const handleLoadComplete = () => {
 			const texture1 = loader.resources.sheet.spritesheet;
-			turtle = animationLoader(texture1, 'turtle')
+			turtle = animationLoader(texture1, 'turtle');
 			const texture2 = loader.resources.sheet_karen.spritesheet;
-			karen = animationLoader(texture2, 'karen')
+			karen = animationLoader(texture2, 'karen');
 			const texture3 = loader.resources.sheet_punk.spritesheet;
-			punk = animationLoader(texture3, 'punk')
-			
+			punk = animationLoader(texture3, 'punk');
 		};
 		const handleLoadAsset = (loader, resource) => {
 			console.log(`asset Loaded, ${resource.name}`);
@@ -93,20 +92,29 @@
 		stage.destroy();
 		stage = new PIXI.Container();
 		stage.name = 'stage';
-
 	} else {
 		stage.destroy();
 		stage = new PIXI.Container();
 		stage.name = 'stage';
 	}
-
+	let toDisp;
+	$: if (selectedNFT == 1) {
+		toDisp = turtle;
+	} else if (selectedNFT == 2) {
+		toDisp = punk;
+	} else if (selectedNFT == 3) {
+		toDisp = karen;
+	}
 </script>
 
 {#if inGame}
 	<Game
 		bind:inGame
 		{challenge}
-		{turtle}
+		{selectedNFT}
+		turtle={toDisp}
+		{karen}
+		{punk}
 		{sky}
 		{clouds}
 		{town}
@@ -123,9 +131,7 @@
 		bind:inGame
 		bind:challenge
 		bind:selectedNFT
-		{turtle}
-		{karen}
-		{punk}
+		turtle={toDisp}
 		{sky}
 		{clouds}
 		{town}

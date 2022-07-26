@@ -36,10 +36,10 @@
 			tier2 = parseInt(tier2);
 			tier3 = ethers.utils.formatUnits(tier3, 0);
 			tier3 = parseInt(tier3);
-			console.log('===========')
-			console.log(tier1)
-			console.log(tier2)
-			console.log(tier3)
+			console.log('===========');
+			console.log(tier1);
+			console.log(tier2);
+			console.log(tier3);
 			if (tier1 || tier2 || tier3) {
 				ownsNfts = true;
 			}

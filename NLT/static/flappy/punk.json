@@ -1,43 +1,42 @@
-{ "frames": {
-   "bg2 0.ase": {
-    "frame": { "x": 0, "y": 0, "w": 81, "h": 65 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 286, "y": 82, "w": 81, "h": 65 },
-    "sourceSize": { "w": 579, "h": 512 },
-    "duration": 100
-   },
-   "bg2 1.ase": {
-    "frame": { "x": 81, "y": 0, "w": 81, "h": 65 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 286, "y": 82, "w": 81, "h": 65 },
-    "sourceSize": { "w": 579, "h": 512 },
-    "duration": 100
-   },
-   "bg2 2.ase": {
-    "frame": { "x": 162, "y": 0, "w": 81, "h": 65 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 286, "y": 82, "w": 81, "h": 65 },
-    "sourceSize": { "w": 579, "h": 512 },
-    "duration": 100
-   }
- },
- "meta": {
-  "app": "https://www.aseprite.org/",
-  "version": "1.2.35-x64",
-  "image": "punk.png",
-  "format": "RGBA8888",
-  "size": { "w": 243, "h": 65 },
-  "scale": "1",
-  "frameTags": [
-  ],
-  "layers": [
-   { "name": "turtle", "opacity": 255, "blendMode": "normal" },
-   { "name": "punk", "opacity": 255, "blendMode": "normal" }
-  ],
-  "slices": [
-  ]
- }
+{
+	"frames": {
+		"bg2 0.ase": {
+			"frame": { "x": 0, "y": 0, "w": 81, "h": 65 },
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": { "x": 286, "y": 82, "w": 81, "h": 65 },
+			"sourceSize": { "w": 579, "h": 512 },
+			"duration": 100
+		},
+		"bg2 1.ase": {
+			"frame": { "x": 81, "y": 0, "w": 81, "h": 65 },
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": { "x": 286, "y": 82, "w": 81, "h": 65 },
+			"sourceSize": { "w": 579, "h": 512 },
+			"duration": 100
+		},
+		"bg2 2.ase": {
+			"frame": { "x": 162, "y": 0, "w": 81, "h": 65 },
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": { "x": 286, "y": 82, "w": 81, "h": 65 },
+			"sourceSize": { "w": 579, "h": 512 },
+			"duration": 100
+		}
+	},
+	"meta": {
+		"app": "https://www.aseprite.org/",
+		"version": "1.2.35-x64",
+		"image": "punk.png",
+		"format": "RGBA8888",
+		"size": { "w": 243, "h": 65 },
+		"scale": "1",
+		"frameTags": [],
+		"layers": [
+			{ "name": "turtle", "opacity": 255, "blendMode": "normal" },
+			{ "name": "punk", "opacity": 255, "blendMode": "normal" }
+		],
+		"slices": []
+	}
 }

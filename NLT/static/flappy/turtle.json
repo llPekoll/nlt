@@ -1,42 +1,39 @@
-{ "frames": {
-   "bg2 0.ase": {
-    "frame": { "x": 1, "y": 1, "w": 70, "h": 57 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 286, "y": 87, "w": 70, "h": 57 },
-    "sourceSize": { "w": 579, "h": 512 },
-    "duration": 100
-   },
-   "bg2 1.ase": {
-    "frame": { "x": 73, "y": 1, "w": 70, "h": 51 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 286, "y": 93, "w": 70, "h": 51 },
-    "sourceSize": { "w": 579, "h": 512 },
-    "duration": 100
-   },
-   "bg2 2.ase": {
-    "frame": { "x": 145, "y": 1, "w": 70, "h": 51 },
-    "rotated": false,
-    "trimmed": true,
-    "spriteSourceSize": { "x": 286, "y": 93, "w": 70, "h": 51 },
-    "sourceSize": { "w": 579, "h": 512 },
-    "duration": 100
-   }
- },
- "meta": {
-  "app": "https://www.aseprite.org/",
-  "version": "1.2.35-x64",
-  "image": "turtle.png",
-  "format": "RGBA8888",
-  "size": { "w": 216, "h": 59 },
-  "scale": "1",
-  "frameTags": [
-  ],
-  "layers": [
-   { "name": "turtle", "opacity": 255, "blendMode": "normal" }
-  ],
-  "slices": [
-  ]
- }
+{
+	"frames": {
+		"bg2 0.ase": {
+			"frame": { "x": 1, "y": 1, "w": 70, "h": 57 },
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": { "x": 286, "y": 87, "w": 70, "h": 57 },
+			"sourceSize": { "w": 579, "h": 512 },
+			"duration": 100
+		},
+		"bg2 1.ase": {
+			"frame": { "x": 73, "y": 1, "w": 70, "h": 51 },
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": { "x": 286, "y": 93, "w": 70, "h": 51 },
+			"sourceSize": { "w": 579, "h": 512 },
+			"duration": 100
+		},
+		"bg2 2.ase": {
+			"frame": { "x": 145, "y": 1, "w": 70, "h": 51 },
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": { "x": 286, "y": 93, "w": 70, "h": 51 },
+			"sourceSize": { "w": 579, "h": 512 },
+			"duration": 100
+		}
+	},
+	"meta": {
+		"app": "https://www.aseprite.org/",
+		"version": "1.2.35-x64",
+		"image": "turtle.png",
+		"format": "RGBA8888",
+		"size": { "w": 216, "h": 59 },
+		"scale": "1",
+		"frameTags": [],
+		"layers": [{ "name": "turtle", "opacity": 255, "blendMode": "normal" }],
+		"slices": []
+	}
 }

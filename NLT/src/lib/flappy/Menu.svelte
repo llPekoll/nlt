@@ -12,11 +12,9 @@
 	import { animtateBg } from './utils';
 
 	export let inGame: boolean;
-	export let selectedNFT:number=2;
+	export let selectedNFT: number = 2;
 	export let challenge: boolean;
 	export let turtle: PIXI.AnimatedSprite;
-	export let karen: PIXI.AnimatedSprite;
-	export let punk: PIXI.AnimatedSprite;
 	export let w: number = 288;
 	export let h: number = 512;
 	export let bushes: PIXI.TilingSprite;
@@ -115,19 +113,19 @@
 		nft3.on('pointerup', () => {
 			textNLTSected.text = '- NFT3 Selected -';
 			nft3.y -= 5;
-			selectedNFT = 3
+			selectedNFT = 3;
 		});
 
 		nft2.on('pointerup', () => {
 			textNLTSected.text = '- NFT2 Selected -';
 			nft2.y -= 5;
-			selectedNFT = 2
+			selectedNFT = 2;
 		});
 
 		nft1.on('pointerup', () => {
 			textNLTSected.text = '- NFT1 Selected -';
 			nft1.y -= 5;
-			selectedNFT = 1
+			selectedNFT = 1;
 		});
 
 		startBtn.on('pointerup', () => {
@@ -167,53 +165,46 @@
 		ticker.add(animate);
 		ticker.start();
 
+		const ypos = h / 2 - 40;
+		let count = 0;
 		function animate() {
+			count += 0.05;
+
 			const pipeSpeed = 2;
 			challengeText.x -= 1;
 			animtateBg(sky, ground, clouds, town, bushes, pipeSpeed);
-			if (selectedNFT == 1){
-				if (turtle) {
-					// async load that's why we check here
-					turtle.x = w/2 - 20;
-					turtle.y = h/2 - 40;
-					turtle.scale.x = .8;
-					turtle.scale.y = .8;
-					turtle.anchor.x = .5
-					turtle.anchor.y = .5
-					stage.addChild(turtle);
-					stage.removeChild(karen)
-					stage.removeChild(punk)
-				}
-			}
-			if (selectedNFT == 2){
-				if (punk) {
-					punk.x = w/2 - 20;
-					punk.y = h/2 - 40;
-					punk.scale.x = .8;
-					punk.anchor.x = .5
-					punk.anchor.y = .5
-					punk.scale.y = punk.scale.x;
-					stage.addChild(punk);
-					stage.removeChild(karen)
-					stage.removeChild(turtle)
-				}
-			}
-			if (selectedNFT == 3){
-				if (karen) {
-					karen.x = w/2 - 20;
-					karen.y = h/2 - 40;
-					karen.scale.x = .8;
-					karen.anchor.x = .5
-					karen.anchor.y = .5
-					karen.scale.y = karen.scale.x;
-					stage.addChild(karen);
-					stage.removeChild(punk)
-					stage.removeChild(turtle)
-				}
-			}
+
 			const bounds = challengeText.getBounds();
+			if (turtle) {
+				// async load that's why we check here
+				turtle.x = w / 2 - 20;
+				turtle.y = ypos + Math.cos(count) * 2;
+				turtle.scale.x = 0.8;
+				turtle.scale.y = 0.8;
+				turtle.anchor.x = 0.5;
+				turtle.anchor.y = 0.5;
+				stage.addChild(turtle);
+			}
 			if (challengeText.x < -bounds.width) {
 				challengeText.x = w + 20;
+			}
+			if (selectedNFT == 1) {
+				const kaka = stage.getChildByName('karen');
+				const pupu = stage.getChildByName('punk');
+				stage.removeChild(kaka);
+				stage.removeChild(pupu);
+			}
+			if (selectedNFT == 2) {
+				const kaka = stage.getChildByName('karen');
+				const pupu = stage.getChildByName('turtle');
+				stage.removeChild(kaka);
+				stage.removeChild(pupu);
+			}
+			if (selectedNFT == 3) {
+				const kaka = stage.getChildByName('turtle');
+				const pupu = stage.getChildByName('punk');
+				stage.removeChild(kaka);
+				stage.removeChild(pupu);
 			}
 			stage.addChild(ground);
 			stage.addChild(challengeText);
