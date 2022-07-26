@@ -4,10 +4,14 @@
 	import Menu from '$lib/flappy/Menu.svelte';
 	import { onMount } from 'svelte';
 	import { Ads } from '$lib/flappy/assets';
+	import { animationLoader } from '$lib/flappy/utils';
 
 	let inGame: boolean = false;
+	let selectedNFT: number = 1
 	let challenge: boolean = false;
 	let turtle: PIXI.AnimatedSprite;
+	let karen: PIXI.AnimatedSprite;
+	let punk: PIXI.AnimatedSprite;
 	const debug: boolean = true;
 	let livesUsed: number = 0;
 
@@ -27,24 +31,13 @@
 
 		const loader = PIXI.Loader.shared;
 		const handleLoadComplete = () => {
-			const texture = loader.resources.sheet.spritesheet;
-			const textures = [
-				texture.textures['bg 0.ase'],
-				texture.textures['bg 1.ase'],
-				texture.textures['bg 2.ase'],
-				texture.textures['bg 1.ase']
-			];
-			turtle = new PIXI.AnimatedSprite(textures);
-			turtle.animationSpeed = 0.1;
-			turtle.anchor.x = 0.5;
-			turtle.anchor.y = 0.5;
-			turtle.x = -100;
-			turtle.y = 95;
-			turtle.play();
-
-			turtle.scale.x = 0.5;
-			turtle.scale.y = 0.5;
-			turtle.name = 'turtle';
+			const texture1 = loader.resources.sheet.spritesheet;
+			turtle = animationLoader(texture1, 'turtle')
+			const texture2 = loader.resources.sheet_karen.spritesheet;
+			karen = animationLoader(texture2, 'karen')
+			const texture3 = loader.resources.sheet_punk.spritesheet;
+			punk = animationLoader(texture3, 'punk')
+			
 		};
 		const handleLoadAsset = (loader, resource) => {
 			console.log(`asset Loaded, ${resource.name}`);
@@ -56,6 +49,8 @@
 			console.log(`${loader.progress}%`);
 		};
 		loader.add('sheet', '/flappy/turtle.json');
+		loader.add('sheet_karen', '/flappy/karen.json');
+		loader.add('sheet_punk', '/flappy/punk.json');
 		loader.onComplete.once(handleLoadComplete);
 		loader.onProgress.add(handleLoadProgess);
 		loader.onLoad.add(handleLoadAsset);
@@ -97,13 +92,14 @@
 	$: if (inGame) {
 		stage.destroy();
 		stage = new PIXI.Container();
-
 		stage.name = 'stage';
+
 	} else {
 		stage.destroy();
 		stage = new PIXI.Container();
 		stage.name = 'stage';
 	}
+
 </script>
 
 {#if inGame}
@@ -126,7 +122,10 @@
 	<Menu
 		bind:inGame
 		bind:challenge
+		bind:selectedNFT
 		{turtle}
+		{karen}
+		{punk}
 		{sky}
 		{clouds}
 		{town}

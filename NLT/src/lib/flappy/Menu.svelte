@@ -12,8 +12,11 @@
 	import { animtateBg } from './utils';
 
 	export let inGame: boolean;
+	export let selectedNFT:number=2;
 	export let challenge: boolean;
 	export let turtle: PIXI.AnimatedSprite;
+	export let karen: PIXI.AnimatedSprite;
+	export let punk: PIXI.AnimatedSprite;
 	export let w: number = 288;
 	export let h: number = 512;
 	export let bushes: PIXI.TilingSprite;
@@ -25,41 +28,41 @@
 	export let stage: PIXI.Container;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-	let tier1;
-	let tier2;
-	let tier3;
+	let tier1 = true;
+	let tier2 = true;
+	let tier3 = true;
 
 	onMount(async () => {
 		// nft detection
-		if (window.ethereum) {
-			const accounts = await window.ethereum
-				.request({
-					method: 'eth_requestAccounts'
-				})
-				.catch((err) => {
-					console.log(err.code);
-				});
-			const account = accounts[0];
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const signer = provider.getSigner();
-			const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
-			console.log(account);
-			// TODO:
-			// Make an array and push that into an array instead
-			tier1 = await contract.balanceOf(account, 0);
-			tier2 = await contract.balanceOf(account, 1);
-			tier3 = await contract.balanceOf(account, 2);
-			tier1 = ethers.utils.formatUnits(tier1, 0);
-			tier1 = parseInt(tier1);
-			tier2 = ethers.utils.formatUnits(tier2, 0);
-			tier2 = parseInt(tier2);
-			tier3 = ethers.utils.formatUnits(tier3, 0);
-			tier3 = parseInt(tier3);
-			console.log('tier1');
-			console.log(tier1);
-			console.log(tier2);
-			console.log(tier3);
-		}
+		// if (window.ethereum) {
+		// 	const accounts = await window.ethereum
+		// 		.request({
+		// 			method: 'eth_requestAccounts'
+		// 		})
+		// 		.catch((err) => {
+		// 			console.log(err.code);
+		// 		});
+		// 	const account = accounts[0];
+		// 	const provider = new ethers.providers.Web3Provider(window.ethereum);
+		// 	const signer = provider.getSigner();
+		// 	const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
+		// 	console.log(account);
+		// 	// TODO:
+		// 	// Make an array and push that into an array instead
+		// 	tier1 = await contract.balanceOf(account, 0);
+		// 	tier2 = await contract.balanceOf(account, 1);
+		// 	tier3 = await contract.balanceOf(account, 2);
+		// 	tier1 = ethers.utils.formatUnits(tier1, 0);
+		// 	tier1 = parseInt(tier1);
+		// 	tier2 = ethers.utils.formatUnits(tier2, 0);
+		// 	tier2 = parseInt(tier2);
+		// 	tier3 = ethers.utils.formatUnits(tier3, 0);
+		// 	tier3 = parseInt(tier3);
+		// 	console.log('tier1');
+		// 	console.log(tier1);
+		// 	console.log(tier2);
+		// 	console.log(tier3);
+		// }
 
 		const startBtn = btnStart(w, h);
 		const { freeContainer, ChallengeContainer, selected, noAds } = challengeBtns(w, h);
@@ -112,16 +115,19 @@
 		nft3.on('pointerup', () => {
 			textNLTSected.text = '- NFT3 Selected -';
 			nft3.y -= 5;
+			selectedNFT = 3
 		});
 
 		nft2.on('pointerup', () => {
 			textNLTSected.text = '- NFT2 Selected -';
 			nft2.y -= 5;
+			selectedNFT = 2
 		});
 
 		nft1.on('pointerup', () => {
 			textNLTSected.text = '- NFT1 Selected -';
 			nft1.y -= 5;
+			selectedNFT = 1
 		});
 
 		startBtn.on('pointerup', () => {
@@ -164,14 +170,46 @@
 		function animate() {
 			const pipeSpeed = 2;
 			challengeText.x -= 1;
-
 			animtateBg(sky, ground, clouds, town, bushes, pipeSpeed);
-
-			if (turtle) {
-				// async load that's why we check here
-				turtle.x = -40;
-				turtle.y = 35;
-				stage.addChild(turtle);
+			if (selectedNFT == 1){
+				if (turtle) {
+					// async load that's why we check here
+					turtle.x = w/2 - 20;
+					turtle.y = h/2 - 40;
+					turtle.scale.x = .8;
+					turtle.scale.y = .8;
+					turtle.anchor.x = .5
+					turtle.anchor.y = .5
+					stage.addChild(turtle);
+					stage.removeChild(karen)
+					stage.removeChild(punk)
+				}
+			}
+			if (selectedNFT == 2){
+				if (punk) {
+					punk.x = w/2 - 20;
+					punk.y = h/2 - 40;
+					punk.scale.x = .8;
+					punk.anchor.x = .5
+					punk.anchor.y = .5
+					punk.scale.y = punk.scale.x;
+					stage.addChild(punk);
+					stage.removeChild(karen)
+					stage.removeChild(turtle)
+				}
+			}
+			if (selectedNFT == 3){
+				if (karen) {
+					karen.x = w/2 - 20;
+					karen.y = h/2 - 40;
+					karen.scale.x = .8;
+					karen.anchor.x = .5
+					karen.anchor.y = .5
+					karen.scale.y = karen.scale.x;
+					stage.addChild(karen);
+					stage.removeChild(punk)
+					stage.removeChild(turtle)
+				}
 			}
 			const bounds = challengeText.getBounds();
 			if (challengeText.x < -bounds.width) {
