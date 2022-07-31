@@ -16,7 +16,7 @@ export const labelHighScore = (): PIXI.Text => {
 	label.name = 'labelHighschore';
 	label.y = 480;
 	label.x = 500;
-	label.text =
-		'PRICE -> 1:3409NFTL, 2:213NFTL, 3: 90NFTL      SCORE-> 1: 13Pts, 0x03..23, 2: 5Pts, 0x03..23, 3: 4Pts, 0x03..23';
+	label.text = 'Loading .....';
+
 	return label;
 };

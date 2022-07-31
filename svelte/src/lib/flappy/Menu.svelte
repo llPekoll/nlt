@@ -26,47 +26,50 @@
 	export let stage: PIXI.Container;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-	let tier1 = true;
-	let tier2 = true;
-	let tier3 = true;
+	let tier1:number = 0;
+	let tier2:number = 0;
+	let tier3:number = 0;
 
 	onMount(async () => {
-		// nft detection
-		// if (window.ethereum) {
-		// 	const accounts = await window.ethereum
-		// 		.request({
-		// 			method: 'eth_requestAccounts'
-		// 		})
-		// 		.catch((err) => {
-		// 			console.log(err.code);
-		// 		});
-		// 	const account = accounts[0];
-		// 	const provider = new ethers.providers.Web3Provider(window.ethereum);
-		// 	const signer = provider.getSigner();
-		// 	const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
-		// 	console.log(account);
-		// 	// TODO:
-		// 	// Make an array and push that into an array instead
-		// 	tier1 = await contract.balanceOf(account, 0);
-		// 	tier2 = await contract.balanceOf(account, 1);
-		// 	tier3 = await contract.balanceOf(account, 2);
-		// 	tier1 = ethers.utils.formatUnits(tier1, 0);
-		// 	tier1 = parseInt(tier1);
-		// 	tier2 = ethers.utils.formatUnits(tier2, 0);
-		// 	tier2 = parseInt(tier2);
-		// 	tier3 = ethers.utils.formatUnits(tier3, 0);
-		// 	tier3 = parseInt(tier3);
-		// 	console.log('tier1');
-		// 	console.log(tier1);
-		// 	console.log(tier2);
-		// 	console.log(tier3);
-		// }
+		nft detection
+		if (window.ethereum) {
+			const accounts = await window.ethereum
+				.request({
+					method: 'eth_requestAccounts'
+				})
+				.catch((err) => {
+					console.log(err.code);
+				});
+			const account = accounts[0];
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const signer = provider.getSigner();
+			const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
+			console.log(account);
+			// TODO:
+			// Make an array and push that into an array instead
+			tier1 = await contract.balanceOf(account, 0);
+			tier2 = await contract.balanceOf(account, 1);
+			tier3 = await contract.balanceOf(account, 2);
+			tier1 = ethers.utils.formatUnits(tier1, 0);
+			tier1 = parseInt(tier1);
+			tier2 = ethers.utils.formatUnits(tier2, 0);
+			tier2 = parseInt(tier2);
+			tier3 = ethers.utils.formatUnits(tier3, 0);
+			tier3 = parseInt(tier3);
+			console.log('tier1');
+			console.log(tier1);
+			console.log(tier2);
+			console.log(tier3);
+		}
 
 		const startBtn = btnStart(w, h);
 		const { freeContainer, ChallengeContainer, selected, noAds } = challengeBtns(w, h);
 
 		const logo = NFTLLogo();
 		const challengeText = labelHighScore();
+		const challengeTextData = await fetch('')
+
+		'PRICE -> 1:3409NFTL, 2:213NFTL, 3: 90NFTL      SCORE-> 1: 13Pts, 0x03..23, 2: 5Pts, 0x03..23, 3: 4Pts, 0x03..23';
 		const styler: PIXI.TextStyle = new PIXI.TextStyle({
 			fontSize: 12,
 			fill: '#FFFFFF',
