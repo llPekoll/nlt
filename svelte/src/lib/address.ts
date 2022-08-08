@@ -1,0 +1,2 @@
+export const addressNFTL = '0x81663d5149cADBbc48CF1a7F21b05719Ee1420A9';
+export const addressNLT = '0x81663d5149cADBbc48CF1a7F21b05719Ee1420A9';

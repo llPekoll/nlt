@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { env } from '$lib/env';
 
-export async function get(): any {
+export const GET = async () =>{
 	const url = `${env.VITE_BACKEND_DNS}/week`;
 	const response = await axios.get(url);
 	return {

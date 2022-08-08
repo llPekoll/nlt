@@ -2,7 +2,7 @@
 	//  import { defaultEvmStores, web3, selectedAccount, connected, chainId, chainData } from 'svelte-web3'
 	export let connected: boolean;
 	import { onMount } from 'svelte';
-	let currentAccount = '';
+	let currentAccount:string = '';
 	onMount(async () => {
 		const web3 = new Web3(window.ethereum);
 		const account = await web3.eth.getAccounts();

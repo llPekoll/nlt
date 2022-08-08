@@ -10,7 +10,9 @@
 			<li>
 				<a href="/" class="px-2"> Home </a>
 				|
-				<a href="/nfts" class="px-2"> Nfts </a>
+				<a href="/market" class="px-2"> Nft MarketPlace </a>
+				|
+				<a href="/nfts" class="px-2"> My Nfts </a>
 				|
 				<a href="/game" class="px-2"> Games </a>
 				|
@@ -28,7 +30,7 @@
         </div>
     </div> -->
 </section>
-
+<!-- 
 <style>
 	.bg {
 		background: url('3.png');
@@ -67,4 +69,4 @@
 			background-position: 100% 0;
 		}
 	}
-</style>
+</style> -->

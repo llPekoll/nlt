@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { env } from '$lib/env.js';
-	import NLTNFT from '../NLTNFT.json';
 
 	import * as PIXI from 'pixi.js';
 	import { NFTLLogo, labelHighScore, btnStart, challengeBtns, NFTCard } from './assets';
-	import NTL1 from '../0.json';
-	import NTL2 from '../1.json';
-	import NTL3 from '../2.json';
+	import { animtateBg, NFTCounter } from './utils';
 
-	import { animtateBg } from './utils';
+	import NTL1 from '$lib/0.json';
+	import NTL2 from '$lib/1.json';
+	import NTL3 from '$lib/2.json';
+
 
 	export let inGame: boolean;
 	export let selectedNFT: number = 2;
@@ -26,40 +25,15 @@
 	export let stage: PIXI.Container;
 
 	PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-	let tier1:number = 0;
-	let tier2:number = 0;
-	let tier3:number = 0;
+
+	let tier1Nb = 0;
+	let tier2Nb = 0;
+	let tier3Nb = 0;
 
 	onMount(async () => {
-		nft detection
+
 		if (window.ethereum) {
-			const accounts = await window.ethereum
-				.request({
-					method: 'eth_requestAccounts'
-				})
-				.catch((err) => {
-					console.log(err.code);
-				});
-			const account = accounts[0];
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const signer = provider.getSigner();
-			const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
-			console.log(account);
-			// TODO:
-			// Make an array and push that into an array instead
-			tier1 = await contract.balanceOf(account, 0);
-			tier2 = await contract.balanceOf(account, 1);
-			tier3 = await contract.balanceOf(account, 2);
-			tier1 = ethers.utils.formatUnits(tier1, 0);
-			tier1 = parseInt(tier1);
-			tier2 = ethers.utils.formatUnits(tier2, 0);
-			tier2 = parseInt(tier2);
-			tier3 = ethers.utils.formatUnits(tier3, 0);
-			tier3 = parseInt(tier3);
-			console.log('tier1');
-			console.log(tier1);
-			console.log(tier2);
-			console.log(tier3);
+			const { tier1Nb, tier2Nb, tier3Nb } = await NFTCounter(window.ethereum)
 		}
 
 		const startBtn = btnStart(w, h);
@@ -67,9 +41,19 @@
 
 		const logo = NFTLLogo();
 		const challengeText = labelHighScore();
-		const challengeTextData = await fetch('')
-
-		'PRICE -> 1:3409NFTL, 2:213NFTL, 3: 90NFTL      SCORE-> 1: 13Pts, 0x03..23, 2: 5Pts, 0x03..23, 3: 4Pts, 0x03..23';
+		const challengeTextData = await fetch('/query/week')
+		const higestscore = await fetch('/query/highscore')
+		const dataScore = await challengeTextData.json()
+		const higscore = await higestscore.json();
+		`Highest score:${higscore.score} 
+		PRICE -> 
+		1: ${dataScore.first_bounty}NFTL, 
+		2: ${dataScore.second_bounty}NFTL, 
+		3: ${dataScore.third_bounty}NFTL      
+		SCORE-> 
+		1: ${dataScore.first_score}Pts, ${dataScore.first_wallet}, 
+		2: ${dataScore.second_score}Pts, ${dataScore.second_wallet}, 
+		3: ${dataScore.third_score}Pts, ${dataScore.third_wallet}`;
 		const styler: PIXI.TextStyle = new PIXI.TextStyle({
 			fontSize: 12,
 			fill: '#FFFFFF',
@@ -90,7 +74,7 @@
 			name: NTL1.name,
 			lives: 1,
 			priceDiscount: 0,
-			locked: !Boolean(tier1)
+			locked: !Boolean(tier1Nb)
 		};
 		const nft1 = NFTCard(nft1Data, h / 4, 10);
 
@@ -100,7 +84,7 @@
 			name: NTL2.name,
 			lives: 2,
 			priceDiscount: 0,
-			locked: !Boolean(tier2)
+			locked: !Boolean(tier2Nb)
 		};
 		const nft2 = NFTCard(nft2Data, h / 4, w / 3);
 
@@ -110,7 +94,7 @@
 			name: NTL3.name,
 			lives: 3,
 			priceDiscount: 0,
-			locked: !Boolean(tier3)
+			locked: !Boolean(tier3Nb)
 		};
 		const nft3 = NFTCard(nft3Data, h / 4, w / 1.5);
 		nft3.on('pointerup', () => {
@@ -131,7 +115,8 @@
 			selectedNFT = 1;
 		});
 
-		startBtn.on('pointerup', () => {
+		startBtn.on('pointerup', () => {			
+			if(challenge)
 			inGame = true;
 			turtle.y = 135;
 		});
