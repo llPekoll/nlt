@@ -19,7 +19,7 @@
 			const contract = new ethers.Contract(marketAddress, NFT.abi, signer);
 
 			// const NFTLContract = new ethers.Contract(NFTLAddress, NFT.abi, provider);
-			let transaction = await contract.getAllNFTs()
+			let transaction = await contract.getMyNFTs()
 
 			let items = await Promise.all(transaction.map(async i =>{
 				const tokenUri = await contract.tokenURI(i.tokenId);
@@ -52,7 +52,7 @@
 <section>
 {#if !empty}
 	<p class="flex items-center justify-center">
-		no items in the marketplace
+		you have no NFTs
 	</p>
 {/if }
 
@@ -66,4 +66,3 @@
 </div>
 
 </section>
-<Share {trad} />
