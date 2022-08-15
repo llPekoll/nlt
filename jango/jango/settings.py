@@ -27,13 +27,14 @@ SECRET_KEY = "k11(jj(tr45!yydj7m2)bkw!w+8sxa$j_lhq3gk=4+4!96r(vg"
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app', 'localhost']
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Application definition
 
 INSTALLED_APPS = [
     "flappy",
+    "marketplace",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -129,18 +130,29 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = "/static/"
 
+# STATIC_URL = "https://bearwallet.fra1.digitaloceanspaces.com/django/static/"
+
+
+STATIC_URL = "https://bearwallet.fra1.digitaloceanspaces.com/django/static/"
+# STATIC_ROOT = "static"
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+AWS_S3_REGION_NAME = os.environ.get("REGION_NAME")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKET")
+AWS_S3_ROOT = os.environ.get("S3_ROOT")
+AWS_S3_ENDPOINT_URL = os.environ.get("ENDPOINT_URL")
+AWS_CDN_URL = os.getenv("CDN_URL")
 
 AWS_ACCESS_KEY_ID = os.environ.get("SPACES_KEY")
 AWS_SECRET_ACCESS_KEY = os.environ.get("SPACES_SECRET")
-AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKET")
-AWS_S3_REGION_NAME = os.environ.get("REGION_NAME")
-AWS_S3_ENDPOINT_URL = os.environ.get("ENDPOINT_URL")
-AWS_S3_ROOT = os.environ.get("S3_ROOT")
-AWS_CDN_URL = os.getenv("CDN_URL")
 AWS_DEFAULT_ACL = "public-read"
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-STATIC_URL = "https://bearwallet.fra1.digitaloceanspaces.com/django/static/"
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20
+}
