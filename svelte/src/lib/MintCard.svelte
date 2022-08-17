@@ -1,8 +1,8 @@
 <script>
 	import NLTNFT from './NLTNFT.json';
 	import { env } from '$lib/env.js';
-	import {abiNFTL, abiNLT} from '$lib/abi'
-	import {addressNFTL, addressNLT} from '$lib/address'
+	import { abiNFTL, abiNLT } from '$lib/abi';
+	import { addressNFTL, addressNLT } from '$lib/address';
 	export let nlt;
 	export let id;
 	export let price;
@@ -95,20 +95,21 @@
 		<p class="text-right font-bold pb-2 italic">
 			<span class="font-thin text-xs italic">price:</span>
 			{mintPrice ? mintPrice : '?'} $NFTL
-			<div class="flex">
-				<button
-					on:click={pay}
-					class=" py-2 px-10 bg-red-600 text-white rounded-lg my-2 text-center mx-auto w-1/2"
-				>
-					Pay
-				</button>
-				<button
-					on:click={transferNFT}
-					class=" py-2 px-10 bg-red-600 text-white rounded-lg my-2 text-center mx-auto w-1/2"
-				>
-					confirm
-				</button>
-			</div>
+		</p>
+		<div class="flex">
+			<button
+				on:click={pay}
+				class=" py-2 px-10 bg-red-600 text-white rounded-lg my-2 text-center mx-auto w-1/2"
+			>
+				Pay
+			</button>
+			<button
+				on:click={transferNFT}
+				class=" py-2 px-10 bg-red-600 text-white rounded-lg my-2 text-center mx-auto w-1/2"
+			>
+				confirm
+			</button>
+		</div>
 		<p class="text-right font-bold pb-2 italic">
 			<span class="font-thin text-xs italic">minted:</span>{total ? total : '?'}/{max ? max : '?'}
 		</p>

@@ -9,7 +9,6 @@
 	import NTL2 from '$lib/1.json';
 	import NTL3 from '$lib/2.json';
 
-
 	export let inGame: boolean;
 	export let selectedNFT: number = 2;
 	export let challenge: boolean;
@@ -31,9 +30,8 @@
 	let tier3Nb = 0;
 
 	onMount(async () => {
-
 		if (window.ethereum) {
-			const { tier1Nb, tier2Nb, tier3Nb } = await NFTCounter(window.ethereum)
+			const { tier1Nb, tier2Nb, tier3Nb } = await NFTCounter(window.ethereum);
 		}
 
 		const startBtn = btnStart(w, h);
@@ -41,9 +39,9 @@
 
 		const logo = NFTLLogo();
 		const challengeText = labelHighScore();
-		const challengeTextData = await fetch('/query/week')
-		const higestscore = await fetch('/query/highscore')
-		const dataScore = await challengeTextData.json()
+		const challengeTextData = await fetch('/query/week');
+		const higestscore = await fetch('/query/highscore');
+		const dataScore = await challengeTextData.json();
 		const higscore = await higestscore.json();
 		`Highest score:${higscore.score} 
 		PRICE -> 
@@ -115,9 +113,8 @@
 			selectedNFT = 1;
 		});
 
-		startBtn.on('pointerup', () => {			
-			if(challenge)
-			inGame = true;
+		startBtn.on('pointerup', () => {
+			if (challenge) inGame = true;
 			turtle.y = 135;
 		});
 		freeContainer.on('pointerup', () => {

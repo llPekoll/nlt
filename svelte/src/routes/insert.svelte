@@ -5,13 +5,13 @@
 
 	export let trad;
 
-	let connected:boolean = false;
-	let admin:boolean = false;
+	let connected: boolean = false;
+	let admin: boolean = false;
 </script>
 
 {#if connected}
 	<Mint />
 	<Share {trad} />
 {:else}
-	<Connect bind:connected bind:admin/>
+	<Connect bind:connected bind:admin />
 {/if}

@@ -1,1 +1,569 @@
-[{"model": "bookie.match", "pk": 1, "fields": {"ticket_price": 300, "team1_name": "PSG", "team2_name": "Marseil", "team1_wallet": "0xAC052cf93bA098f6F12d6f11b34c9d51Ea893512", "team2_wallet": "0x06a5c6692784fCa555Fe9b8a099A3eb24a39a249", "null_wallet": "0xB3cEbf1B4A7fDa040e155bF21002635CD2b436eF", "team1_cote": 3.2, "team2_cote": 2.1, "null_cote": 5.2, "start_match_hour": "2022-06-18T21:59:19Z", "display_pourcentage": true}}, {"model": "bookie.ticketcount", "pk": 1, "fields": {"match": 1, "address": "0xfdasfdasdf23423", "amount": 900, "bent_on": "team1", "date": "2022-06-13T11:32:40.978Z"}}, {"model": "bookie.ticketcount", "pk": 2, "fields": {"match": 1, "address": "0x43rfsdf", "amount": 9000, "bent_on": "team2", "date": "2022-06-13T11:32:40.978Z"}}, {"model": "bookie.ticketcount", "pk": 3, "fields": {"match": 1, "address": "0x413241234", "amount": 7000, "bent_on": "null", "date": "2022-06-13T11:32:40.978Z"}}, {"model": "bookie.ticketcount", "pk": 4, "fields": {"match": 1, "address": "0x23412fsf", "amount": 60000, "bent_on": "team1", "date": "2022-06-13T11:32:40.978Z"}}, {"model": "bookie.ticketcount", "pk": 5, "fields": {"match": 1, "address": "0x06a5c6692784fCa555Fe9b8a099A3eb24a39a249", "amount": 1500, "bent_on": "team2", "date": "2022-06-13T11:32:58.102Z"}}, {"model": "bookie.ticketcount", "pk": 6, "fields": {"match": 1, "address": "0x06a5c6692784fCa555Fe9b8a099A3eb24a39a249", "amount": 4500, "bent_on": "team2", "date": "2022-06-13T11:33:31.172Z"}}, {"model": "bookie.ticketcount", "pk": 7, "fields": {"match": 1, "address": "0xAC052cf93bA098f6F12d6f11b34c9d51Ea893512", "amount": 6900, "bent_on": "team1", "date": "2022-06-13T11:33:45.409Z"}}, {"model": "bookie.ticketcount", "pk": 8, "fields": {"match": 1, "address": "0x06a5c6692784fCa555Fe9b8a099A3eb24a39a249", "amount": 12600, "bent_on": "team2", "date": "2022-06-13T11:34:20.815Z"}}, {"model": "bookie.trad", "pk": 1, "fields": {"key": "end_game", "content": "End of the game"}}, {"model": "bookie.trad", "pk": 2, "fields": {"key": "price", "content": "price"}}, {"model": "bookie.trad", "pk": 3, "fields": {"key": "buy_ticket", "content": "Buy Ticket"}}, {"model": "bookie.trad", "pk": 4, "fields": {"key": "connect", "content": "Connect"}}, {"model": "bookie.trad", "pk": 5, "fields": {"key": "need_more", "content": "need more $NFTL?"}}, {"model": "bookie.trad", "pk": 6, "fields": {"key": "get_nftl", "content": "Get $NFTL"}}, {"model": "bookie.trad", "pk": 7, "fields": {"key": "nftl_link", "content": "https://www.nftlotteryticket.com/"}}, {"model": "bookie.trad", "pk": 8, "fields": {"key": "peko", "content": "Peko"}}, {"model": "bookie.trad", "pk": 9, "fields": {"key": "peko_link", "content": "https://twitter.com/llpekoll"}}, {"model": "bookie.trad", "pk": 10, "fields": {"key": "finance", "content": "FinanceFr1"}}, {"model": "bookie.trad", "pk": 11, "fields": {"key": "finance_link", "content": "https://twitter.com/FinanceFr1"}}, {"model": "bookie.trad", "pk": 12, "fields": {"key": "dragan", "content": "Dragan"}}, {"model": "bookie.trad", "pk": 13, "fields": {"key": "conditions", "content": "*condition generale d'utillisation: we give the winner 1 day after the End of Lottery"}}, {"model": "bookie.trad", "pk": 14, "fields": {"key": "dragan_link", "content": "https://twitter.com/DraganInvestor"}}, {"model": "bookie.trad", "pk": 15, "fields": {"key": "thanks", "content": "Thanks for playing!"}}, {"model": "bookie.trad", "pk": 16, "fields": {"key": "bet_on", "content": "You betted for"}}, {"model": "admin.logentry", "pk": 1, "fields": {"action_time": "2022-06-12T21:45:25.639Z", "user": 1, "content_type": 8, "object_id": "1", "object_repr": "end_game", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 2, "fields": {"action_time": "2022-06-12T21:45:42.842Z", "user": 1, "content_type": 8, "object_id": "2", "object_repr": "price", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 3, "fields": {"action_time": "2022-06-12T21:46:01.505Z", "user": 1, "content_type": 8, "object_id": "3", "object_repr": "buy_ticket", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 4, "fields": {"action_time": "2022-06-12T21:46:19.761Z", "user": 1, "content_type": 8, "object_id": "4", "object_repr": "connect", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 5, "fields": {"action_time": "2022-06-12T21:46:34.428Z", "user": 1, "content_type": 8, "object_id": "5", "object_repr": "need_more", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 6, "fields": {"action_time": "2022-06-12T21:46:51.934Z", "user": 1, "content_type": 8, "object_id": "6", "object_repr": "get_nftl", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 7, "fields": {"action_time": "2022-06-12T21:47:10.036Z", "user": 1, "content_type": 8, "object_id": "7", "object_repr": "nftl_link", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 8, "fields": {"action_time": "2022-06-12T21:47:42.272Z", "user": 1, "content_type": 8, "object_id": "8", "object_repr": "peko", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 9, "fields": {"action_time": "2022-06-12T21:48:04.802Z", "user": 1, "content_type": 8, "object_id": "9", "object_repr": "peko_link", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 10, "fields": {"action_time": "2022-06-12T21:48:32.048Z", "user": 1, "content_type": 8, "object_id": "10", "object_repr": "fiancefr", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 11, "fields": {"action_time": "2022-06-12T21:48:41.032Z", "user": 1, "content_type": 8, "object_id": "11", "object_repr": "finance_link", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 12, "fields": {"action_time": "2022-06-12T21:49:55.899Z", "user": 1, "content_type": 8, "object_id": "12", "object_repr": "dragan", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 13, "fields": {"action_time": "2022-06-12T21:50:12.472Z", "user": 1, "content_type": 8, "object_id": "13", "object_repr": "conditions", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 14, "fields": {"action_time": "2022-06-12T21:51:30.771Z", "user": 1, "content_type": 8, "object_id": "14", "object_repr": "dragan_link", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 15, "fields": {"action_time": "2022-06-12T21:51:40.692Z", "user": 1, "content_type": 8, "object_id": "12", "object_repr": "dragan", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Content\"]}}]"}}, {"model": "admin.logentry", "pk": 16, "fields": {"action_time": "2022-06-12T21:52:00.349Z", "user": 1, "content_type": 8, "object_id": "15", "object_repr": "thanks", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 17, "fields": {"action_time": "2022-06-12T21:52:29.340Z", "user": 1, "content_type": 8, "object_id": "16", "object_repr": "bet_on", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 18, "fields": {"action_time": "2022-06-12T22:00:50.175Z", "user": 1, "content_type": 7, "object_id": "1", "object_repr": "PSG_vs_Marseil", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 19, "fields": {"action_time": "2022-06-13T08:59:16.889Z", "user": 1, "content_type": 9, "object_id": "1", "object_repr": "team1", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 20, "fields": {"action_time": "2022-06-13T08:59:31.673Z", "user": 1, "content_type": 9, "object_id": "2", "object_repr": "team2", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 21, "fields": {"action_time": "2022-06-13T08:59:42.225Z", "user": 1, "content_type": 9, "object_id": "3", "object_repr": "null", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 22, "fields": {"action_time": "2022-06-13T08:59:54.810Z", "user": 1, "content_type": 9, "object_id": "4", "object_repr": "team1", "action_flag": 1, "change_message": "[{\"added\": {}}]"}}, {"model": "admin.logentry", "pk": 23, "fields": {"action_time": "2022-06-13T09:17:57.738Z", "user": 1, "content_type": 7, "object_id": "1", "object_repr": "PSG_vs_Marseil", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Display pourcentage\"]}}]"}}, {"model": "admin.logentry", "pk": 24, "fields": {"action_time": "2022-06-13T09:18:11.933Z", "user": 1, "content_type": 7, "object_id": "1", "object_repr": "PSG_vs_Marseil", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Display pourcentage\"]}}]"}}, {"model": "admin.logentry", "pk": 25, "fields": {"action_time": "2022-06-13T11:02:51.815Z", "user": 1, "content_type": 7, "object_id": "1", "object_repr": "PSG_vs_Marseil", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Team1 wallet\", \"Team2 wallet\", \"Null wallet\"]}}]"}}, {"model": "admin.logentry", "pk": 26, "fields": {"action_time": "2022-06-13T11:42:01.993Z", "user": 1, "content_type": 8, "object_id": "10", "object_repr": "finance", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Key\"]}}]"}}, {"model": "admin.logentry", "pk": 27, "fields": {"action_time": "2022-06-13T11:43:49.115Z", "user": 1, "content_type": 8, "object_id": "12", "object_repr": "dragan", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Content\"]}}]"}}, {"model": "admin.logentry", "pk": 28, "fields": {"action_time": "2022-06-13T11:43:55.467Z", "user": 1, "content_type": 8, "object_id": "8", "object_repr": "peko", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Content\"]}}]"}}, {"model": "admin.logentry", "pk": 29, "fields": {"action_time": "2022-06-16T09:23:25.117Z", "user": 1, "content_type": 7, "object_id": "1", "object_repr": "PSG_vs_Marseil", "action_flag": 2, "change_message": "[{\"changed\": {\"fields\": [\"Start match hour\"]}}]"}}, {"model": "auth.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$216000$fn3oI52VKkDf$jn3Z7BdRl7yKy9Z+yt7HLIjjTHvQCYevfbL7gYIB7aE=", "last_login": "2022-06-16T09:23:09.744Z", "is_superuser": true, "username": "peko", "first_name": "", "last_name": "", "email": "", "is_staff": true, "is_active": true, "date_joined": "2022-06-12T21:41:31.185Z", "groups": [], "user_permissions": []}}, {"model": "sessions.session", "pk": "gfp7aacv6xod60udcngq5bkux9g0r5gz", "fields": {"session_data": ".eJxVjDsOwjAQBe_iGln2EvyhpOcM1mZ3jQPIluKkQtwdIqWA9s3Me6mE61LS2mVOE6uzsurwu41ID6kb4DvWW9PU6jJPo94UvdOur43ledndv4OCvXxrz0eQCCckm5nJ-WjdwBAArYlWQhAwzIZDRnKZB_EmQBYXLDGSgHp_AOx1OJU:1o1liX:ItDHjcI5U5jiQuQz2xvPT2Qr0q0z8COkRyJfrv2rhdc", "expire_date": "2022-06-30T09:23:09.746Z"}}, {"model": "sessions.session", "pk": "nxvd4qb4x4pqzipuy02xf8ehol9lftre", "fields": {"session_data": ".eJxVjDsOwjAQBe_iGln2EvyhpOcM1mZ3jQPIluKkQtwdIqWA9s3Me6mE61LS2mVOE6uzsurwu41ID6kb4DvWW9PU6jJPo94UvdOur43ledndv4OCvXxrz0eQCCckm5nJ-WjdwBAArYlWQhAwzIZDRnKZB_EmQBYXLDGSgHp_AOx1OJU:1o0VLA:HPeFMMYfSyZ7mKSDefV5_QcIiGz0sNNWwBZnJ_Y6a2E", "expire_date": "2022-06-26T21:41:48.963Z"}}]
+[
+	{
+		"model": "bookie.match",
+		"pk": 1,
+		"fields": {
+			"ticket_price": 300,
+			"team1_name": "PSG",
+			"team2_name": "Marseil",
+			"team1_wallet": "0xAC052cf93bA098f6F12d6f11b34c9d51Ea893512",
+			"team2_wallet": "0x06a5c6692784fCa555Fe9b8a099A3eb24a39a249",
+			"null_wallet": "0xB3cEbf1B4A7fDa040e155bF21002635CD2b436eF",
+			"team1_cote": 3.2,
+			"team2_cote": 2.1,
+			"null_cote": 5.2,
+			"start_match_hour": "2022-06-18T21:59:19Z",
+			"display_pourcentage": true
+		}
+	},
+	{
+		"model": "bookie.ticketcount",
+		"pk": 1,
+		"fields": {
+			"match": 1,
+			"address": "0xfdasfdasdf23423",
+			"amount": 900,
+			"bent_on": "team1",
+			"date": "2022-06-13T11:32:40.978Z"
+		}
+	},
+	{
+		"model": "bookie.ticketcount",
+		"pk": 2,
+		"fields": {
+			"match": 1,
+			"address": "0x43rfsdf",
+			"amount": 9000,
+			"bent_on": "team2",
+			"date": "2022-06-13T11:32:40.978Z"
+		}
+	},
+	{
+		"model": "bookie.ticketcount",
+		"pk": 3,
+		"fields": {
+			"match": 1,
+			"address": "0x413241234",
+			"amount": 7000,
+			"bent_on": "null",
+			"date": "2022-06-13T11:32:40.978Z"
+		}
+	},
+	{
+		"model": "bookie.ticketcount",
+		"pk": 4,
+		"fields": {
+			"match": 1,
+			"address": "0x23412fsf",
+			"amount": 60000,
+			"bent_on": "team1",
+			"date": "2022-06-13T11:32:40.978Z"
+		}
+	},
+	{
+		"model": "bookie.ticketcount",
+		"pk": 5,
+		"fields": {
+			"match": 1,
+			"address": "0x06a5c6692784fCa555Fe9b8a099A3eb24a39a249",
+			"amount": 1500,
+			"bent_on": "team2",
+			"date": "2022-06-13T11:32:58.102Z"
+		}
+	},
+	{
+		"model": "bookie.ticketcount",
+		"pk": 6,
+		"fields": {
+			"match": 1,
+			"address": "0x06a5c6692784fCa555Fe9b8a099A3eb24a39a249",
+			"amount": 4500,
+			"bent_on": "team2",
+			"date": "2022-06-13T11:33:31.172Z"
+		}
+	},
+	{
+		"model": "bookie.ticketcount",
+		"pk": 7,
+		"fields": {
+			"match": 1,
+			"address": "0xAC052cf93bA098f6F12d6f11b34c9d51Ea893512",
+			"amount": 6900,
+			"bent_on": "team1",
+			"date": "2022-06-13T11:33:45.409Z"
+		}
+	},
+	{
+		"model": "bookie.ticketcount",
+		"pk": 8,
+		"fields": {
+			"match": 1,
+			"address": "0x06a5c6692784fCa555Fe9b8a099A3eb24a39a249",
+			"amount": 12600,
+			"bent_on": "team2",
+			"date": "2022-06-13T11:34:20.815Z"
+		}
+	},
+	{
+		"model": "bookie.trad",
+		"pk": 1,
+		"fields": { "key": "end_game", "content": "End of the game" }
+	},
+	{ "model": "bookie.trad", "pk": 2, "fields": { "key": "price", "content": "price" } },
+	{ "model": "bookie.trad", "pk": 3, "fields": { "key": "buy_ticket", "content": "Buy Ticket" } },
+	{ "model": "bookie.trad", "pk": 4, "fields": { "key": "connect", "content": "Connect" } },
+	{
+		"model": "bookie.trad",
+		"pk": 5,
+		"fields": { "key": "need_more", "content": "need more $NFTL?" }
+	},
+	{ "model": "bookie.trad", "pk": 6, "fields": { "key": "get_nftl", "content": "Get $NFTL" } },
+	{
+		"model": "bookie.trad",
+		"pk": 7,
+		"fields": { "key": "nftl_link", "content": "https://www.nftlotteryticket.com/" }
+	},
+	{ "model": "bookie.trad", "pk": 8, "fields": { "key": "peko", "content": "Peko" } },
+	{
+		"model": "bookie.trad",
+		"pk": 9,
+		"fields": { "key": "peko_link", "content": "https://twitter.com/llpekoll" }
+	},
+	{ "model": "bookie.trad", "pk": 10, "fields": { "key": "finance", "content": "FinanceFr1" } },
+	{
+		"model": "bookie.trad",
+		"pk": 11,
+		"fields": { "key": "finance_link", "content": "https://twitter.com/FinanceFr1" }
+	},
+	{ "model": "bookie.trad", "pk": 12, "fields": { "key": "dragan", "content": "Dragan" } },
+	{
+		"model": "bookie.trad",
+		"pk": 13,
+		"fields": {
+			"key": "conditions",
+			"content": "*condition generale d'utillisation: we give the winner 1 day after the End of Lottery"
+		}
+	},
+	{
+		"model": "bookie.trad",
+		"pk": 14,
+		"fields": { "key": "dragan_link", "content": "https://twitter.com/DraganInvestor" }
+	},
+	{
+		"model": "bookie.trad",
+		"pk": 15,
+		"fields": { "key": "thanks", "content": "Thanks for playing!" }
+	},
+	{ "model": "bookie.trad", "pk": 16, "fields": { "key": "bet_on", "content": "You betted for" } },
+	{
+		"model": "admin.logentry",
+		"pk": 1,
+		"fields": {
+			"action_time": "2022-06-12T21:45:25.639Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "1",
+			"object_repr": "end_game",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 2,
+		"fields": {
+			"action_time": "2022-06-12T21:45:42.842Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "2",
+			"object_repr": "price",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 3,
+		"fields": {
+			"action_time": "2022-06-12T21:46:01.505Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "3",
+			"object_repr": "buy_ticket",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 4,
+		"fields": {
+			"action_time": "2022-06-12T21:46:19.761Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "4",
+			"object_repr": "connect",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 5,
+		"fields": {
+			"action_time": "2022-06-12T21:46:34.428Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "5",
+			"object_repr": "need_more",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 6,
+		"fields": {
+			"action_time": "2022-06-12T21:46:51.934Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "6",
+			"object_repr": "get_nftl",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 7,
+		"fields": {
+			"action_time": "2022-06-12T21:47:10.036Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "7",
+			"object_repr": "nftl_link",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 8,
+		"fields": {
+			"action_time": "2022-06-12T21:47:42.272Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "8",
+			"object_repr": "peko",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 9,
+		"fields": {
+			"action_time": "2022-06-12T21:48:04.802Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "9",
+			"object_repr": "peko_link",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 10,
+		"fields": {
+			"action_time": "2022-06-12T21:48:32.048Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "10",
+			"object_repr": "fiancefr",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 11,
+		"fields": {
+			"action_time": "2022-06-12T21:48:41.032Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "11",
+			"object_repr": "finance_link",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 12,
+		"fields": {
+			"action_time": "2022-06-12T21:49:55.899Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "12",
+			"object_repr": "dragan",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 13,
+		"fields": {
+			"action_time": "2022-06-12T21:50:12.472Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "13",
+			"object_repr": "conditions",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 14,
+		"fields": {
+			"action_time": "2022-06-12T21:51:30.771Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "14",
+			"object_repr": "dragan_link",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 15,
+		"fields": {
+			"action_time": "2022-06-12T21:51:40.692Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "12",
+			"object_repr": "dragan",
+			"action_flag": 2,
+			"change_message": "[{\"changed\": {\"fields\": [\"Content\"]}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 16,
+		"fields": {
+			"action_time": "2022-06-12T21:52:00.349Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "15",
+			"object_repr": "thanks",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 17,
+		"fields": {
+			"action_time": "2022-06-12T21:52:29.340Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "16",
+			"object_repr": "bet_on",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 18,
+		"fields": {
+			"action_time": "2022-06-12T22:00:50.175Z",
+			"user": 1,
+			"content_type": 7,
+			"object_id": "1",
+			"object_repr": "PSG_vs_Marseil",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 19,
+		"fields": {
+			"action_time": "2022-06-13T08:59:16.889Z",
+			"user": 1,
+			"content_type": 9,
+			"object_id": "1",
+			"object_repr": "team1",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 20,
+		"fields": {
+			"action_time": "2022-06-13T08:59:31.673Z",
+			"user": 1,
+			"content_type": 9,
+			"object_id": "2",
+			"object_repr": "team2",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 21,
+		"fields": {
+			"action_time": "2022-06-13T08:59:42.225Z",
+			"user": 1,
+			"content_type": 9,
+			"object_id": "3",
+			"object_repr": "null",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 22,
+		"fields": {
+			"action_time": "2022-06-13T08:59:54.810Z",
+			"user": 1,
+			"content_type": 9,
+			"object_id": "4",
+			"object_repr": "team1",
+			"action_flag": 1,
+			"change_message": "[{\"added\": {}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 23,
+		"fields": {
+			"action_time": "2022-06-13T09:17:57.738Z",
+			"user": 1,
+			"content_type": 7,
+			"object_id": "1",
+			"object_repr": "PSG_vs_Marseil",
+			"action_flag": 2,
+			"change_message": "[{\"changed\": {\"fields\": [\"Display pourcentage\"]}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 24,
+		"fields": {
+			"action_time": "2022-06-13T09:18:11.933Z",
+			"user": 1,
+			"content_type": 7,
+			"object_id": "1",
+			"object_repr": "PSG_vs_Marseil",
+			"action_flag": 2,
+			"change_message": "[{\"changed\": {\"fields\": [\"Display pourcentage\"]}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 25,
+		"fields": {
+			"action_time": "2022-06-13T11:02:51.815Z",
+			"user": 1,
+			"content_type": 7,
+			"object_id": "1",
+			"object_repr": "PSG_vs_Marseil",
+			"action_flag": 2,
+			"change_message": "[{\"changed\": {\"fields\": [\"Team1 wallet\", \"Team2 wallet\", \"Null wallet\"]}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 26,
+		"fields": {
+			"action_time": "2022-06-13T11:42:01.993Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "10",
+			"object_repr": "finance",
+			"action_flag": 2,
+			"change_message": "[{\"changed\": {\"fields\": [\"Key\"]}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 27,
+		"fields": {
+			"action_time": "2022-06-13T11:43:49.115Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "12",
+			"object_repr": "dragan",
+			"action_flag": 2,
+			"change_message": "[{\"changed\": {\"fields\": [\"Content\"]}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 28,
+		"fields": {
+			"action_time": "2022-06-13T11:43:55.467Z",
+			"user": 1,
+			"content_type": 8,
+			"object_id": "8",
+			"object_repr": "peko",
+			"action_flag": 2,
+			"change_message": "[{\"changed\": {\"fields\": [\"Content\"]}}]"
+		}
+	},
+	{
+		"model": "admin.logentry",
+		"pk": 29,
+		"fields": {
+			"action_time": "2022-06-16T09:23:25.117Z",
+			"user": 1,
+			"content_type": 7,
+			"object_id": "1",
+			"object_repr": "PSG_vs_Marseil",
+			"action_flag": 2,
+			"change_message": "[{\"changed\": {\"fields\": [\"Start match hour\"]}}]"
+		}
+	},
+	{
+		"model": "auth.user",
+		"pk": 1,
+		"fields": {
+			"password": "pbkdf2_sha256$216000$fn3oI52VKkDf$jn3Z7BdRl7yKy9Z+yt7HLIjjTHvQCYevfbL7gYIB7aE=",
+			"last_login": "2022-06-16T09:23:09.744Z",
+			"is_superuser": true,
+			"username": "peko",
+			"first_name": "",
+			"last_name": "",
+			"email": "",
+			"is_staff": true,
+			"is_active": true,
+			"date_joined": "2022-06-12T21:41:31.185Z",
+			"groups": [],
+			"user_permissions": []
+		}
+	},
+	{
+		"model": "sessions.session",
+		"pk": "gfp7aacv6xod60udcngq5bkux9g0r5gz",
+		"fields": {
+			"session_data": ".eJxVjDsOwjAQBe_iGln2EvyhpOcM1mZ3jQPIluKkQtwdIqWA9s3Me6mE61LS2mVOE6uzsurwu41ID6kb4DvWW9PU6jJPo94UvdOur43ledndv4OCvXxrz0eQCCckm5nJ-WjdwBAArYlWQhAwzIZDRnKZB_EmQBYXLDGSgHp_AOx1OJU:1o1liX:ItDHjcI5U5jiQuQz2xvPT2Qr0q0z8COkRyJfrv2rhdc",
+			"expire_date": "2022-06-30T09:23:09.746Z"
+		}
+	},
+	{
+		"model": "sessions.session",
+		"pk": "nxvd4qb4x4pqzipuy02xf8ehol9lftre",
+		"fields": {
+			"session_data": ".eJxVjDsOwjAQBe_iGln2EvyhpOcM1mZ3jQPIluKkQtwdIqWA9s3Me6mE61LS2mVOE6uzsurwu41ID6kb4DvWW9PU6jJPo94UvdOur43ledndv4OCvXxrz0eQCCckm5nJ-WjdwBAArYlWQhAwzIZDRnKZB_EmQBYXLDGSgHp_AOx1OJU:1o0VLA:HPeFMMYfSyZ7mKSDefV5_QcIiGz0sNNWwBZnJ_Y6a2E",
+			"expire_date": "2022-06-26T21:41:48.963Z"
+		}
+	}
+]

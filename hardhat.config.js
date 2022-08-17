@@ -29,18 +29,19 @@ module.exports = {
     },
     hardhat: {
     },
-    testnet: {
+    // testnet: {
+    mainnet: {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545",
       chainId: 97,
       gasPrice: 20000000000,
       accounts: {mnemonic: mnemonic}
     },
-    mainnet: {
-      url: "https://bsc-dataseed.binance.org/",
-      chainId: 56,
-      gasPrice: 20000000000,
-      accounts: {mnemonic: mnemonic}
-    }
+    // mainnet: {
+    //   url: "https://bsc-dataseed.binance.org/",
+    //   chainId: 56,
+    //   gasPrice: 20000000000,
+    //   accounts: {mnemonic: mnemonic}
+    // }
   },
   solidity: {
   version: "0.8.4",

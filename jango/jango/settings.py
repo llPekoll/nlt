@@ -27,8 +27,8 @@ SECRET_KEY = "k11(jj(tr45!yydj7m2)bkw!w+8sxa$j_lhq3gk=4+4!96r(vg"
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['.vercel.app', 'localhost']
-DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+ALLOWED_HOSTS = [".vercel.app", "localhost"]
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # Application definition
 
@@ -150,9 +150,3 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("SPACES_SECRET")
 AWS_DEFAULT_ACL = "public-read"
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 20
-}

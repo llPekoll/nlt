@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('flappy', '0001_initial'),
+        ("flappy", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='week',
-            name='reception_wallet',
-            field=models.CharField(default='0x3fe72C1280c7Ced7b0F3a054C59a23fbAbEa7077', max_length=64),
+            model_name="week",
+            name="reception_wallet",
+            field=models.CharField(
+                default="0x3fe72C1280c7Ced7b0F3a054C59a23fbAbEa7077", max_length=64
+            ),
         ),
     ]

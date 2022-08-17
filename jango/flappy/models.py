@@ -3,7 +3,9 @@ from django.db import models
 
 class Week(models.Model):
     number = models.AutoField(primary_key=True)
-    reception_wallet = models.CharField(max_length=64, default="0x3fe72C1280c7Ced7b0F3a054C59a23fbAbEa7077")
+    reception_wallet = models.CharField(
+        max_length=64, default="0x3fe72C1280c7Ced7b0F3a054C59a23fbAbEa7077"
+    )
     date = models.DateTimeField(auto_now=True)
     in_bank = models.IntegerField(default=325)
     first_wallet = models.CharField(max_length=64, default="0x0")
@@ -19,6 +21,7 @@ class Week(models.Model):
     third_bounty = models.IntegerField(default=25)
     third_score = models.IntegerField(default=0)
     third_date = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return f"week {self.number}"
 
@@ -26,9 +29,7 @@ class Week(models.Model):
 class FreePay(models.Model):
     wallet = models.CharField(max_length=64)
     date = models.DateTimeField(auto_now=True)
-    week = models.ForeignKey(
-        Week, related_name="free_play", on_delete=models.CASCADE
-    )
+    week = models.ForeignKey(Week, related_name="free_play", on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.date}"

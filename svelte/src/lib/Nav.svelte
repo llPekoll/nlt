@@ -1,8 +1,8 @@
 <section class="py-5 text-white">
 	<div class="ml-10 italic font-bold flex">
-		<img src="favicon.png" alt="logo" />
+		<img src="/favicon.png" alt="logo" />
 		<p class="font-bold mt-1.5 ml-2">
-			NLT<span class="font-thin">NastyLittleTurtles</span>
+			NLT<span class="font-thin">MarketPlace</span>
 		</p>
 	</div>
 	<nav>

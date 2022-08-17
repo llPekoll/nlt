@@ -2,7 +2,7 @@
 	//  import { defaultEvmStores, web3, selectedAccount, connected, chainId, chainData } from 'svelte-web3'
 	export let connected: boolean;
 	import { onMount } from 'svelte';
-	let currentAccount:string = '';
+	let currentAccount: string = '';
 	onMount(async () => {
 		const web3 = new Web3(window.ethereum);
 		const account = await web3.eth.getAccounts();
@@ -11,14 +11,14 @@
 		}
 	});
 	const connectWallet = async () => {
-		const chainId = await window.ethereum. request ({ method: 'eth_chainId' })
+		const chainId = await window.ethereum.request({ method: 'eth_chainId' });
 		// const idMainNet = "0x56"
-		const idMainNet = "0x97"
-		if (chainId!==idMainNet){
+		const idMainNet = '0x97';
+		if (chainId !== idMainNet) {
 			await window.ethereum.request({
-			method: "wallet_switchEthereunChain",
-			params: [{ chainId: idMainNet }],
-			})
+				method: 'wallet_switchEthereunChain',
+				params: [{ chainId: idMainNet }]
+			});
 		}
 		const accounts = await window.ethereum
 			.request({
@@ -32,8 +32,6 @@
 		console.log(accounts);
 		connected = Boolean(account);
 	};
-
-
 </script>
 
 <section class="flex items-center justify-center h-screen w-screen">

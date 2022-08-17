@@ -8,66 +8,118 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='HighestScore',
+            name="HighestScore",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('walet_address', models.CharField(max_length=64)),
-                ('score', models.IntegerField(default=1)),
-                ('date', models.DateTimeField(auto_now=True)),
-                ('is_challenge_mode', models.BooleanField(default=False)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("walet_address", models.CharField(max_length=64)),
+                ("score", models.IntegerField(default=1)),
+                ("date", models.DateTimeField(auto_now=True)),
+                ("is_challenge_mode", models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
-            name='Week',
+            name="Week",
             fields=[
-                ('number', models.AutoField(primary_key=True, serialize=False)),
-                ('date', models.DateTimeField(auto_now=True)),
-                ('in_bank', models.IntegerField(default=300)),
-                ('first_wallet', models.CharField(default='0x0', max_length=64)),
-                ('first_score', models.IntegerField(default=0)),
-                ('first_date', models.DateTimeField(auto_now=True)),
-                ('second_wallet', models.CharField(default='0x0', max_length=64)),
-                ('second_score', models.IntegerField(default=0)),
-                ('second_date', models.DateTimeField(auto_now=True)),
-                ('third_wallet', models.CharField(default='0x0', max_length=64)),
-                ('third_score', models.IntegerField(default=0)),
-                ('third_date', models.DateTimeField(auto_now=True)),
+                ("number", models.AutoField(primary_key=True, serialize=False)),
+                ("date", models.DateTimeField(auto_now=True)),
+                ("in_bank", models.IntegerField(default=300)),
+                ("first_wallet", models.CharField(default="0x0", max_length=64)),
+                ("first_score", models.IntegerField(default=0)),
+                ("first_date", models.DateTimeField(auto_now=True)),
+                ("second_wallet", models.CharField(default="0x0", max_length=64)),
+                ("second_score", models.IntegerField(default=0)),
+                ("second_date", models.DateTimeField(auto_now=True)),
+                ("third_wallet", models.CharField(default="0x0", max_length=64)),
+                ("third_score", models.IntegerField(default=0)),
+                ("third_date", models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
-            name='LiveUsed',
+            name="LiveUsed",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('walet_address', models.CharField(max_length=64)),
-                ('nft_used', models.IntegerField(default=0)),
-                ('price', models.IntegerField(default=300)),
-                ('date', models.DateTimeField(auto_now=True)),
-                ('week', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='live_used', to='flappy.week')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("walet_address", models.CharField(max_length=64)),
+                ("nft_used", models.IntegerField(default=0)),
+                ("price", models.IntegerField(default=300)),
+                ("date", models.DateTimeField(auto_now=True)),
+                (
+                    "week",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="live_used",
+                        to="flappy.week",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='FreePay',
+            name="FreePay",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('walet_address', models.CharField(max_length=64)),
-                ('date', models.DateTimeField(auto_now=True)),
-                ('week', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='free_play', to='flappy.week')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("walet_address", models.CharField(max_length=64)),
+                ("date", models.DateTimeField(auto_now=True)),
+                (
+                    "week",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="free_play",
+                        to="flappy.week",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ChallengeTicket',
+            name="ChallengeTicket",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('walet_address', models.CharField(max_length=64)),
-                ('price', models.IntegerField(default=300)),
-                ('nft_used', models.IntegerField(default=0)),
-                ('date', models.DateTimeField(auto_now=True)),
-                ('week', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='challenge_ticket', to='flappy.week')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("walet_address", models.CharField(max_length=64)),
+                ("price", models.IntegerField(default=300)),
+                ("nft_used", models.IntegerField(default=0)),
+                ("date", models.DateTimeField(auto_now=True)),
+                (
+                    "week",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="challenge_ticket",
+                        to="flappy.week",
+                    ),
+                ),
             ],
         ),
     ]

@@ -1,8 +1,5 @@
 <script>
-	import NLT1 from '$lib/0.json';
-	import NLT2 from '$lib/1.json';
-	import NLT3 from '$lib/2.json';
-	import NLTNFT from '$lib/NLTNFT.json';
+	import marketPlace from '$lib/Marketplace.json';
 	import { env } from '$lib/env.js';
 	import { onMount } from 'svelte';
 	import Card from '$lib/nfts/Card.svelte';
@@ -23,7 +20,7 @@
 			const account = accounts[0];
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
+			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 			console.log(account);
 			// TODO:
 			// Make an array and push that into an array instead

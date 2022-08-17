@@ -1,5 +1,4 @@
 <script lang="ts">
-	
 	import Connect from '$lib/Connect.svelte';
 	import Mint from '$lib/Mint.svelte';
 
@@ -9,7 +8,6 @@
 
 {#if connected}
 	<Mint />
-	
 {:else}
 	<Connect bind:connected />
 {/if}

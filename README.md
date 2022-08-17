@@ -13,3 +13,21 @@ npx hardhat node
 node scripts/sample-script.js
 npx hardhat help
 ```
+
+## ---- Features -----
+
+- [x] proprieties
+- [x] display owner 
+- [x] pay in nftl
+- [x] only PNG, jpg files from image accepted
+- [ ] filters
+- [ ] burn on smart contract
+
+## ---- django -----
+
+- [ ] update owner
+- [x] pagination ---> A little slow
+- [x] Collections
+- [x] Hide the NFT(keep to for not sale)
+- [x] verifier les NFTS
+- [x] change price
