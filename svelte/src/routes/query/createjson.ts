@@ -24,7 +24,7 @@ export const post: RequestHandler = async ({ request }) => {
 	const root = env.VITE_S3_ROOT;
 	const tokenId = data.tokenId;
 	const attributes = data.attributes;
-	const image = data.image;
+	let image = data.image;
 	const fileName = `${root}/${tokenId}_${image}`.replace(/\s/g, '');
 	const jasonName = `${root}/00${tokenId}.json`;
 	const name = data.name;
@@ -34,7 +34,8 @@ export const post: RequestHandler = async ({ request }) => {
 	const tags = data.tags;
 	const collection = data.collection;
 	const isListed = data.isListed;
-	const tokenUri = jasonName;
+	const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${jasonName}`;
+    image = `${env.VITE_CDN_URL}/${fileName}`;
 
 	const jason = {
 		name,
@@ -44,7 +45,7 @@ export const post: RequestHandler = async ({ request }) => {
 		price,
 		tags,
 		collection,
-		image: `${env.VITE_CDN_URL}/${fileName}`,
+		image,
 		isListed,
 		tokenId,
 		tokenUri

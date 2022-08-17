@@ -54,7 +54,8 @@
 		try {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const NFTcontract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
+			// const tokenContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
+            const marketContract = new ethers.Contract(marketPlace.addressMarket, marketPlace.abiMarket, signer);
 
             // const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
 			// const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
@@ -68,10 +69,7 @@
             let taxes = await fetch(`/query/mycom/${nft.price}`);
             const {value} = await taxes.json()
             const etherTaxe = ethers.utils.parseUnits(value.value, 'ether');
-            console.log("etherTaxe");
-            console.log(value);
-            console.log(etherTaxe);
-			let transaction = await NFTcontract.executeSale(tokenId, { value: etherTaxe });
+			let transaction = await marketContract.createMarketSale(marketPlace.addressNFT, tokenId, { value: etherTaxe });
 			await transaction.wait();
             const res = await fetch(`/query/nft/${tokenId}`,{
                 method:'PATCH',

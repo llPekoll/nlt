@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Tags from 'svelte-tags-input';
-
 	import marketPlace from '$lib/Marketplace.json';
-    import nftl from '$lib/nftl.json'
 	import { ethers } from 'ethers';
 
 	let key;
@@ -49,17 +47,25 @@
 		try {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
-			// get last ID
-			let tokenId = await contract.getLatestIdToListedToken();
-			tokenId = ethers.utils.formatUnits(tokenId[0], 0);
+			const contractNFT = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
+            const contractMarket = new ethers.Contract(marketPlace.addressMarket, marketPlace.abiMarket, signer);
 
+
+
+            console.log(contractMarket)
+			let tokenId = await contractMarket.getCurrentToken();
+            console.log("===== tokendId ======")
+            console.log(tokenId)
+
+            tokenId = ethers.utils.formatUnits(tokenId, 0);
+            console.log("===== tokendId2 ======")
+            console.log(tokenId)
 			const attributesFormated = attributes.map(function (e) {
 				return { trait_type: e.trait_type, value: e.value };
 			});
 			console.log(attributesFormated);
 			formData.append('attributes', attributesFormated);
-			console.log();
+
 			// send to S3 bucket
 			const payload = {
 				tokenId,
@@ -84,13 +90,23 @@
 				body: formData
 			});
 			const tokenUri = await jsonLocation.json();
-			let listingPrice = await contract.getListPrice();
-			listingPrice = listingPrice.toString();
+            console.log('/=====post ok======/')
+            let listingPrice = await contractMarket.getListingPrice();
+            console.log(listingPrice)
+            listingPrice = listingPrice.toString();
 
             console.log(tokenUri.location)
-            // GEt token with listing fees
-			let transcation = await contract.createToken(tokenUri.location, { value: listingPrice });
-			await transcation.wait();
+			let transaction = await contractNFT.mintToken(tokenUri.location);
+			await transaction.wait();
+            console.log('========= transaction ========')
+            console.log(transaction)
+            const tokenIdBlockChain = transaction.nonce
+            console.log(tokenIdBlockChain)
+            console.log(marketPlace.addressNFT, tokenIdBlockChain,{value:listingPrice})
+            transaction = await contractMarket.makeMarketItem(marketPlace.addressNFT, tokenIdBlockChain,{value:listingPrice})
+            await transaction.wait()
+            console.log(" == tokenIdBlockChain===")
+            console.log(tokenIdBlockChain)
 			message = 'success';
 			alert(`NFT uploaded with success`);
 			goto('/');

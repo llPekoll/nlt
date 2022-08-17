@@ -69,14 +69,14 @@ contract NFTMarketplace is ERC721URIStorage, Ownable {
         uint256 currentTokenId = _tokenIds.current();
         return idToListedToken[currentTokenId];
     }
+    function getCurrentToken() public view returns (uint256) {
+        return _tokenIds.current();
+    }
 
     function getListedTokenForId(uint256 tokenId) public view returns (ListedToken memory) {
         return idToListedToken[tokenId];
     }
 
-    function getCurrentToken() public view returns (uint256) {
-        return _tokenIds.current();
-    }
 
     //The first time a token is created, it is listed here
     // USING NFTL
@@ -187,7 +187,7 @@ contract NFTMarketplace is ERC721URIStorage, Ownable {
         _itemsSold.increment();
 
         //Actually transfer the token to the new owner
-        _transfer(address(this), msg.sender, tokenId);
+        transferFrom(address(this), msg.sender, tokenId);
         //approve the marketplace to sell NFTs on your behalf
         approve(address(this), tokenId);
 
