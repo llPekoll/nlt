@@ -1,12 +1,18 @@
 <script lang="ts">
+    import { env } from '$lib/env';
 	import { goto } from '$app/navigation';
 	import Tags from 'svelte-tags-input';
 	import marketPlace from '$lib/Marketplace.json';
 	import { ethers } from 'ethers';
+    import Loader from '$lib/Loader.svelte';
 
 	let key;
 	let value;
+    let message = '';
+	let tags = '';
 
+
+    // attributes
 	let attributes = [];
 	const addAttributes = () => {
 		console.log(key, value);
@@ -24,13 +30,12 @@
 		attributes = attributes.filter((i) => i !== attribute);
 	};
 
-	let message = 'None';
-	let tags = '';
-
+	// Tags
 	function handleTags(event) {
 		tags = event.detail.tags;
 		console.log(tags);
 	}
+
 	const onSubmit = async (e) => {
          const accounts = await window.ethereum
                 .request({
@@ -39,36 +44,38 @@
                 .catch((err) => {
                     console.log(err.code);
                 });
-            const account = accounts[0];
+        const account = accounts[0];
 		console.log('submiting');
 		message = 'poccessing';
 		const formData = new FormData(e.target);
-		console.log(Boolean(formData.get('is-listed')));
+
 		try {
+            message = 'gettings contracts';
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
 			const contractNFT = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
             const contractMarket = new ethers.Contract(marketPlace.addressMarket, marketPlace.abiMarket, signer);
 
-
-
-            console.log(contractMarket)
-			let tokenId = await contractMarket.getCurrentToken();
+            message = `/===== mint NFT ======/`;
+            const timestap = new Date().valueOf()
+            const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${env.VITE_S3_ROOT}/${timestap}.json`
+			let createdNFT = await contractNFT.createNFT(tokenUri);
+			const res = await createdNFT.wait();
+            const tokenId = res.events[0].args[2].toString()
             console.log("===== tokendId ======")
             console.log(tokenId)
 
-            tokenId = ethers.utils.formatUnits(tokenId, 0);
-            console.log("===== tokendId2 ======")
-            console.log(tokenId)
+            message = `/===== Pushing to MarketPlace ======/`;
+
 			const attributesFormated = attributes.map(function (e) {
 				return { trait_type: e.trait_type, value: e.value };
 			});
-			console.log(attributesFormated);
 			formData.append('attributes', attributesFormated);
 
 			// send to S3 bucket
 			const payload = {
 				tokenId,
+                tokenUri,
 				creator: account,
 				attributes: attributesFormated,
 				name: formData.get('name'),
@@ -77,7 +84,7 @@
 				price: formData.get('price'),
 				tags: tags,
 				collection: formData.get('collection'),
-				isListed: Boolean(formData.get('is-listed'))
+				isHidden: Boolean(formData.get('is-hidden'))
 			};
 			console.log(payload);
 			const jsonLocation = await fetch('/query/createjson', {
@@ -89,24 +96,13 @@
 				method: 'POST',
 				body: formData
 			});
-			const tokenUri = await jsonLocation.json();
-            console.log('/=====post ok======/')
-            let listingPrice = await contractMarket.getListingPrice();
-            console.log(listingPrice)
-            listingPrice = listingPrice.toString();
-
-            console.log(tokenUri.location)
-			let transaction = await contractNFT.mintToken(tokenUri.location);
-			await transaction.wait();
-            console.log('========= transaction ========')
-            console.log(transaction)
-            const tokenIdBlockChain = transaction.nonce
-            console.log(tokenIdBlockChain)
-            console.log(marketPlace.addressNFT, tokenIdBlockChain,{value:listingPrice})
-            transaction = await contractMarket.makeMarketItem(marketPlace.addressNFT, tokenIdBlockChain,{value:listingPrice})
+            message = '/===== List token on the marketplace ======/'
+            let listingPrice = await contractMarket.getListingFee();
+            listingPrice = listingPrice.toString()
+            
+            const transaction = await contractMarket.createVaultItem(marketPlace.addressNFT, tokenId, {value:listingPrice})
             await transaction.wait()
-            console.log(" == tokenIdBlockChain===")
-            console.log(tokenIdBlockChain)
+            message = `/===== NFT Listed ======/`;
 			message = 'success';
 			alert(`NFT uploaded with success`);
 			goto('/');
@@ -114,13 +110,34 @@
 			alert(`Error : ${e}`);
 		}
 	};
+    let input;
+    let img;
+    let showImage = false;
+    const onChange = () =>{
+        const file = input.files[0];
+    if (file) {
+			showImage = true;
+
+      const reader = new FileReader();
+      reader.addEventListener("load", function () {
+        img.setAttribute("src", reader.result);
+      });
+      reader.readAsDataURL(file);
+			
+			return;
+    } 
+		showImage = false; 
+    }
 </script>
 
 <div class="flex items-center justify-center py-10">
 	<div class="card w-2/3 bg-gray-200 rounded-lg py-10 px-10 shadow-lg">
 		<div class="text-xl font-bold text-center">
-			NFT<span class="italic font-thin">Creation </span>
+			NFT<span class="italic font-thin">Creation</span>
 		</div>
+        {#if showImage}
+		    <img bind:this={img} src="" alt="Preview" class="w-32 h-32 text-center mx-auto mt-10"/>
+	    {/if}
 		<form method="post" enctype="multipart/form-data" on:submit|preventDefault={onSubmit}>
 			<div class="flex justify-center items-center w-2/3 mx-auto py-5">
 				<label
@@ -148,6 +165,8 @@
 						<p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG or GIF</p>
 					</div>
 					<input
+                        bind:this={input}
+                        on:change={onChange}
 						id="dropzone-file"
 						name="image"
 						type="file"
@@ -223,10 +242,10 @@
 				</div>
 			</div>
 			<div class="w-2/3 mx-auto">
-				<input name="is-listed" type="checkbox" class="checkbox-input" id="checkbox" />
+				<input name="is-hidden" type="checkbox" class="checkbox-input" id="checkbox" />
 				<label for="checkbox">
 					<span class="checkbox" />
-					<p class=" text-sm text-gray-500 inline ml-2 absolute">Listed the NFT</p>
+					<p class=" text-sm text-gray-500 inline ml-2 absolute">Display the NFT in the market place</p>
 				</label>
 			</div>
 			<div class=" w-2/3 mx-auto py-3">
@@ -236,9 +255,9 @@
 				</label>
 			</div>
 			{#if attributes.length > 0}
-				<div class="w-2/3 mx-auto text-gray-500">Attributes</div>
+				<div class="w-2/3 mx-auto text-gray-500 text-center mx-auto text-xl"> -- Attributes --</div>
 			{/if}
-			<ul class="w-2/3 mx-auto text-gray-500">
+			<ul class="w-2/3 mx-auto text-gray-500 mt-3">
 				{#each attributes as attribute}
 					<li>
 						<span>{attribute.trait_type}</span>
@@ -247,9 +266,9 @@
 					</li>
 				{/each}
 			</ul>
-			<form on:submit|preventDefault={addAttributes} class=" w-2/3 mx-auto">
-				<label for="attribute" class="block text-gray-500">Add an attribute</label>
-				<div class="flex items-center">
+			<form on:submit|preventDefault={addAttributes} class=" w-2/3 mx-auto mt-4">
+				<label for="attribute" class="block text-gray-500 text-center">Add an attribute</label>
+				<div class="flex items-center mt-2">
 					<div class="relative z-0 mb-6 w-1/2 group ">
 						<input
 							type="text"
@@ -288,14 +307,19 @@
 				</button>
 			</form>
 			<div class=" my-10">
-				{#if message == 'None'}
+				{#if message == ''}
 					<div class="text-center">
 						<button type="submit" class="bg-blue-500 py-2 px-10 rounded-lg shadow-md text-white">
 							submit
 						</button>
 					</div>
 				{:else}
-					{message}
+                        <div class="text-center">
+                            {message}
+                            <div class="w-1/6 mx-auto filter-green">
+                            <Loader version=1/>
+                            </div>
+                        </div>
 				{/if}
 			</div>
 		</form>
@@ -303,6 +327,9 @@
 </div>
 
 <style>
+    .filter-green{
+        filter: invert(0%) sepia(100%) saturate(7500%) hue-rotate(234deg) brightness(118%) contrast(87%);
+    }
 	.box {
 		width: 100%;
 		height: 90vh;

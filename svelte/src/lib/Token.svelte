@@ -5,11 +5,10 @@
 	import { ethers } from 'ethers';
 	import { goto } from '$app/navigation';
 
-	export let trad;
 	export let nft;
+	export let account;
 
 	let currAddress;
-	let nftDataFromBlockChain;
 
 	let nftOwner;
 	let isListed;
@@ -24,47 +23,7 @@
 				console.log(err.code);
 			});
 		const account = accounts[0];
-		currAddress = account;
-		console.log(currAddress);
-		const loadNFTs = async () => {
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const signer = provider.getSigner();
-			const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
-			const marketContract = new ethers.Contract(
-				marketPlace.addressMarket,
-				marketPlace.abiMarket,
-				signer
-			);
-			console.log('sako');
-			const tokenUri = await nftContract.tokenURI(parseInt(tokenId) + 1);
-			const listedToken = await marketContract.getMarkertItem(parseInt(tokenId) + 1);
-			let meta = await fetch(tokenUri);
-
-			meta = await meta.json();
-			let item = {
-				price: meta.price,
-				tokenId: tokenId,
-				seller: listedToken.seller,
-				owner: listedToken.owner,
-				image: meta.image,
-				name: meta.name,
-				description: meta.description,
-				attributes: nft.attributes,
-				isHidden: nft.is_hidden,
-				tags: nft.tags
-			};
-			console.log("listedToken.tokenId");
-			console.log("owner");
-			console.log(listedToken.owner);
-            tokenId = listedToken.tokenId.toString()
-			console.log(tokenId);
-			nftOwner = false;
-			isListed = true;
-            console.log('isListed')
-            console.log(isListed)
-			return item;
-		};
-		nftDataFromBlockChain = await loadNFTs();
+		
 	});
 
 	const buyNFT = async (tokenId) => {
@@ -91,10 +50,8 @@
 			let taxes = await fetch(`/query/mycom/${nft.price}`);
 			const { value } = await taxes.json();
             console.log('jar')
-            console.log(tokenId)
-            // const jose = await nftContract.owner();
-            // console.log(await jose)
-            // return
+            console.log(nft.tokenId)
+
 			const listingPrice = ethers.utils.parseUnits(value.value, 'ether');
             let feeBlockchain = await marketContract.getListingFee();
             feeBlockchain = feeBlockchain.toString()
@@ -103,14 +60,14 @@
 
             const taxe = (parseInt(listingPrice.toString())+parseInt(feeBlockchain)).toString()
             console.log(taxe)
-			const transaction = await marketContract.n2DMarketSale(marketPlace.addressNFT, tokenId +1, {
+			const transaction = await marketContract.n2DMarketSale(marketPlace.addressNFT, nft.tokenId, {
                 value: taxe
 			});
 			await transaction.wait();
-			const approve = await nftContract.approve(marketPlace.addressMarket, tokenId);
+			const approve = await nftContract.approve(marketPlace.addressMarket, nft.tokenId);
 			await approve.wait();
             message = 'push sale'
-			const res = await fetch(`/query/nft/${tokenId}`, {
+			const res = await fetch(`/query/nft/${nft.tokenId}`, {
 				method: 'PATCH',
 				body: JSON.stringify({ owner: currAddress,islisted:false })
 			});
@@ -130,7 +87,7 @@
 			body = { price: nft.price };
 			console.log(body);
 		}
-		fetch(`/query/nft/${tokenId}`, {
+		fetch(`/query/nft/${nft.tokenId}`, {
 			method: 'PATCH',
 			body: JSON.stringify(body)
 		});
@@ -147,20 +104,20 @@
 		);
 
         message = 'fetching fees'
-        let listingPrice = await contractMarket.getListingFee();
+        let listingPrice = await marketContract.getListingFee();
         listingPrice = listingPrice.toString()
 
         message = 'resquest approuval'
         message = 'List token'
-        console.log(tokenId)
+        console.log(nft.tokenId)
 		const transaction = await marketContract.createVaultItem(
             marketPlace.addressNFT,
-			tokenId,
+			nft.tokenId,
 			{ value: listingPrice }
 		);
 		await transaction.wait();
             message = 'push results'
-        const res = await fetch(`/query/nft/${tokenId}`, {
+        const res = await fetch(`/query/nft/${nft.tokenId}`, {
             method: 'PATCH',
             body: JSON.stringify({ listed: true })
         });
@@ -169,8 +126,15 @@
         alert('You successfully Listed the NFT!');
         goto('/mynfts');
 	};
+    console.log(account)
+    console.log(nft.owner)
+    console.log(nft.seller)
+    // nft.owner = undefined? '': nft.owner.toLowerCase()
+    // nft.seller = undefined? '': nft.seller.toLowerCase()
+    nftOwner = false;
+    // nftOwner = false;
+    isListed = true; 
 </script>
-
 <section class="flex items-center justify-center py-20">
 	<div class="w-4/5 flex rounded-lg shadow-lg shadow-white">
 		{#if nft}
@@ -181,23 +145,22 @@
 				<p class="text-xl font-bold italic capitalize">collection</p>
 				<p class="ml-5 text-gray-600 italic pb-7">- {nft.collection}.</p>
 				<p class="text-xl font-bold italic capitalize">Attributes</p>
-				{#each nft.attributes as { trait_type, value }}
+				<!-- {#each nft.attributes as { trait_type, value }}
 					<ul class="ml-5 text-gray-600 italic">
 						<li>
 							<p>- {trait_type}: {value}</p>
 						</li>
 					</ul>
-				{/each}
+				{/each} -->
 				<p class="text-xl font-bold italic capitalize pt-7">Tags:</p>
 				<ul class="ml-5 comma-list">
-					{#each nft.tags as tag}
+					<!-- {#each nft.tags as tag}
 						<li class="inline">
 							<p class="text-blue-500 inline">#{tag}</p>
 						</li>
-					{/each}
+					{/each} -->
 				</ul>
 
-				{#if nftDataFromBlockChain}
 					{#if nftOwner}
 						{#if isListed} <!-- NFT ready to be bought -->
 							<p class="mt-10 text-red-500 italic font-semibold text-right"> NFT Listed On The Way to Be sold we Wish you Luck!</p>
@@ -242,7 +205,7 @@
 									<button
 										type="submit"
 										class="bg-blue-500 rounded-lg py-2 px-14  my-7 text-white float-right"
-										on:click|once={() => listOnMarket(tokenId)}
+										on:click|once={() => listOnMarket(nft.tokenId)}
 									>
 										List For sale</button
 									>
@@ -254,7 +217,7 @@
 						{#if isListed} <!-- Buy the NFT -->
 							<button
 								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-10 float-right ml-5"
-								on:click|once={() => buyNFT(tokenId)}
+								on:click|once={() => buyNFT(nft.tokenId)}
 							>
 								Buy this NFT
 							</button>
@@ -262,10 +225,8 @@
                             <p class="text-right italic text-lg font-semibold text-red-500 mt-10"> NFT not Listed </p>
                        {/if}
                     {/if}
-				{/if} 
                 {#if isListed}
 				<p class="text-xl text-right pt-12 pr-5">
-                
 					<span class="text-xs font-thin">Price:</span>{nft.price}<span class="font-bold italic"
 						>$NFTL</span
 					>
@@ -279,7 +240,10 @@
 				</p>
                 {/if}
                 {#if message}
+                <div class="text-center">
                     {message}
+                    <Loader version=1/>
+                </div>
                     {/if}
 			</div>
 		{/if}

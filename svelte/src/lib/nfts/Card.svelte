@@ -4,27 +4,25 @@
 	let src = nft.image;
 	const link = `/nft/${nft.tokenId}`;
 	let price = nft.price;
+	console.log(nft)
 	// console.log(nft.price)
 	// if (nft.price.split('.').pop() == 0){
 	// price = nft.price.split('.').shift()
 	// }
 	// let owner = `${nft.owner.substring(0,4)}...${nft.owner.slice(-4)}`
-	const hidden = nft.is_listed || !toDispay;
+	const hidden = nft.is_hidden || !toDispay;
 </script>
 
-{#if hidden}
-	<a
-		href={link}
-		class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow"
-	>
+<!-- {#if hidden} -->
+
 		<img {src} alt="nft" class="w-60 h-60 text-center mx-auto rounded-t-lg" />
 		<p class="-mt-7 italic font-bold pl-5 pr-2 text-white drop-shadow-md bg-gray-900 w-12">
 			#{nft.tokenId}.
 		</p>
 		<div class=" w-60 pt-4  rounded-b-lg border shadow-md  ">
-		{#if nft.verified}
+		<!-- {#if nft.verified}
 			<img src='badge.svg' alt=badge class="w-7 h-7 -mt-2 vv float-right"/>
-		{/if }
+		{/if } -->
 			<p class=" px-4 text-left font-bold text-xl">{nft.name}</p>
 			<p class="px-4 text-xs ml-4 text-gray-600 font-light pb-6">- {nft.description}</p>
 			<div class="text-right ">
@@ -35,15 +33,14 @@
 					<p>
 						price:
 						<span class="font-bold text-lg italic">
-							{price}$NFTL
+							{nft.price}$NFTL
 							<span /></span
 						>
 					</p>
 				</div>
 			</div>
-		</div></a
-	>
-{/if}
+		</div>
+<!-- {/if} -->
 
 <style>
 .vv{

@@ -7,12 +7,12 @@ async function main() {
   // const balance = await deployer.getBalance();
   // console.log("deployer", deployer)
   // console.log("Balance", balance)
-  const Marketplace = await hre.ethers.getContractFactory("NFTLMarket");
+  const Marketplace = await hre.ethers.getContractFactory("n2DMarket");
   const marketplace = await Marketplace.deploy();
   await marketplace.deployed();
   console.log("Address of the contract",marketplace.address)
   
-  const NFT = await hre.ethers.getContractFactory("NFT");
+  const NFT = await hre.ethers.getContractFactory("N2DNFT");
   const nft = await NFT.deploy(marketplace.address);
   await nft.deployed();
   console.log("Address of the contract",nft.address)

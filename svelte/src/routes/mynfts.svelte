@@ -1,7 +1,9 @@
 <script lang="ts">
-
+	import marketPlace from '$lib/Marketplace.json';
 	import { onMount } from 'svelte';
 	import Card from '$lib/nfts/Card.svelte';
+	import { fade, fly } from 'svelte/transition';
+	import Token from '$lib/Token.svelte'
 
 	let nfts = [];
 	let empty = true;
@@ -9,29 +11,64 @@
 	let first_entry
 	let last_entry
 	let total_entry
+	let account;
 	onMount(async () => {
-		const accounts = await window.ethereum
-			.request({
-				method: 'eth_requestAccounts'
-			})
-			.catch((err) => {
-				console.log(err.code);
-			});
-		const account = accounts[0];
-		const res2 = await fetch(`query/mynfts/${pageIndex}`,
-		{
-			method:'POST',
-			body:JSON.stringify({address:account})
-		});
-		nfts= await res2.json();
+		 const accounts = await window.ethereum
+                .request({
+                    method: 'eth_requestAccounts'
+                })
+                .catch((err) => {
+                    console.log(err.code);
+                });
+            account = accounts[0];
+		const loadNFTs = async () =>{
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const signer = provider.getSigner();
+			const contract = new ethers.Contract(
+				marketPlace.addressMarket,
+				marketPlace.abiMarket,
+				signer
+			);
+			const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
+			// const NFTLContract = new ethers.Contract(NFTLAddress, NFT.abi, provider);
+			let transaction = await contract.getMyNft()
+			let items = await Promise.all(transaction.map(async i =>{
+				const tokenUri = await nftContract.tokenURI(i.tokenId);
+				let meta = await fetch(tokenUri);
+				meta = await meta.json()
+				// let price = ethers.utils.formatUnits(meta.price,'ether');
+				console.log('i.tokenId.toNumber()')
+				console.log(i.tokenId.toNumber())
+				let item = {
+					price: meta.price,
+					tokenId: i.tokenId.toNumber(),
+					seller:i.seller,
+					owner: i.owner,
+					itemId: i.itemId.toNumber(),
+					image: meta.image,
+					name: meta.name,
+					description: meta.description
+				}
+				return item
+			}))
+			return items
+		}
+		nfts = await loadNFTs();
 		console.log(nfts)
-		first_entry = nfts.nfts.first_entry
-		last_entry = nfts.nfts.last_entry
-		total_entry = nfts.nfts.total_entry
-		nfts = nfts.nfts.nfts
-	});
+		// console.log(nfts.length)
+		// if(!nfts.length){
+		// 	empty =true
+		// }
+	})
+		let selectedNft = ''
+	let detailsVisible = false
 </script>
 
+{#if detailsVisible}
+	<p in:fly="{{ x: 100, duration: 500 }}" out:fade>
+		<Token nft={selectedNft} {account}/>
+	</p>
+{:else}
 <section>
 	{#if !empty}
 		<p class="flex items-center justify-center">you have no NFTs</p>
@@ -39,20 +76,27 @@
 
 	<p class="flex items-center justify-center text-white">My Nfts</p>
 	<div class="flex flex-wrap items-center justify-center">
-		{#each nfts as nft}
-			<Card {nft} toDispay={false} />
-		{/each}
+		{#if nfts}
+				<div class="flex flex-wrap items-center justify-center">
+					{#each nfts as nft}
+					<button on:click={()=>{detailsVisible = true; selectedNft = nft}} class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow">
+						<Card {nft} toDispay="false" />
+					</button>
+					{/each}
+				</div>
+			{/if}
 	</div>
 </section>
-<div class="flex flex-col items-center">
-	<!-- Help text -->
+			{/if}
+<!-- <div class="flex flex-col items-center">
+
 	<span class="text-sm text-white dark:text-gray-400">
 		Showing <span class="font-semibold text-gray-300 dark:text-white">{first_entry}</span>
 		to <span class="font-semibold text-gray-300 dark:text-white">{last_entry}</span> of
 		<span class="font-semibold text-gray-300 dark:text-white">{total_entry}</span> Entries
 	</span>
 	<div class="inline-flex mt-2 xs:mt-0">
-		<!-- Buttons -->
+
 		{#if nfts.total_entry > 10}
 			{#if pageIndex !== 1}
 				<button
@@ -94,4 +138,4 @@
 			{/if}
 		{/if}
 	</div>
-</div>
+</div> -->

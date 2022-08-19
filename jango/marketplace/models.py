@@ -38,7 +38,8 @@ class NFT(models.Model):
     tokenUri = models.CharField(max_length=255, default="")
     tokenId = models.IntegerField(default=1)
     price = models.IntegerField(default=1000)
-    is_listed = models.BooleanField(default=False)
+    is_hidden = models.BooleanField(default=False)
+    is_listed = models.BooleanField(default=True)
     date = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag,blank=True, null=True)
     collection = models.ForeignKey(

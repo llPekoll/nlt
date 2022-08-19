@@ -69,13 +69,14 @@ class NFTListView(APIView):
 
         nft = NFT.objects.create(
             creator=body.get("creator").lower(),
+            owner=body.get("creator").lower(),
             name=body.get("name"),
             description=body.get("description"),
             image=body.get("image"),
             tokenUri=body.get("tokenUri"),
             tokenId=body.get("tokenId"),
             price=body.get("price"),
-            is_listed=body.get("isListed"),
+            is_hidden=body.get("isHidden"),
         )
         if body.get("attributes"):
             for attribute in body.get("attributes"):
@@ -133,8 +134,10 @@ class NFTDetailView(APIView):
         print("req")
         if "price" in body:
             nft.price = body.get("price")
-        if "is_listed" in body:
-            nft.is_listed = body.get("is_listed")
+        if "is_hidden" in body:
+            nft.is_hidden = body.get("is_hidden")
+        if "isListed" in body:
+            nft.is_hidden = body.get("is_listed")
         if "owner" in body:
             print("edit")
             print(body.get("owner").lower())
@@ -173,10 +176,10 @@ class GetPourcetnt(APIView):
     def get(self, request, price):
         per = Permanent.objects.first()
         nftl_real_price = per.nftl_value / per.divided_by
-        price_item_in_nftl = round(price * nftl_real_price, 5)
+        price_item_in_nftl = price * nftl_real_price
         
-        pourcent_item_in_nftl = price_item_in_nftl *(per.commission_on_nft_in_bnb/100)
+        pourcent_item_in_nftl = (price_item_in_nftl *per.commission_on_nft_in_bnb)
         
-        in_bnb = pourcent_item_in_nftl/ per.bnb_value
+        in_bnb = (pourcent_item_in_nftl/ per.bnb_value)/2
         return JsonResponse({"value":f'{in_bnb:.16f}'})
     
