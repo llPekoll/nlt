@@ -13,7 +13,7 @@ services:
   svelte:
     build: ./svelte
     container_name: svelte_web
-    command: node build
+    command: forever build
     expose:
       - 3000
     env_file:
