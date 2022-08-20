@@ -2,7 +2,7 @@
 	import Connect from '$lib/Connect.svelte';
 	import Mint from '$lib/Mint.svelte';
 
-	export let trad;
+	// export let trad;
 	let connected = false;
 </script>
 

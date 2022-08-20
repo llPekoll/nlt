@@ -7,7 +7,7 @@
 
 	export let challenge: boolean;
 	export let inGame: boolean;
-	export let selectedNFT;
+	// export let selectedNFT;
 	export let turtle;
 	export let score: number = 0;
 	export let livesUsed: number;
