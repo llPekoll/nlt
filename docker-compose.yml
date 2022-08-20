@@ -8,7 +8,7 @@ services:
     expose:
       - 8000
     env_file:
-      - ./.env
+      - ./jango/.env
 
   svelte:
     build: ./svelte
@@ -17,4 +17,4 @@ services:
     expose:
       - 3000
     env_file:
-      - ./.env
+      - ./svelte/.env
