@@ -74,12 +74,11 @@
 </script>
 
 {#if detailsVisible}
-	<p in:fly="{{ x: 100, duration: 500 }}" out:fade>
-		<Token nft={selectedNft} {account}/>
+	<p in:fly="{{ x: 100, duration: 500 }}" >
+		<Token nft={selectedNft} {account} bind:detailsVisible/>
 	</p>
 {:else}
-
-		<section>
+		<section in:fly="{{ x: -100, duration: 500 }}">
 			{#if !empty}
 				<p class="flex items-center justify-center">no items in the marketplace</p>
 			{/if}

@@ -60,7 +60,7 @@
 		// 	empty =true
 		// }
 	})
-		let selectedNft = ''
+	let selectedNft = ''
 	let detailsVisible = false
 </script>
 

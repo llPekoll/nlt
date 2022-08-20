@@ -4,15 +4,23 @@
 	import { onMount } from 'svelte';
 	import { ethers } from 'ethers';
 	import { goto } from '$app/navigation';
+    import Loader from '$lib/Loader.svelte';
 
 	export let nft;
-	export let account;
+    export let detailsVisible;
 
-	let currAddress;
+	let account;
 
-	let nftOwner;
-	let isListed;
     let message;
+    let meta;
+    let attributes
+    let collection
+    let tags;
+    let verified;
+
+    let owner;
+    let isOwner;
+    let isListed;
 
 	onMount(async () => {
 		const accounts = await window.ethereum
@@ -22,8 +30,22 @@
 			.catch((err) => {
 				console.log(err.code);
 			});
-		const account = accounts[0];
-		
+		account = accounts[0];
+
+        const res = await fetch(`/query/nft/${nft.tokenId}`);
+        meta = await res.json()
+        attributes = meta.nft.attributes;
+        collection = meta.nft.collection;
+        tags = meta.nft.tags;
+        verified = meta.nft.verified;
+        owner = meta.nft.owner;
+        isListed = meta.nft.is_listed;
+        isOwner = owner == account;
+        console.log('meta')
+        console.log(owner)
+        console.log(account)
+        console.log(meta.nft)
+        
 	});
 
 	const buyNFT = async (tokenId) => {
@@ -38,10 +60,14 @@
 				signer
 			);
             const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
-			// const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
+                const icule = await nftContract.ownerOf(nft.tokenId);
+            console.log('icule')
+            console.log(icule)
+            // return
+            // const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
 			// const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
 			// try {
-			// 	let tx = await NFTLcontract.transfer(currAddress, toPay);
+			// 	let tx = await NFTLcontract.transfer(account, toPay);
 			// } catch (e) {
 			// 	console.log('error', e);
 			// 	return 0;
@@ -49,27 +75,29 @@
             message = 'fetching fees'
 			let taxes = await fetch(`/query/mycom/${nft.price}`);
 			const { value } = await taxes.json();
-            console.log('jar')
-            console.log(nft.tokenId)
 
 			const listingPrice = ethers.utils.parseUnits(value.value, 'ether');
             let feeBlockchain = await marketContract.getListingFee();
             feeBlockchain = feeBlockchain.toString()
-            message = 'request for sale'
-			console.log('listing Price')
+            message = '/==== Sale ====/'
 
             const taxe = (parseInt(listingPrice.toString())+parseInt(feeBlockchain)).toString()
             console.log(taxe)
 			const transaction = await marketContract.n2DMarketSale(marketPlace.addressNFT, nft.tokenId, {
                 value: taxe
 			});
-			await transaction.wait();
+			const tx = await transaction.wait();
+            console.log('tx')
+            console.log(tx)
+
+            message = '/==== Approuval for next sale ====/'
+            console.log(marketPlace.addressMarket, nft.tokenId)
 			const approve = await nftContract.approve(marketPlace.addressMarket, nft.tokenId);
 			await approve.wait();
             message = 'push sale'
 			const res = await fetch(`/query/nft/${nft.tokenId}`, {
 				method: 'PATCH',
-				body: JSON.stringify({ owner: currAddress,islisted:false })
+				body: JSON.stringify({ owner: account,islisted:false })
 			});
 			const ulta = await res.json();
 			alert('You successfully bought the NFT!');
@@ -110,11 +138,7 @@
         message = 'resquest approuval'
         message = 'List token'
         console.log(nft.tokenId)
-		const transaction = await marketContract.createVaultItem(
-            marketPlace.addressNFT,
-			nft.tokenId,
-			{ value: listingPrice }
-		);
+		const transaction = await marketContract.createVaultItem(marketPlace.addressNFT, nft.tokenId,{ value: listingPrice });
 		await transaction.wait();
             message = 'push results'
         const res = await fetch(`/query/nft/${nft.tokenId}`, {
@@ -126,16 +150,12 @@
         alert('You successfully Listed the NFT!');
         goto('/mynfts');
 	};
-    console.log(account)
-    console.log(nft.owner)
-    console.log(nft.seller)
-    // nft.owner = undefined? '': nft.owner.toLowerCase()
-    // nft.seller = undefined? '': nft.seller.toLowerCase()
-    nftOwner = false;
-    // nftOwner = false;
-    isListed = true; 
+
 </script>
 <section class="flex items-center justify-center py-20">
+<button on:click={()=>{detailsVisible = false}}>
+    Back
+</button>
 	<div class="w-4/5 flex rounded-lg shadow-lg shadow-white">
 		{#if nft}
 			<img src={nft.image} alt="nft" class="rounded-tl-lg rounded-bl-lg w-1/2" />
@@ -143,25 +163,28 @@
 				<p class="text-3xl font-bold italic capitalize pt-7">{nft.name}</p>
 				<p class=" ml-5 text-gray-600 italic pb-7">- {nft.description}.</p>
 				<p class="text-xl font-bold italic capitalize">collection</p>
-				<p class="ml-5 text-gray-600 italic pb-7">- {nft.collection}.</p>
+				<p class="ml-5 text-gray-600 italic pb-7">- {collection}.</p>
 				<p class="text-xl font-bold italic capitalize">Attributes</p>
-				<!-- {#each nft.attributes as { trait_type, value }}
-					<ul class="ml-5 text-gray-600 italic">
-						<li>
-							<p>- {trait_type}: {value}</p>
-						</li>
-					</ul>
-				{/each} -->
+                {#if attributes}
+                    {#each attributes as { trait_type, value }}
+                        <ul class="ml-5 text-gray-600 italic">
+                            <li>
+                                <p>- {trait_type}: {value}</p>
+                            </li>
+                        </ul>
+                    {/each}
+                {/if}
 				<p class="text-xl font-bold italic capitalize pt-7">Tags:</p>
 				<ul class="ml-5 comma-list">
-					<!-- {#each nft.tags as tag}
+                {#if tags}
+					{#each tags as tag}
 						<li class="inline">
 							<p class="text-blue-500 inline">#{tag}</p>
 						</li>
-					{/each} -->
+					{/each}
+                {/if}
 				</ul>
-
-					{#if nftOwner}
+					{#if isOwner}
 						{#if isListed} <!-- NFT ready to be bought -->
 							<p class="mt-10 text-red-500 italic font-semibold text-right"> NFT Listed On The Way to Be sold we Wish you Luck!</p>
 						{:else}<!-- Here we setup the price and list it -->
@@ -240,7 +263,7 @@
 				</p>
                 {/if}
                 {#if message}
-                <div class="text-center">
+                <div class="w-1/6 mx-auto filter-green">
                     {message}
                     <Loader version=1/>
                 </div>
@@ -251,6 +274,9 @@
 </section>
 
 <style>
+    .filter-green{
+        filter: invert(0%) sepia(100%) saturate(7500%) hue-rotate(234deg) brightness(118%) contrast(87%);
+    }
 	.comma-list li::after {
 		content: ', ';
 	}

@@ -5,11 +5,11 @@
 	const link = `/nft/${nft.tokenId}`;
 	let price = nft.price;
 	console.log(nft)
-	// console.log(nft.price)
-	// if (nft.price.split('.').pop() == 0){
-	// price = nft.price.split('.').shift()
-	// }
-	// let owner = `${nft.owner.substring(0,4)}...${nft.owner.slice(-4)}`
+	console.log(nft.price)
+	if (nft.price.split('.').pop() == 0){
+	price = nft.price.split('.').shift()
+	}
+	let owner = `${nft.seller.substring(0,4)}...${nft.seller.slice(-4)}`
 	const hidden = nft.is_hidden || !toDispay;
 </script>
 
@@ -25,10 +25,10 @@
 		{/if } -->
 			<p class=" px-4 text-left font-bold text-xl">{nft.name}</p>
 			<p class="px-4 text-xs ml-4 text-gray-600 font-light pb-6">- {nft.description}</p>
-			<div class="text-right ">
-				<!-- <p class="text-sm font-thin text-gray-500 -mb-1">owner</p>
+			<div class="text-right mr-2">
+				<p class="text-sm font-thin text-gray-500 -mb-1">owner</p>
 			<p class="text-gray-900 italic">{owner}</p>
-		</div> -->
+		</div>
 				<div class="text-sm font-light bg-gray-200 text-right px-2 py-2 rounded-b-lg ">
 					<p>
 						price:
@@ -39,7 +39,6 @@
 					</p>
 				</div>
 			</div>
-		</div>
 <!-- {/if} -->
 
 <style>

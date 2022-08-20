@@ -77,6 +77,7 @@ class NFTListView(APIView):
             tokenId=body.get("tokenId"),
             price=body.get("price"),
             is_hidden=body.get("isHidden"),
+            is_listed=True
         )
         if body.get("attributes"):
             for attribute in body.get("attributes"):
@@ -114,8 +115,9 @@ class NFTListView(APIView):
 
 
 class NFTDetailView(APIView):
-    #  https://api.example.org/accounts/?page=1
+
     def get(self, request, tokenId):
+        print('willmase')
         nft = NFT.objects.get(tokenId=tokenId)
         nft_dict = model_to_dict(nft)
         nft_dict["tags"] = [tag.name for tag in nft.tags.all()]
@@ -126,20 +128,24 @@ class NFTDetailView(APIView):
 
         if nft.collection:
             nft_dict["collection"] = nft.collection.name
+        print(nft_dict)
         return JsonResponse(nft_dict)
 
     def put(self, request, tokenId):
         body = request.data
         nft = NFT.objects.get(tokenId=tokenId)
         print("req")
+        print(body)
         if "price" in body:
             nft.price = body.get("price")
         if "is_hidden" in body:
+            print("is_hidden")
             nft.is_hidden = body.get("is_hidden")
         if "isListed" in body:
-            nft.is_hidden = body.get("is_listed")
+            print("isListed")
+            nft.is_listed = body.get("is_listed")
         if "owner" in body:
-            print("edit")
+            print("owner")
             print(body.get("owner").lower())
             nft.owner = body.get("owner").lower()
         nft.save()
