@@ -3,7 +3,6 @@ version: '3.7'
 services:
   jango:
     build: ./jango
-    container_name: jango_web
     command: gunicorn jango.wsgi:application --bind 0.0.0.0:8000
     ports:
       - "8000:8000"
@@ -14,12 +13,11 @@ services:
     depends_on:
       - migration
   migration:
-    image: .jango
+    build: ./jango
     command: python manage.py migrate --noinput
 
   svelte:
     build: ./svelte
-    container_name: svelte_web
     command: forever build
     ports:
       - "3000:3000"
