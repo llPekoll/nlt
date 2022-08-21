@@ -12,7 +12,7 @@ services:
     depends_on:
       - migration
   migration:
-    build: ./jango
+    build: jango_web
     container_name: jango_web
     command: python manage.py migrate --noinput
   svelte:
