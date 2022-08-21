@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { onMount } from 'svelte';
 
 	import * as PIXI from 'pixi.js';
@@ -196,4 +196,4 @@
 			renderer.render(stage);
 		}
 	});
-</script>
+</script> -->
