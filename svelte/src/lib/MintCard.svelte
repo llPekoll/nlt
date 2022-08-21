@@ -1,5 +1,4 @@
 <script>
-	import NLTNFT from './NLTNFT.json';
 	import { env } from '$lib/env.js';
 	import { abiNFTL, abiNLT } from '$lib/abi';
 	import { addressNFTL, addressNLT } from '$lib/address';
