@@ -2,9 +2,10 @@ FROM node:18-slim
 
 WORKDIR /app
 COPY package.json ./
-RUN npm install
+RUN npm install yarn -g
+RUN yarn install
 COPY . .
-RUN npm run build
+RUN yarn run build
 RUN rm -rf node_modules src
 RUN npm install forever -g
 
