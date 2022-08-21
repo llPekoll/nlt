@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Loader from './../lib/Loader.svelte';
 	import marketPlace from '$lib/Marketplace.json';
-	// import {ethers} from 'ethers';
+	import {ethers} from 'ethers';
 	import Share from '$lib/Share.svelte';
 	import { onMount } from 'svelte';
 	import Card from '$lib/nfts/Card.svelte';
