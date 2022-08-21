@@ -15,6 +15,8 @@ services:
   migration:
     build: ./jango
     command: python manage.py migrate --noinput
+    depends_on:
+      - jango
 
   svelte:
     build: ./svelte
@@ -25,3 +27,5 @@ services:
       - 3000
     env_file:
       - ./svelte/.env
+    depends_on:
+      - jango
