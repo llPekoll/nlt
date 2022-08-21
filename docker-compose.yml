@@ -13,7 +13,6 @@ services:
       - migration
   migration:
     build: jango_web
-    container_name: jango_web
     command: python manage.py migrate --noinput
   svelte:
     build: ./svelte
