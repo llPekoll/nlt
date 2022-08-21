@@ -2,7 +2,7 @@ FROM node:18-slim
 
 WORKDIR /app
 COPY package.json ./
-RUN npm ci
+RUN npm ic
 COPY . .
 RUN npm run build
 RUN rm -rf node_modules src
