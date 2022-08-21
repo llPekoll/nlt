@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('JANGO_SECRET_KEY', 'jose')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".vercel.app", "localhost",'https://nft-trades.com','https://www.nft-trades.com']
+ALLOWED_HOSTS = [".vercel.app", "localhost",'https://nft-trades.com','https://www.nft-trades.com',"http://admin.nftl-trades.com" ]
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # Application definition
