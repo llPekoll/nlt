@@ -21,13 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "k11(jj(tr45!yydj7m2)bkw!w+8sxa$j_lhq3gk=4+4!96r(vg"
+SECRET_KEY = os.environ.get('JANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = [".vercel.app", "localhost"]
+ALLOWED_HOSTS = [".vercel.app", "localhost",'https://nft-trades.com','https://www.nft-trades.com']
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # Application definition
@@ -77,27 +76,29 @@ WSGI_APPLICATION = "jango.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+
+if os.environ.get('DEV'):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": "nlt",
-#         "USER": os.environ.get("DB_USERNAME"),
-#         "PASSWORD": os.environ.get("DB_PASSWORD"),
-#         "HOST": os.environ.get("DB_HOST"),
-#         "PORT": os.environ.get("DB_PORT"),
-#         "OPTIONS": {
-#             "sslmode": "require",
-#         },
-#     },
-
-# }
+if os.environ.get('PROD'):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": "nftl",
+            "USER": os.environ.get("DB_USERNAME"),
+            "PASSWORD": os.environ.get("DB_PASSWORD"),
+            "HOST": os.environ.get("DB_HOST"),
+            "PORT": os.environ.get("DB_PORT"),
+            "OPTIONS": {
+                "sslmode": "require",
+            },
+        },
+    }
 
 
 # Password validation
@@ -139,14 +140,14 @@ STATIC_URL = "https://bearwallet.fra1.digitaloceanspaces.com/django/static/"
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-AWS_S3_REGION_NAME = os.environ.get("REGION_NAME")
-AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKET")
-AWS_S3_ROOT = os.environ.get("S3_ROOT")
-AWS_S3_ENDPOINT_URL = os.environ.get("ENDPOINT_URL")
-AWS_CDN_URL = os.getenv("CDN_URL")
+# AWS_S3_REGION_NAME = os.environ.get("REGION_NAME")
+# AWS_STORAGE_BUCKET_NAME = os.environ.get("BUCKET")
+# AWS_S3_ROOT = os.environ.get("S3_ROOT")
+# AWS_S3_ENDPOINT_URL = os.environ.get("ENDPOINT_URL")
+# AWS_CDN_URL = os.getenv("CDN_URL")
 
-AWS_ACCESS_KEY_ID = os.environ.get("SPACES_KEY")
-AWS_SECRET_ACCESS_KEY = os.environ.get("SPACES_SECRET")
-AWS_DEFAULT_ACL = "public-read"
+# AWS_ACCESS_KEY_ID = os.environ.get("SPACES_KEY")
+# AWS_SECRET_ACCESS_KEY = os.environ.get("SPACES_SECRET")
+# AWS_DEFAULT_ACL = "public-read"
 
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"

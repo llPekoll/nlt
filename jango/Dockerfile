@@ -3,9 +3,9 @@ FROM python:3.9-slim
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN mkdir /app
+RUN mkdir /jango
 
-WORKDIR /app
+WORKDIR /jango
 
 RUN pip install --upgrade pip
 
