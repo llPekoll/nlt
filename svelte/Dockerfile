@@ -1,10 +1,10 @@
 FROM node:18-slim
 
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install
+COPY package.json ./
+RUN npm install
 COPY . .
-RUN yarn run build
+RUN npm run build
 RUN rm -rf node_modules
 RUN npm install forever -g
 
