@@ -86,7 +86,7 @@ DATABASES = {
     }
 }
 
-if os.environ.get('PROD'):
+if os.environ.get('STATE') == "PROD":
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql_psycopg2",
