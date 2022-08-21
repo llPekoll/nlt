@@ -7,6 +7,7 @@
 	import Card from '$lib/nfts/Card.svelte';
 	import Token from '$lib/Token.svelte'
 	import { fade, fly } from 'svelte/transition';
+	
 	export let trad;
 
 	let nfts;
@@ -27,28 +28,21 @@
             account = accounts[0];
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const contract = new ethers.Contract(
-				marketPlace.addressMarket,
-				marketPlace.abiMarket,
-				signer
-			);
-			const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
-			// const NFTLContract = new ethers.Contract(NFTLAddress, NFT.abi, provider);
+			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 			let transaction = await contract.fetchMarketItems()
-				console.log(1)
+			console.log("transaction")
+			console.log(transaction)
 			let items = await Promise.all(transaction.map(async i =>{
-				const tokenUri = await nftContract.tokenURI(i.tokenId);
+				console.log(i)
+				const tokenUri = await contract.tokenURI(i.tokenId);
 				let meta = await fetch(tokenUri);
 				meta = await meta.json()
 				// let price = ethers.utils.formatUnits(meta.price,'ether');
-				console.log('i.tokenId.toNumber()')
-				console.log(i.tokenId.toNumber())
 				let item = {
 					price: meta.price,
-					tokenId: i.tokenId.toNumber(),
+					tokenId: i.tokenId.toString(),
 					seller:i.seller,
 					owner: i.owner,
-					itemId: i.itemId.toNumber(),
 					image: meta.image,
 					name: meta.name,
 					description: meta.description

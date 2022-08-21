@@ -29,22 +29,18 @@
 		const loadNFTs = async () => {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
-			const marketContract = new ethers.Contract(
-				marketPlace.addressMarket,
-				marketPlace.abiMarket,
-				signer
-			);
+			
+			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 			console.log('sako');
-			const tokenUri = await nftContract.tokenURI(parseInt(tokenId) + 1);
-			const listedToken = await marketContract.getMarkertItem(parseInt(tokenId) + 1);
+			const tokenUri = await contract.tokenURI(parseInt(tokenId) + 1);
+			const listedToken = await contract.ownerOf(parseInt(tokenId) + 1);
 			let meta = await fetch(tokenUri);
 
 			meta = await meta.json();
 			let item = {
 				price: meta.price,
 				tokenId: tokenId,
-				seller: listedToken.seller,
+				// seller: listedToken.seller,
 				owner: listedToken.owner,
 				image: meta.image,
 				name: meta.name,

@@ -53,13 +53,15 @@
             message = 'gettings contracts';
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const contractNFT = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
-            const contractMarket = new ethers.Contract(marketPlace.addressMarket, marketPlace.abiMarket, signer);
+			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 
             message = `/===== mint NFT ======/`;
             const timestap = new Date().valueOf()
             const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${env.VITE_S3_ROOT}/${timestap}.json`
-			let createdNFT = await contractNFT.createNFT(tokenUri);
+            let listingPrice = await contract.getListingPrice();
+            listingPrice = listingPrice.toString()
+
+			let createdNFT = await contract.createToken(tokenUri,{value:listingPrice});
 			const res = await createdNFT.wait();
             const tokenId = res.events[0].args[2].toString()
             console.log("===== tokendId ======")
@@ -96,12 +98,6 @@
 				method: 'POST',
 				body: formData
 			});
-            message = '/===== List token on the marketplace ======/'
-            let listingPrice = await contractMarket.getListingFee();
-            listingPrice = listingPrice.toString()
-            
-            const transaction = await contractMarket.createVaultItem(marketPlace.addressNFT, tokenId, {value:listingPrice})
-            await transaction.wait()
             message = `/===== NFT Listed ======/`;
 			message = 'success';
 			alert(`NFT uploaded with success`);

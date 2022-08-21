@@ -38,8 +38,9 @@
         collection = meta.nft.collection;
         tags = meta.nft.tags;
         verified = meta.nft.verified;
-        owner = meta.nft.owner;
-        isListed = meta.nft.is_listed;
+
+        owner = meta.nft.owner || meta.nft.seller;
+        isListed = account == "marketplace";
         isOwner = owner == account;
         console.log('meta')
         console.log(owner)
@@ -54,15 +55,9 @@
             message = 'gettings contract'
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const marketContract = new ethers.Contract(
-				marketPlace.addressMarket,
-				marketPlace.abiMarket,
-				signer
-			);
-            const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
-                const icule = await nftContract.ownerOf(nft.tokenId);
-            console.log('icule')
-            console.log(icule)
+            const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
+            const icule = await contract.ownerOf(nft.tokenId);
+            
             // return
             // const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
 			// const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
@@ -77,24 +72,19 @@
 			const { value } = await taxes.json();
 
 			const listingPrice = ethers.utils.parseUnits(value.value, 'ether');
-            let feeBlockchain = await marketContract.getListingFee();
+            let feeBlockchain = await contract.getListingPrice();
             feeBlockchain = feeBlockchain.toString()
             message = '/==== Sale ====/'
 
             const taxe = (parseInt(listingPrice.toString())+parseInt(feeBlockchain)).toString()
             console.log(taxe)
-			const transaction = await marketContract.n2DMarketSale(marketPlace.addressNFT, nft.tokenId, {
+			const transaction = await contract.createMarketSale(nft.tokenId, {
                 value: taxe
 			});
 			const tx = await transaction.wait();
             console.log('tx')
             console.log(tx)
 
-            message = '/==== Approuval for next sale ====/'
-            console.log(marketPlace.addressMarket, nft.tokenId)
-			const approve = await nftContract.approve(marketPlace.addressMarket, nft.tokenId);
-			await approve.wait();
-            message = 'push sale'
 			const res = await fetch(`/query/nft/${nft.tokenId}`, {
 				method: 'PATCH',
 				body: JSON.stringify({ owner: account,islisted:false })
@@ -125,20 +115,16 @@
         message = 'gettings contract'
 		const provider = new ethers.providers.Web3Provider(window.ethereum);
 		const signer = provider.getSigner();
-		const marketContract = new ethers.Contract(
-            marketPlace.addressMarket,
-			marketPlace.abiMarket,
-			signer
-		);
+		const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 
         message = 'fetching fees'
-        let listingPrice = await marketContract.getListingFee();
+        let listingPrice = await contract.getListingPrice();
         listingPrice = listingPrice.toString()
 
         message = 'resquest approuval'
         message = 'List token'
         console.log(nft.tokenId)
-		const transaction = await marketContract.createVaultItem(marketPlace.addressNFT, nft.tokenId,{ value: listingPrice });
+		const transaction = await contract.resellToken(nft.tokenId,{ value: listingPrice });
 		await transaction.wait();
             message = 'push results'
         const res = await fetch(`/query/nft/${nft.tokenId}`, {
