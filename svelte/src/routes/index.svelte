@@ -34,7 +34,7 @@
 			);
 			const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
 			// const NFTLContract = new ethers.Contract(NFTLAddress, NFT.abi, provider);
-			let transaction = await contract.getAvailableNft()
+			let transaction = await contract.fetchMarketItems()
 				console.log(1)
 			let items = await Promise.all(transaction.map(async i =>{
 				const tokenUri = await nftContract.tokenURI(i.tokenId);

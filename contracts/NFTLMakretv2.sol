@@ -102,6 +102,74 @@ contract n2DMarket is ReentrancyGuard, Ownable {
     payable(holder).transfer(listingFee);
   }
 
+ function fetchMarketItems() public view returns (VaultItem[] memory) {
+      uint itemCount = _itemIds.current();
+      uint unsoldItemCount = _itemIds.current() - _itemsSold.current();
+      uint currentIndex = 0;
+
+      VaultItem[] memory items = new VaultItem[](unsoldItemCount);
+      for (uint i = 0; i < itemCount; i++) {
+        if (idToVaultItem[i + 1].holder == address(this)) {
+          uint currentId = i + 1;
+          VaultItem storage currentItem = idToVaultItem[currentId];
+          items[currentIndex] = currentItem;
+          currentIndex += 1;
+        }
+      }
+      return items;
+    }
+
+    /* Returns only items that a user has purchased */
+    function fetchMyNFTs() public view returns (VaultItem[] memory) {
+      uint totalItemCount = _itemIds.current();
+      uint itemCount = 0;
+      uint currentIndex = 0;
+
+      for (uint i = 0; i < totalItemCount; i++) {
+        if (idToVaultItem[i + 1].holder == msg.sender) {
+          itemCount += 1;
+        }
+      }
+
+      VaultItem[] memory items = new VaultItem[](itemCount);
+      for (uint i = 0; i < totalItemCount; i++) {
+        if (idToVaultItem[i + 1].holder == msg.sender) {
+          uint currentId = i + 1;
+          VaultItem storage currentItem = idToVaultItem[currentId];
+          items[currentIndex] = currentItem;
+          currentIndex += 1;
+        }
+      }
+      return items;
+    }
+
+    /* Returns only items a user has listed */
+    function fetchItemsListed() public view returns (VaultItem[] memory) {
+      uint totalItemCount = _itemIds.current();
+      uint itemCount = 0;
+      uint currentIndex = 0;
+
+      for (uint i = 0; i < totalItemCount; i++) {
+        if (idToVaultItem[i + 1].seller == msg.sender) {
+          itemCount += 1;
+        }
+      }
+
+      VaultItem[] memory items = new VaultItem[](itemCount);
+      for (uint i = 0; i < totalItemCount; i++) {
+        if (idToVaultItem[i + 1].seller == msg.sender) {
+          uint currentId = i + 1;
+          VaultItem storage currentItem = idToVaultItem[currentId];
+          items[currentIndex] = currentItem;
+          currentIndex += 1;
+        }
+      }
+      return items;
+    }
+
+
+
+
   function getAvailableNft() public view returns (VaultItem[] memory) {
     uint itemCount = _itemIds.current();
     uint unsoldItemCount = _itemIds.current() - _itemsSold.current();
