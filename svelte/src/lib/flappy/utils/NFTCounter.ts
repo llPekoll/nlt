@@ -1,5 +1,5 @@
 import { env } from '$lib/env';
-import NLTNFT from '$lib/NLTNFT.json';
+import nftl from '$lib/nftl.json';
 
 export const NFTCounter = async (ethereum): [tier1Nb: number, tier2Nb: number, tier3Nb: number] => {
 	let tier1Nb: number;
@@ -15,7 +15,7 @@ export const NFTCounter = async (ethereum): [tier1Nb: number, tier2Nb: number, t
 	const account = accounts[0];
 	const provider = new ethers.providers.Web3Provider(ethereum);
 	const signer = provider.getSigner();
-	const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, NLTNFT.abi, signer);
+	const contract = new ethers.Contract(env.VITE_CONTRACT_NUMBER, nftl.abi, signer);
 	console.log(account);
 	// TODO:
 	// Make an array and push that into an array instead
