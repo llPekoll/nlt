@@ -39,12 +39,12 @@
         tags = meta.nft.tags;
         verified = meta.nft.verified;
 
-        owner = meta.nft.owner || meta.nft.seller;
-        isListed = account == "marketplace";
+        owner = nft.owner == account || nft.seller == account;
+        isListed = nft.seller == "0x0000000000000000000000000000000000000000";
         isOwner = owner == account;
         console.log('meta')
-        console.log(owner)
-        console.log(account)
+        console.log(nft.seller)
+        console.log(nft.owner)
         console.log(meta.nft)
         
 	});

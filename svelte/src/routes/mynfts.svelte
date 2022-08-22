@@ -6,7 +6,8 @@
 	import Token from '$lib/Token.svelte'
 	import {ethers} from 'ethers';
 
-	let nfts = [];
+	let nftsBought = [];
+	let nftsListed = [];
 	let empty = true;
 	let pageIndex: number = 1;
 	let first_entry
@@ -22,12 +23,18 @@
                     console.log(err.code);
                 });
             account = accounts[0];
-		const loadNFTs = async () =>{
+		const loadNFTs = async (e) =>{
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
 			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 			// const NFTLContract = new ethers.Contract(NFTLAddress, NFT.abi, provider);
-			let transaction = await contract.fetchMyNFTs()
+			let transaction;
+			if(e ==1){
+				transaction = await contract.fetchMyNFTs()
+			}
+			if(e==2){
+				transaction = await contract.fetchItemsListed()
+			}
 			let items = await Promise.all(transaction.map(async i =>{
 				console.log(i)
 				const tokenUri = await contract.tokenURI(i.tokenId);
@@ -47,12 +54,10 @@
 			}))
 			return items
 		}
-		nfts = await loadNFTs();
-		console.log(nfts)
-		// console.log(nfts.length)
-		// if(!nfts.length){
-		// 	empty =true
-		// }
+		nftsBought = await loadNFTs(1);
+		nftsListed = await loadNFTs(2);
+		console.log(nftsBought)
+		console.log(nftsListed)
 	})
 	let selectedNft = ''
 	let detailsVisible = false
@@ -70,15 +75,24 @@
 
 	<p class="flex items-center justify-center text-white">My Nfts</p>
 	<div class="flex flex-wrap items-center justify-center">
-		{#if nfts}
-				<div class="flex flex-wrap items-center justify-center">
-					{#each nfts as nft}
-					<button on:click={()=>{detailsVisible = true; selectedNft = nft}} class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow">
-						<Card {nft} toDispay="false" />
-					</button>
-					{/each}
-				</div>
-			{/if}
+		{#if nftsBought}
+			<div class="flex flex-wrap items-center justify-center">
+				{#each nftsBought as nft}
+				<button on:click={()=>{detailsVisible = true; selectedNft = nft}} class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow">
+					<Card {nft} toDispay="false" />
+				</button>
+				{/each}
+			</div>
+		{/if}
+		{#if nftsListed}
+			<div class="flex flex-wrap items-center justify-center">
+				{#each nftsListed as nft}
+				<button on:click={()=>{detailsVisible = true; selectedNft = nft}} class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow">
+					<Card {nft} toDispay="false" />
+				</button>
+				{/each}
+			</div>
+		{/if}
 	</div>
 </section>
 			{/if}
