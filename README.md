@@ -19,15 +19,19 @@ npx hardhat help
 - [x] proprieties
 - [x] display owner 
 - [x] pay in nftl
-- [x] only PNG, jpg files from image accepted
+- [x] only PNG, jpg, webp files from image accepted
 - [ ] filters
 - [ ] burn on smart contract
-
+- [ ] proper connection button
+- [ ] resize images
+- [ ] flappy on in another app
+- [ ] compile NFTL contract to pay NFTs in NFTL
 ## ---- django -----
 
-- [ ] update owner
-- [x] pagination ---> A little slow
+- [x] update owner ----> moved to BlockChain
+- [x] pagination ---> A little slow ----> moved to BlockChain
 - [x] Collections
-- [x] Hide the NFT(keep to for not sale)
+- [x] Hide the NFT(keep to for not sale) ----> moved to List we will see you hide later
 - [x] verifier les NFTS
 - [x] change price
+

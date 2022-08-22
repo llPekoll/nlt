@@ -23,6 +23,7 @@ let nfts;
 let empty = true;
 let pageIndex: number = 1;
 let account;
+let onlyVerified = false;
 onMount(async () => {
     const loadNFTs = async () => {
         const accounts = await window.ethereum
@@ -94,12 +95,20 @@ let detailsVisible = false
 
             <p class="flex items-center justify-center text-white text-3xl font-bold py-4 italic">NFTL Marketplace</p>
             {#if nfts}
+
+			<form class="text-center mx-auto">
+				<input name="is-hidden" type="checkbox" class="checkbox-input" id="checkbox" bind:checked={onlyVerified}/>
+				<label for="checkbox">
+					<span class="checkbox" />
+					<p class=" text-sm text-white inline ml-2 absolute">Only Verified</p>
+				</label>
+			</form>
             <div class="flex flex-wrap items-center justify-center">
                 {#each nfts as nft}
-                <button on:click={()=>{detailsVisible = true; selectedNft = nft}} class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow">
-                    <Card {nft} toDispay="false" />
-                </button>
-                {/each}
+					<button on:click={()=>{detailsVisible = true; selectedNft = nft}} class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow">
+						<Card {nft} toDispay="false" {onlyVerified}/>
+					</button>
+					{/each}
             </div>
             {/if}
         </section>
@@ -192,3 +201,100 @@ clip-rule="evenodd"
             </div>
         </div>
         <Share {trad} />
+<style>
+
+	.box {
+		width: 100%;
+		height: 90vh;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		align-content: center;
+	}
+
+	.checkbox-bipolar-input {
+		display: none;
+	}
+	.checkbox-bipolar-input:checked + label .checkbox-bipolar:after {
+		left: 18px;
+		right: 2px;
+	}
+	.checkbox-bipolar-input:checked + label .checkbox-bipolar .on {
+		opacity: 0.5;
+	}
+	.checkbox-bipolar-input:checked + label .checkbox-bipolar .off {
+		opacity: 0;
+	}
+
+	.checkbox-bipolar {
+		margin-right: 15px;
+		width: 36px;
+		height: 20px;
+		border-radius: 10px;
+		border: 1px solid #6a1ad0;
+		display: inline-block;
+		position: relative;
+	}
+	.checkbox-bipolar:after {
+		content: '';
+		display: block;
+		position: absolute;
+		background: #6a1ad0;
+		left: 2px;
+		top: 2px;
+		bottom: 2px;
+		right: 18px;
+		border-radius: 8px;
+		transition: all 0.3s;
+	}
+	.checkbox-bipolar .on {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		left: 6px;
+		opacity: 0;
+		transition: 0.3s;
+		font-family: sans-serif;
+		font-size: 14px;
+	}
+	.checkbox-bipolar .off {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		right: 5px;
+		opacity: 0.5;
+		font-family: sans-serif;
+		transition: 0.3s;
+		font-size: 14px;
+	}
+
+	.checkbox-input {
+		display: none;
+	}
+	.checkbox-input:checked + label .checkbox:after {
+		transform: translate(-50%, -50%) scale(1);
+	}
+
+	.checkbox {
+		border: 1px solid #e0d9ea;
+		border-radius: 3px;
+		width: 16px;
+		height: 16px;
+		display: inline-block;
+		position: relative;
+	}
+	.checkbox:after {
+		content: '';
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%) scale(0);
+		width: 12px;
+		height: 12px;
+		background-color: #e0d9ea;
+		border-radius: 3px;
+		transition: 0.3s;
+	}</style>
