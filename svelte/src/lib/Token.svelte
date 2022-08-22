@@ -39,20 +39,23 @@
         tags = meta.nft.tags;
         verified = meta.nft.verified;
 
-        owner = nft.owner == account || nft.seller == account;
-        isListed = nft.seller == "0x0000000000000000000000000000000000000000";
-        isOwner = owner == account;
+        owner = nft.owner.toLowerCase() == account.toLowerCase() || nft.seller.toLowerCase() == account.toLowerCase();
+        isListed = nft.seller.toLowerCase() == account;
+        isOwner = owner;
         console.log('meta')
-        console.log(nft.seller)
-        console.log(nft.owner)
-        console.log(meta.nft)
+        console.log(isListed)
+        console.log(isOwner)
+        console.log(account)
+        console.log('seller',nft.seller)
+        console.log('owner',nft.owner)
+        
         
 	});
 
 	const buyNFT = async (tokenId) => {
 		try {
             console.log(tokenId)
-            message = 'gettings contract'
+            message = '/==== Gettings Contract ====/'
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
             const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
@@ -67,14 +70,13 @@
 			// 	console.log('error', e);
 			// 	return 0;
 			// }
-            message = 'fetching fees'
 			let taxes = await fetch(`/query/mycom/${nft.price}`);
 			const { value } = await taxes.json();
 
 			const listingPrice = ethers.utils.parseUnits(value.value, 'ether');
             let feeBlockchain = await contract.getListingPrice();
             feeBlockchain = feeBlockchain.toString()
-            message = '/==== Sale ====/'
+            message = '/==== Sale Processing ====/'
 
             const taxe = (parseInt(listingPrice.toString())+parseInt(feeBlockchain)).toString()
             console.log(taxe)
@@ -89,7 +91,8 @@
 				method: 'PATCH',
 				body: JSON.stringify({ owner: account,islisted:false })
 			});
-			const ulta = await res.json();
+			
+			message = '/==== Sold ====/'
 			alert('You successfully bought the NFT!');
 			goto('/mynfts');
 		} catch (e) {
@@ -112,17 +115,16 @@
 	};
 
 	const listOnMarket = async (e) => {
-        message = 'gettings contract'
+        message = '/==== Gettings Contract ====/'
 		const provider = new ethers.providers.Web3Provider(window.ethereum);
 		const signer = provider.getSigner();
 		const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 
-        message = 'fetching fees'
         let listingPrice = await contract.getListingPrice();
         listingPrice = listingPrice.toString()
 
-        message = 'resquest approuval'
-        message = 'List token'
+        message = '/==== Listing For Resale ====/'
+        
         console.log(nft.tokenId)
 		const transaction = await contract.resellToken(nft.tokenId,{ value: listingPrice });
 		await transaction.wait();
@@ -131,17 +133,16 @@
             method: 'PATCH',
             body: JSON.stringify({ listed: true })
         });
-        const ulta = await res.json();
-            message = 'NFT listed'
+        message = '/==== NFT Listed ====/'
         alert('You successfully Listed the NFT!');
         goto('/mynfts');
 	};
 
 </script>
-<section class="flex items-center justify-center py-20">
-<button on:click={()=>{detailsVisible = false}}>
+<button class="bg-white px-10 py-2 rounded"on:click={()=>{detailsVisible = false}}>
     Back
 </button>
+<section class="flex items-center justify-center py-20">
 	<div class="w-4/5 flex rounded-lg shadow-lg shadow-white">
 		{#if nft}
 			<img src={nft.image} alt="nft" class="rounded-tl-lg rounded-bl-lg w-1/2" />
@@ -170,6 +171,7 @@
 					{/each}
                 {/if}
 				</ul>
+                    {isListed}
 					{#if isOwner}
 						{#if isListed} <!-- NFT ready to be bought -->
 							<p class="mt-10 text-red-500 italic font-semibold text-right"> NFT Listed On The Way to Be sold we Wish you Luck!</p>
@@ -185,10 +187,10 @@
 										updatenft('list');
 									}}
 								/>
-								<label for="checkbox">
+								<!-- <label for="checkbox">
 									<span class="checkbox" />
 									<p class=" text-sm text-gray-500 inline ml-2 absolute">Hide the NFT</p>
-								</label>
+								</label> -->
 							</form>
 							<form
 								class="pt-7"

@@ -11,7 +11,6 @@
     let message = '';
 	let tags = '';
 
-
     // attributes
 	let attributes = [];
 	const addAttributes = () => {
@@ -86,7 +85,8 @@
 				price: formData.get('price'),
 				tags: tags,
 				collection: formData.get('collection'),
-				isHidden: Boolean(formData.get('is-hidden'))
+				// isHidden: Boolean(formData.get('is-hidden'))
+				isHidden: false
 			};
 			console.log(payload);
 			const jsonLocation = await fetch('/query/createjson', {
@@ -237,13 +237,13 @@
 					>
 				</div>
 			</div>
-			<div class="w-2/3 mx-auto">
+			<!-- <div class="w-2/3 mx-auto">
 				<input name="is-hidden" type="checkbox" class="checkbox-input" id="checkbox" />
 				<label for="checkbox">
 					<span class="checkbox" />
 					<p class=" text-sm text-gray-500 inline ml-2 absolute">Display the NFT in the market place</p>
 				</label>
-			</div>
+			</div> -->
 			<div class=" w-2/3 mx-auto py-3">
 				<label for="tags" class="text-left text-sm text-gray-500"
 					>Tags

@@ -80,11 +80,13 @@ class NFTListView(APIView):
             is_listed=True
         )
         if body.get("attributes"):
+            print("attributes")
+            print(body.get("attributes"))
             for attribute in body.get("attributes"):
                 dict_value = attribute.items()
                 Attribute.objects.create(
-                    nft_property=list(dict_value)[0][0],
-                    value=list(dict_value)[0][1],
+                    nft_property=list(dict_value)[0][1],
+                    value=list(dict_value)[1][1],
                     nft=nft,
                 )
         if body.get("collection"):

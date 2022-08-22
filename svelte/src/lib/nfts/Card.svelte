@@ -20,9 +20,10 @@
 			#{nft.tokenId}.
 		</p>
 		<div class=" w-60 pt-4  rounded-b-lg border shadow-md  ">
-		<!-- {#if nft.verified}
+		{nft.verified}
+		 {#if nft.verified}
 			<img src='badge.svg' alt=badge class="w-7 h-7 -mt-2 vv float-right"/>
-		{/if } -->
+		{/if } 
 			<p class=" px-4 text-left font-bold text-xl">{nft.name}</p>
 			<p class="px-4 text-xs ml-4 text-gray-600 font-light pb-6">- {nft.description}</p>
 			<div class="text-right mr-2">
