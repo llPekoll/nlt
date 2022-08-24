@@ -43,7 +43,7 @@
         verified = meta.nft.verified;
 
         owner = nft.owner.toLowerCase() == account.toLowerCase() || nft.seller.toLowerCase() == account.toLowerCase();
-        isListed = nft.seller.toLowerCase() == marketPlace.address.toLowerCase();
+        isListed = nft.owner.toLowerCase() == marketPlace.address.toLowerCase();
         isOwner = owner;
         console.log('meta')
         console.log(isListed)
