@@ -41,6 +41,16 @@ contract NFTLMarketSePla is ERC721URIStorage {
       listingPrice = _listingPrice;
     }
 
+    function getListedTokenForId(uint256 _tokenId) public view returns (MarketItem memory) {
+        return idToMarketItem[_tokenId];
+    }
+
+    function burn(uint256 _tokenId) public payable {
+      require(owner == msg.sender, "Only marketplace owner can burn Token.");
+        delete idToMarketItem[_tokenId];
+        _burn(_tokenId);
+    }
+
     /* Returns the listing price of the contract */
     function getListingPrice() public view returns (uint256) {
       return listingPrice;

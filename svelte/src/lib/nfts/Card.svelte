@@ -33,7 +33,6 @@
 			#{nft.tokenId}.
 		</p>
 		<div class=" w-60 pt-4  rounded-b-lg border shadow-md  ">
-		{nft.verified}
 		 {#if nft.verified}
 			<img src='badge.svg' alt=badge class="w-7 h-7 -mt-2 vv float-right"/>
 		{/if } 

@@ -31,7 +31,10 @@
 				console.log(err.code);
 			});
 		account = accounts[0];
-
+		await ethereum.request({
+    		method: 'wallet_switchEthereumChain',
+    		params: [{ chainId: '0x61' }], //97 in hexa
+ 		})
         const res = await fetch(`/query/nft/${nft.tokenId}`);
         meta = await res.json()
         attributes = meta.nft.attributes;
@@ -40,7 +43,7 @@
         verified = meta.nft.verified;
 
         owner = nft.owner.toLowerCase() == account.toLowerCase() || nft.seller.toLowerCase() == account.toLowerCase();
-        isListed = nft.seller.toLowerCase() == account;
+        isListed = nft.seller.toLowerCase() == marketPlace.address;
         isOwner = owner;
         console.log('meta')
         console.log(isListed)
@@ -174,7 +177,6 @@
 					{/each}
                 {/if}
 				</ul>
-                    {isListed}
 					{#if isOwner}
 						{#if isListed} <!-- NFT ready to be bought -->
 							<p class="mt-10 text-red-500 italic font-semibold text-right"> NFT Listed On The Way to Be sold we Wish you Luck!</p>

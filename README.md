@@ -17,13 +17,15 @@ npx hardhat help
 ## ---- Features -----
 
 - [x] proprieties
+- [x] rajouter le que les prix sont en NFTL
 - [x] display owner 
 - [x] pay in nftl
 - [x] only PNG, jpg, webp files from image accepted
 - [ ] filters
-- [ ] burn on smart contract
-- [ ] proper connection button
-- [ ] resize images
+- [x] burn on smart contract
+- [x] proper connection button
+- [ ] check if enough credit
+- [x] resize images
 - [ ] flappy on in another app
 - [ ] compile NFTL contract to pay NFTs in NFTL
 ## ---- django -----
@@ -34,4 +36,3 @@ npx hardhat help
 - [x] Hide the NFT(keep to for not sale) ----> moved to List we will see you hide later
 - [x] verifier les NFTS
 - [x] change price
-

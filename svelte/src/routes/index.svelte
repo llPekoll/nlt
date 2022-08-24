@@ -34,6 +34,10 @@ onMount(async () => {
                 console.log(err.code);
             });
         account = accounts[0];
+		await ethereum.request({
+    		method: 'wallet_switchEthereumChain',
+    		params: [{ chainId: '0x61' }],
+ 		})
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);

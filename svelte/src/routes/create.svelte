@@ -44,6 +44,10 @@
                     console.log(err.code);
                 });
         const account = accounts[0];
+		await ethereum.request({
+    		method: 'wallet_switchEthereumChain',
+    		params: [{ chainId: '0x61' }],
+ 		})
 		console.log('submiting');
 		message = 'poccessing';
 		const formData = new FormData(e.target);
