@@ -43,7 +43,7 @@
         verified = meta.nft.verified;
 
         owner = nft.owner.toLowerCase() == account.toLowerCase() || nft.seller.toLowerCase() == account.toLowerCase();
-        isListed = nft.seller.toLowerCase() == marketPlace.address;
+        isListed = nft.seller.toLowerCase() == marketPlace.address.toLowerCase();
         isOwner = owner;
         console.log('meta')
         console.log(isListed)
@@ -51,8 +51,6 @@
         console.log(account)
         console.log('seller',nft.seller)
         console.log('owner',nft.owner)
-        
-        
 	});
 
 	const buyNFT = async (tokenId) => {
