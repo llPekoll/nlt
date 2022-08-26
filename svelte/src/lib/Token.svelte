@@ -81,7 +81,8 @@
 	});
 
 	const buyNFT = async (tokenId) => {
-		if (!window.confirm("Are you sure? Do you really want to purchase this NFT?")) {
+		if (!window.confirm(`Are you sure? Do you really want to purchase this NFT?\n
+it's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
 				return;
 		}
 		try {
