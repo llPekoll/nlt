@@ -14,7 +14,6 @@
     // attributes
 	let attributes = [];
 	const addAttributes = () => {
-		console.log(key, value);
 		attributes = [
 			...attributes,
 			{
@@ -32,7 +31,6 @@
 	// Tags
 	function handleTags(event) {
 		tags = event.detail.tags;
-		console.log(tags);
 	}
 
 	const onSubmit = async (e) => {
@@ -48,7 +46,6 @@
     		method: 'wallet_switchEthereumChain',
     		params: [{ chainId: '0x61' }],
  		})
-		console.log('submiting');
 		message = 'poccessing';
 		const formData = new FormData(e.target);
 
@@ -67,8 +64,6 @@
 			let createdNFT = await contract.createToken(tokenUri,{value:listingPrice});
 			const res = await createdNFT.wait();
             const tokenId = res.events[0].args[2].toString()
-            console.log("===== tokendId ======")
-            console.log(tokenId)
 
             message = `/===== Pushing to MarketPlace ======/`;
 
@@ -92,8 +87,7 @@
 				// isHidden: Boolean(formData.get('is-hidden'))
 				isHidden: false
 			};
-			console.log(payload);
-			const jsonLocation = await fetch('/query/createjson', {
+			await fetch('/query/createjson', {
 				method: 'POST',
 				body: JSON.stringify(payload)
 			});

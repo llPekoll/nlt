@@ -37,9 +37,7 @@ async function main() {
   //   // abiNFT: JSON.parse(nft.interface.format('json')),
   //   abi: JSON.parse(nftl.interface.format('json'))
   // }
-  
   //This writes the ABI and address to the mktplace.json
-  fs.writeFileSync('./nftl.json', JSON.stringify(dataNftl))
 }
 
 main()

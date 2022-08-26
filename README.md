@@ -18,13 +18,14 @@ npx hardhat help
 
 - [x] proprieties
 - [x] rajouter le que les prix sont en NFTL
+- [x] le prix ne s'update pas qd on le rachete!
 - [x] display owner 
 - [x] pay in nftl
 - [x] only PNG, jpg, webp files from image accepted
 - [ ] filters
 - [x] burn on smart contract
 - [x] proper connection button
-- [ ] check if enough credit
+- [x] check if enough credit
 - [x] resize images
 - [ ] flappy on in another app
 - [ ] compile NFTL contract to pay NFTs in NFTL

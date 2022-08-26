@@ -5,7 +5,9 @@
 	import { fade, fly } from 'svelte/transition';
 	import Token from '$lib/Token.svelte'
 	import {ethers} from 'ethers';
+	import Footer from '$lib/Footer.svelte';
 
+	export let trad;
 	let nftsBought = [];
 	let nftsListed = [];
 	let empty = true;
@@ -36,7 +38,6 @@
 				transaction = await contract.fetchItemsListed()
 			}
 			let items = await Promise.all(transaction.map(async i =>{
-				console.log(i)
 				const tokenUri = await contract.tokenURI(i.tokenId);
 				let meta = await fetch(tokenUri);
 				meta = await meta.json()
@@ -56,8 +57,6 @@
 		}
 		nftsBought = await loadNFTs(1);
 		nftsListed = await loadNFTs(2);
-		console.log(nftsBought)
-		console.log(nftsListed)
 	})
 	let selectedNft = ''
 	let detailsVisible = false
@@ -147,3 +146,4 @@
 		{/if}
 	</div>
 </div> -->
+<Footer {trad} />

@@ -4,10 +4,13 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import "hardhat/console.sol";
 
-contract NFTLMarketSePla is ERC721URIStorage {
+contract NFTLMarket is ERC721URIStorage {
+
+
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     Counters.Counter private _itemsSold;
@@ -15,12 +18,21 @@ contract NFTLMarketSePla is ERC721URIStorage {
     uint256 listingPrice = 0.001 ether;
     address payable owner;
 
+
+    struct TokenInfo {
+        IERC20 paytoken;
+        uint256 costvalue;
+    }
+
+    TokenInfo[] public AllowedCrypto;
+
     mapping(uint256 => MarketItem) private idToMarketItem;
 
     struct MarketItem {
       uint256 tokenId;
       address payable seller;
       address payable owner;
+      uint256 price;
       bool sold;
     }
 
@@ -28,6 +40,7 @@ contract NFTLMarketSePla is ERC721URIStorage {
       uint256 indexed tokenId,
       address seller,
       address owner,
+      uint256 price,
       bool sold
     );
 
@@ -35,6 +48,19 @@ contract NFTLMarketSePla is ERC721URIStorage {
       owner = payable(msg.sender);
     }
 
+
+  function addCurrency(
+        IERC20 _paytoken,
+        uint256 _costvalue
+    ) public {
+      require(owner == msg.sender, "Only marketplace owner can add currency.");
+        AllowedCrypto.push(
+            TokenInfo({
+                paytoken: _paytoken,
+                costvalue: _costvalue
+            })
+        );
+    }
     /* Updates the listing price of the contract */
     function updateListingPrice(uint _listingPrice) public payable {
       require(owner == msg.sender, "Only marketplace owner can update listing price.");
@@ -57,23 +83,28 @@ contract NFTLMarketSePla is ERC721URIStorage {
     }
 
     /* Mints a token and lists it in the marketplace */
-    function createToken(string memory tokenURI) public payable returns (uint) {
+    function createToken(string memory tokenURI, uint256 price) public payable returns (uint) {
       _tokenIds.increment();
       uint256 newTokenId = _tokenIds.current();
 
       _mint(msg.sender, newTokenId);
       _setTokenURI(newTokenId, tokenURI);
-      createMarketItem(newTokenId);
+      createMarketItem(newTokenId, price);
       return newTokenId;
     }
 
-    function createMarketItem(uint256 tokenId) private {
+    function createMarketItem(
+      uint256 tokenId,
+      uint256 price
+    ) private {
+      require(price > 0, "Price must be at least 1 wei");
       require(msg.value == listingPrice, "Price must be equal to listing price");
 
       idToMarketItem[tokenId] =  MarketItem(
         tokenId,
         payable(msg.sender),
         payable(address(this)),
+        price,
         false
       );
 
@@ -82,17 +113,51 @@ contract NFTLMarketSePla is ERC721URIStorage {
         tokenId,
         msg.sender,
         address(this),
+        price,
         false
       );
     }
 
+// BNB
     /* allows someone to resell a token they have purchased */
-    function resellToken(uint256 tokenId) public payable {
+    function resellTokenBNB(uint256 tokenId, uint256 price) public payable {
+      require(idToMarketItem[tokenId].owner == msg.sender, "Only item owner can perform this operation");
+      require(msg.value == listingPrice, "Price must be equal to listing price");
+      idToMarketItem[tokenId].sold = false;
+      idToMarketItem[tokenId].price = price;
+      idToMarketItem[tokenId].seller = payable(msg.sender);
+      idToMarketItem[tokenId].owner = payable(address(this));
+      _itemsSold.decrement();
+
+      _transfer(msg.sender, address(this), tokenId);
+    }
+
+    /* Creates the sale of a marketplace item */
+    /* Transfers ownership of the item, as well as funds between parties */
+    function createMarketSaleBNB(
+      uint256 tokenId
+      ) public payable {
+      uint price = idToMarketItem[tokenId].price;
+      address seller = idToMarketItem[tokenId].seller;
+      require(msg.value == price, "Please submit the asking price in order to complete the purchase");
+      idToMarketItem[tokenId].owner = payable(msg.sender);
+      idToMarketItem[tokenId].sold = true;
+      idToMarketItem[tokenId].seller = payable(address(0));
+      _itemsSold.increment();
+      _transfer(address(this), msg.sender, tokenId);
+      payable(owner).transfer(listingPrice);
+      payable(seller).transfer(msg.value);
+    }
+// END OF BNB
+// NFTL
+    /* allows someone to resell a token they have purchased */
+    function resellToken(uint256 tokenId, uint256 price) public payable {
       require(idToMarketItem[tokenId].owner == msg.sender, "Only item owner can perform this operation");
       require(msg.value == listingPrice, "Price must be equal to listing price");
       idToMarketItem[tokenId].sold = false;
       idToMarketItem[tokenId].seller = payable(msg.sender);
       idToMarketItem[tokenId].owner = payable(address(this));
+      idToMarketItem[tokenId].price = price;
       _itemsSold.decrement();
       _transfer(msg.sender, address(this), tokenId);
     }
@@ -109,7 +174,43 @@ contract NFTLMarketSePla is ERC721URIStorage {
       _transfer(address(this), msg.sender, tokenId);
       payable(owner).transfer(listingPrice);
     }
+// END OF NFTL
+// 
+// NFTL BLOCKCHAIN
+    function resellTokenNFTL(uint256 tokenId, uint256 price) public payable {
+      require(idToMarketItem[tokenId].owner == msg.sender, "Only item owner can perform this operation");
+      require(msg.value == listingPrice, "Price must be equal to listing price");
+      idToMarketItem[tokenId].sold = false;
+      idToMarketItem[tokenId].price = price;
+      idToMarketItem[tokenId].seller = payable(msg.sender);
+      idToMarketItem[tokenId].owner = payable(address(this));
+      _itemsSold.decrement();
 
+      _transfer(msg.sender, address(this), tokenId);
+    }
+
+    /* Creates the sale of a marketplace item */
+    /* Transfers ownership of the item, as well as funds between parties */
+    function createMarketSaleNFTL(
+      uint256 tokenId,
+      uint256 _pid
+      ) public payable {
+      TokenInfo storage tokens = AllowedCrypto[_pid];
+      IERC20 paytoken;
+      paytoken = tokens.paytoken;
+      uint price = idToMarketItem[tokenId].price;
+      address seller = idToMarketItem[tokenId].seller;
+      require(msg.value == price, "Please submit the asking price in order to complete the purchase");
+      idToMarketItem[tokenId].owner = payable(msg.sender);
+      idToMarketItem[tokenId].sold = true;
+      idToMarketItem[tokenId].seller = payable(address(0));
+      _itemsSold.increment();
+      _transfer(address(this), msg.sender, tokenId);
+      paytoken.transferFrom(msg.sender, seller, price);
+      payable(owner).transfer(listingPrice);
+      
+      }
+// ENF OF NFTL BLOCKCHAIN
     /* Returns all unsold market items */
     function fetchMarketItems() public view returns (MarketItem[] memory) {
       uint itemCount = _tokenIds.current();

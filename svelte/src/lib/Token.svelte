@@ -17,12 +17,19 @@
     let collection
     let tags;
     let verified;
+	let fee;
+	let feeDisp;
 
     let owner;
     let isOwner;
     let isListed;
 
 	onMount(async () => {
+		const provider = new ethers.providers.Web3Provider(window.ethereum);
+		const signer = provider.getSigner();
+		const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
+		
+		// get current account
 		const accounts = await window.ethereum
 			.request({
 				method: 'eth_requestAccounts'
@@ -31,10 +38,30 @@
 				console.log(err.code);
 			});
 		account = accounts[0];
+
+		// Meta mask request for correct blockchain
 		await ethereum.request({
     		method: 'wallet_switchEthereumChain',
     		params: [{ chainId: '0x61' }], //97 in hexa
  		})
+
+		// get fee in bnb for 
+		const getBNBFeesDisplay = async ()=>{
+			let taxes = await fetch(`/query/mycom/${nft.price}`);
+			const { value } = await taxes.json();
+
+			const listingPrice = ethers.utils.parseUnits(value.value, 'ether');
+            let feeBlockchain = await contract.getListingPrice();
+            feeBlockchain = feeBlockchain.toString()
+
+            fee = (parseInt(listingPrice.toString())+parseInt(feeBlockchain)).toString()
+			feeDisp = (parseInt(fee)/10**18).toFixed(5)
+		}
+		await getBNBFeesDisplay()
+
+
+
+		// definition isListed isOwner
         const res = await fetch(`/query/nft/${nft.tokenId}`);
         meta = await res.json()
         attributes = meta.nft.attributes;
@@ -54,15 +81,15 @@
 	});
 
 	const buyNFT = async (tokenId) => {
+		if (!window.confirm("Are you sure? Do you really want to purchase this NFT?")) {
+				return;
+		}
 		try {
-            console.log(tokenId)
             message = '/==== Gettings Contract ====/'
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
             const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
-            const icule = await contract.ownerOf(nft.tokenId);
             
-            // return
             // const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
 			// const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
 			// try {
@@ -71,28 +98,14 @@
 			// 	console.log('error', e);
 			// 	return 0;
 			// }
-			let taxes = await fetch(`/query/mycom/${nft.price}`);
-			const { value } = await taxes.json();
 
-			const listingPrice = ethers.utils.parseUnits(value.value, 'ether');
-            let feeBlockchain = await contract.getListingPrice();
-            feeBlockchain = feeBlockchain.toString()
-            message = '/==== Sale Processing ====/'
-
-            const taxe = (parseInt(listingPrice.toString())+parseInt(feeBlockchain)).toString()
-            console.log(taxe)
 			const transaction = await contract.createMarketSale(nft.tokenId, {
-                value: taxe
+                value: fee
 			});
 			const tx = await transaction.wait();
-            console.log('tx')
+            console.log('transaction')
             console.log(tx)
 
-			const res = await fetch(`/query/nft/${nft.tokenId}`, {
-				method: 'PATCH',
-				body: JSON.stringify({ owner: account,islisted:false })
-			});
-			
 			message = '/==== Sold ====/'
 			alert('You successfully bought the NFT!');
 			goto('/mynfts');
@@ -107,7 +120,6 @@
 			body = { is_hidden: hidden };
 		} else if (e == 'price') {
 			body = { price: nft.price };
-			console.log(body);
 		}
 		fetch(`/query/nft/${nft.tokenId}`, {
 			method: 'PATCH',
@@ -116,6 +128,9 @@
 	};
 
 	const listOnMarket = async (e) => {
+		if (!window.confirm("Are you sure? Do you really want to list this NFT?")) {
+				return;
+		}
         message = '/==== Gettings Contract ====/'
 		const provider = new ethers.providers.Web3Provider(window.ethereum);
 		const signer = provider.getSigner();
@@ -126,13 +141,13 @@
 
         message = '/==== Listing For Resale ====/'
         
-        console.log(nft.tokenId)
-		const transaction = await contract.resellToken(nft.tokenId,{ value: listingPrice });
+		const prix = ethers.utils.parseUnits("1", 'ether');
+		const transaction = await contract.resellToken(nft.tokenId, prix,{ value: listingPrice });
 		await transaction.wait();
             message = 'push results'
         const res = await fetch(`/query/nft/${nft.tokenId}`, {
             method: 'PATCH',
-            body: JSON.stringify({ listed: true })
+            body: JSON.stringify({ listed: true, price:nft.price })
         });
         message = '/==== NFT Listed ====/'
         alert('You successfully Listed the NFT!');
@@ -218,7 +233,7 @@
 									</div>
 									<button
 										type="submit"
-										class="bg-blue-500 rounded-lg py-2 px-14  my-7 text-white float-right"
+										class="bg-blue-500 rounded-lg py-2 px-14  my-7 text-white float-right ml-5"
 										on:click|once={() => listOnMarket(nft.tokenId)}
 									>
 										List For sale</button
@@ -235,6 +250,7 @@
 							>
 								Buy this NFT
 							</button>
+						
 						{:else} <!-- can't do nothing nft not for sale -->
                             <p class="text-right italic text-lg font-semibold text-red-500 mt-10"> NFT not Listed </p>
                        {/if}
@@ -245,6 +261,9 @@
 						>$NFTL</span
 					>
 				</p>
+					<div class="clear-both text-right -pt-10 text-xs">
+						*make sure you have a leat <span class="text-normal">~ {feeDisp}BNB</span> to complete the transaction
+					</div>
                 {:else}
 				<p class="text-xl text-right pt-10 ">
                 
@@ -253,9 +272,12 @@
 					>
 				</p>
                 {/if}
+				
                 {#if message}
-                <div class="w-1/6 mx-auto filter-green">
+				<div class="flex items-center justify-center w-full pb-4">
                     {message}
+				</div>
+                <div class="w-1/6 mx-auto filter-green">
                     <Loader version=1/>
                 </div>
                     {/if}

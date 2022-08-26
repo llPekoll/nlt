@@ -1,133 +1,135 @@
 <script lang="ts">
-import Loader from './../lib/Loader.svelte';
-import marketPlace from '$lib/Marketplace.json';
-import {
-    ethers
-} from 'ethers';
-import Share from '$lib/Share.svelte';
-import {
-    onMount
-} from 'svelte';
-import Card from '$lib/nfts/Card.svelte';
-import Token from '$lib/Token.svelte'
-import {
-    fade,
-    fly
-} from 'svelte/transition';
+	import Loader from './../lib/Loader.svelte';
+	import marketPlace from '$lib/Marketplace.json';
+	import { ethers } from 'ethers';
+	import Share from '$lib/Share.svelte';
+	import { onMount } from 'svelte';
+	import Card from '$lib/nfts/Card.svelte';
+	import Token from '$lib/Token.svelte';
+	import { fade, fly } from 'svelte/transition';
+	import Footer from '$lib/Footer.svelte';
 
-export let trad;
+	export let trad;
 
-let nfts;
+	let nfts;
 
-// let loadingState = 'not-loaded';
-let empty = true;
-let pageIndex: number = 1;
-let account;
-let onlyVerified = false;
-onMount(async () => {
-    const loadNFTs = async () => {
-        const accounts = await window.ethereum
-            .request({
-                method: 'eth_requestAccounts'
-            })
-            .catch((err) => {
-                console.log(err.code);
-            });
-        account = accounts[0];
-		await ethereum.request({
-    		method: 'wallet_switchEthereumChain',
-    		params: [{ chainId: '0x61' }],
- 		})
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
-        let transaction = await contract.fetchMarketItems()
-        console.log("transaction")
-        console.log(transaction)
-        let items = await Promise.all(transaction.map(async i => {
-            console.log(i)
-            const tokenUri = await contract.tokenURI(i.tokenId);
-            let meta = await fetch(tokenUri);
-            meta = await meta.json()
-            let back = await fetch(`/query/nft/${i.tokenId}`);
-            back = await back.json()
-            console.log("back")
-            console.log(back)
-            console.log(back.nft.verified)
-            // let price = ethers.utils.formatUnits(meta.price,'ether');
-            let item = {
-                price: meta.price,
-                tokenId: i.tokenId.toString(),
-                seller: i.seller,
-                owner: i.owner,
-                image: meta.image,
-                name: meta.name,
-                description: meta.description,
-                verified: back.nft.verified,
-                tags: back.nft.tags,
-                attributes: back.nft.attributes
-            }
-            return item
-        }))
-        return items
-    }
-    nfts = await loadNFTs();
-    console.log(nfts)
-    // console.log(nfts.length)
-    // if(!nfts.length){
-    // 	empty =true
-    // }
-});
-const changePage = async (e) => {
-    pageIndex += e;
-    const res = await fetch(`/query/nfts/${pageIndex}`);
-    nfts = await res.json();
-};
-let selectedNft = ''
-let detailsVisible = false
+	// let loadingState = 'not-loaded';
+	let empty = true;
+	let pageIndex: number = 1;
+	let account;
+	let onlyVerified = false;
+	onMount(async () => {
+		const loadNFTs = async () => {
+			const accounts = await window.ethereum
+				.request({
+					method: 'eth_requestAccounts'
+				})
+				.catch((err) => {
+					console.log(err.code);
+				});
+			account = accounts[0];
+			await ethereum.request({
+				method: 'wallet_switchEthereumChain',
+				params: [
+					{
+						chainId: '0x61'
+					}
+				]
+			});
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const signer = provider.getSigner();
+			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
+			let transaction = await contract.fetchMarketItems();
+			let items = await Promise.all(
+				transaction.map(async (i) => {
+					const tokenUri = await contract.tokenURI(i.tokenId);
+					let meta = await fetch(tokenUri);
+					meta = await meta.json();
+					let back = await fetch(`/query/nft/${i.tokenId}`);
+					back = await back.json();
+					// let price = ethers.utils.formatUnits(meta.price,'ether');
+					let item = {
+						price: back.nft.price,
+						tokenId: i.tokenId.toString(),
+						seller: i.seller,
+						owner: i.owner,
+						image: meta.image,
+						name: meta.name,
+						description: meta.description,
+						verified: back.nft.verified,
+						tags: back.nft.tags,
+						attributes: back.nft.attributes
+					};
+					return item;
+				})
+			);
+			return items;
+		};
+		nfts = await loadNFTs();
+	});
+	const changePage = async (e) => {
+		pageIndex += e;
+		const res = await fetch(`/query/nfts/${pageIndex}`);
+		nfts = await res.json();
+	};
+	let selectedNft = '';
+	let detailsVisible = false;
 </script>
 
 {#if detailsVisible}
-<p in:fly="{{ x: 100, duration: 500 }}" >
-    <Token nft={selectedNft} {account} bind:detailsVisible/>
-        </p>
-        {:else}
-        <section in:fly="{{ x: -100, duration: 500 }}">
-            {#if !empty}
-            <p class="flex items-center justify-center">no items in the marketplace</p>
-            {/if}
+	<p in:fly={{ x: 100, duration: 500 }}>
+		<Token nft={selectedNft} {account} bind:detailsVisible />
+	</p>
+{:else}
+	<section in:fly={{ x: -100, duration: 500 }}>
+		{#if !empty}
+			<p class="flex items-center justify-center">no items in the marketplace</p>
+		{/if}
 
-            <p class="flex items-center justify-center text-white text-3xl font-bold py-4 italic">NFTL Marketplace</p>
-            {#if nfts}
-
+		<p class="flex items-center justify-center text-white text-3xl font-bold py-4 italic">
+			NFTL Marketplace
+		</p>
+		{#if nfts}
 			<form class="text-center mx-auto">
-				<input name="is-hidden" type="checkbox" class="checkbox-input" id="checkbox" bind:checked={onlyVerified}/>
+				<input
+					name="is-hidden"
+					type="checkbox"
+					class="checkbox-input"
+					id="checkbox"
+					bind:checked={onlyVerified}
+				/>
 				<label for="checkbox">
 					<span class="checkbox" />
 					<p class=" text-sm text-white inline ml-2 absolute">Only Verified</p>
 				</label>
 			</form>
-            <div class="flex flex-wrap items-center justify-center">
-                {#each nfts as nft}
-					<button on:click={()=>{detailsVisible = true; selectedNft = nft}} class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow">
-						<Card {nft} toDispay="false" {onlyVerified}/>
+			<div class="flex flex-wrap items-center justify-center">
+				{#each nfts as nft}
+					<button
+						on:click={() => {
+							detailsVisible = true;
+							selectedNft = nft;
+						}}
+						class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow"
+					>
+						<Card {nft} toDispay="false" {onlyVerified} />
 					</button>
-					{/each}
-            </div>
-            {/if}
-        </section>
-        {/if}
+				{/each}
+			</div>
+		{/if}
+	</section>
+{/if}
 
-        <div class="flex flex-col items-center">
-            <!-- Help text -->
-            <span class="text-sm text-white dark:text-gray-400">
-                <!-- Showing <span class="font-semibold text-gray-300 dark:text-white">{nfts.first_entry}</span> -->
-                <!-- to <span class="font-semibold text-gray-300 dark:text-white">{nfts.last_entry}</span> of -->
-                <!-- <span class="font-semibold text-gray-300 dark:text-white">{nfts.total_entry}</span> Entries -->
-            </span>
-            <div class="inline-flex mt-2 xs:mt-0">
-                <!-- Buttons -->
-                <!-- {#if nfts.total_entry > 10}
+<div class="flex flex-col items-center">
+	<!-- Help text -->
+	<span class="text-sm text-white dark:text-gray-400">
+		<!-- Showing <span class="font-semibold text-gray-300 dark:text-white">{nfts.first_entry}</span> -->
+		<!-- to <span class="font-semibold text-gray-300 dark:text-white">{nfts.last_entry}</span> of -->
+		<!-- <span class="font-semibold text-gray-300 dark:text-white">{nfts.total_entry}</span> Entries -->
+	</span>
+	<div class="inline-flex mt-2 xs:mt-0">
+		<!-- Buttons -->
+		<!-- {#if nfts.total_entry > 10}
 
 {#if pageIndex !== 1}
 
@@ -164,8 +166,8 @@ clip-rule="evenodd"
 Prev
 
 </button>
-                {/if} -->
-                <!-- {#if nfts.last_entry == nfts.total_entry}
+                                {/if} -->
+		<!-- {#if nfts.last_entry == nfts.total_entry}
 
 <button
 
@@ -200,13 +202,13 @@ clip-rule="evenodd"
 >
 
 </button>
-                {/if} -->
-                <!-- {/if} -->
-            </div>
-        </div>
-        <Share {trad} />
-<style>
+                                {/if} -->
+		<!-- {/if} -->
+	</div>
+</div>
+<Footer {trad} />
 
+<style>
 	.box {
 		width: 100%;
 		height: 90vh;
@@ -221,13 +223,16 @@ clip-rule="evenodd"
 	.checkbox-bipolar-input {
 		display: none;
 	}
+
 	.checkbox-bipolar-input:checked + label .checkbox-bipolar:after {
 		left: 18px;
 		right: 2px;
 	}
+
 	.checkbox-bipolar-input:checked + label .checkbox-bipolar .on {
 		opacity: 0.5;
 	}
+
 	.checkbox-bipolar-input:checked + label .checkbox-bipolar .off {
 		opacity: 0;
 	}
@@ -241,6 +246,7 @@ clip-rule="evenodd"
 		display: inline-block;
 		position: relative;
 	}
+
 	.checkbox-bipolar:after {
 		content: '';
 		display: block;
@@ -253,6 +259,7 @@ clip-rule="evenodd"
 		border-radius: 8px;
 		transition: all 0.3s;
 	}
+
 	.checkbox-bipolar .on {
 		position: absolute;
 		top: 50%;
@@ -263,6 +270,7 @@ clip-rule="evenodd"
 		font-family: sans-serif;
 		font-size: 14px;
 	}
+
 	.checkbox-bipolar .off {
 		position: absolute;
 		top: 50%;
@@ -277,6 +285,7 @@ clip-rule="evenodd"
 	.checkbox-input {
 		display: none;
 	}
+
 	.checkbox-input:checked + label .checkbox:after {
 		transform: translate(-50%, -50%) scale(1);
 	}
@@ -289,6 +298,7 @@ clip-rule="evenodd"
 		display: inline-block;
 		position: relative;
 	}
+
 	.checkbox:after {
 		content: '';
 		display: block;
@@ -301,4 +311,5 @@ clip-rule="evenodd"
 		background-color: #e0d9ea;
 		border-radius: 3px;
 		transition: 0.3s;
-	}</style>
+	}
+</style>

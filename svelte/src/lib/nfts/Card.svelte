@@ -4,13 +4,13 @@
 	export let onlyVerified = false;
 	let src = nft.image;
 	const link = `/nft/${nft.tokenId}`;
-	let price = nft.price;
-	console.log(nft)
-	console.log(nft.price)
-	if (nft.price.split('.').pop() == 0){
-	price = nft.price.split('.').shift()
-	}
-	let owner = `${nft.seller.substring(0,4)}...${nft.seller.slice(-4)}`
+	// let price = nft.price;
+	// if (nft.price.split('.').pop() == 0){
+	// price = nft.price.split('.').shift()
+	// }
+
+	let owner = '0x0000000000000000000000000000000000000000'? nft.owner : nft.seller
+	owner = `${owner.substring(0,4)}...${owner.slice(-4)}`
 	// const hidden = nft.is_hidden || !toDispay;
 	
 	$:verified = onlyVerified && !nft.verified? false: true;
@@ -21,9 +21,6 @@
 	// 		}
 
 	// }
-	console.log("nft.verified") 
-	console.log(onlyVerified)
-	console.log(nft.verified) 
 </script>
 
 {#if verified}
