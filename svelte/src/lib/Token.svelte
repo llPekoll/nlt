@@ -305,7 +305,7 @@
 							>
 								Buy this NFT Front
 							</button>
-							<button
+							<!-- <button
 								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-10 float-right ml-5"
 								on:click|once={() => buyNFTBlockChain(nft.tokenId)}
 							>
@@ -316,7 +316,7 @@
 								on:click|once={() => buyNFTBlockChainTax(nft.tokenId)}
 							>
 								Buy this NFT BlockChainTax
-							</button>
+							</button> -->
 						
 						{:else} <!-- can't do nothing nft not for sale -->
                             <p class="text-right italic text-lg font-semibold text-red-500 mt-10"> NFT not Listed </p>
