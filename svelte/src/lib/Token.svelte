@@ -81,8 +81,7 @@
 	});
 
 	const buyNFT = async (tokenId) => {
-		if (!window.confirm(`Are you sure? Do you really want to purchase this NFT?\n
-it's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
+		if (!window.confirm(`Are you sure? Do you really want to purchase this NFT?\nit's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
 				return;
 		}
 		try {
@@ -102,6 +101,54 @@ it's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
 
 			const transaction = await contract.createMarketSale(nft.tokenId, {
                 value: fee
+			});
+			const tx = await transaction.wait();
+            console.log('transaction')
+            console.log(tx)
+
+			message = '/==== Sold ====/'
+			alert('You successfully bought the NFT!');
+			goto('/mynfts');
+		} catch (e) {
+			alert('Upload Error' + e);
+		}
+	};
+	const buyNFTBlockChain = async (tokenId) => {
+		if (!window.confirm(`Are you sure? Do you really want to purchase this NFT?\nit's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
+				return;
+		}
+		try {
+            message = '/==== Gettings Contract ====/'
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const signer = provider.getSigner();
+            const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
+    
+			const transaction = await contract.createMarketSaleNFTL(nft.tokenId,0, {
+                value: nft.price
+			});
+			const tx = await transaction.wait();
+            console.log('transaction')
+            console.log(tx)
+
+			message = '/==== Sold ====/'
+			alert('You successfully bought the NFT!');
+			goto('/mynfts');
+		} catch (e) {
+			alert('Upload Error' + e);
+		}
+	};
+	const buyNFTBlockChainTax = async (tokenId) => {
+		if (!window.confirm(`Are you sure? Do you really want to purchase this NFT?\nit's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
+				return;
+		}
+		try {
+            message = '/==== Gettings Contract ====/'
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const signer = provider.getSigner();
+            const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
+    
+			const transaction = await contract.createMarketSaleNFTLPlusTax(nft.tokenId,0, {
+                value: nft.price
 			});
 			const tx = await transaction.wait();
             console.log('transaction')
@@ -249,7 +296,19 @@ it's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
 								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-10 float-right ml-5"
 								on:click|once={() => buyNFT(nft.tokenId)}
 							>
-								Buy this NFT
+								Buy this NFT Front
+							</button>
+							<button
+								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-10 float-right ml-5"
+								on:click|once={() => buyNFTBlockChain(nft.tokenId)}
+							>
+								Buy this NFT BlockChain
+							</button>
+							<button
+								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-10 float-right ml-5"
+								on:click|once={() => buyNFTBlockChainTax(nft.tokenId)}
+							>
+								Buy this NFT BlockChainTax
 							</button>
 						
 						{:else} <!-- can't do nothing nft not for sale -->

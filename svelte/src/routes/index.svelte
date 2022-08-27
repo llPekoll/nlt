@@ -18,6 +18,7 @@
 	let pageIndex: number = 1;
 	let account;
 	let onlyVerified = false;
+	let updateCu
 	onMount(async () => {
 		const loadNFTs = async () => {
 			const accounts = await window.ethereum
@@ -32,7 +33,8 @@
 				method: 'wallet_switchEthereumChain',
 				params: [
 					{
-						chainId: '0x61'
+						// chainId: '0x61'
+						chainId: '0x38'
 					}
 				]
 			});
@@ -66,6 +68,15 @@
 			return items;
 		};
 		nfts = await loadNFTs();
+
+		updateCu =  () =>{
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const signer = provider.getSigner();
+			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
+			let price = 10
+			price = ethers.utils.parseUnits(price.toString(), 'ether');
+			let transaction = contract.addCurrency("0x81663d5149cADBbc48CF1a7F21b05719Ee1420A9",price)
+		}
 	});
 	const changePage = async (e) => {
 		pageIndex += e;
@@ -86,7 +97,8 @@
 			<p class="flex items-center justify-center">no items in the marketplace</p>
 		{/if}
 
-		<p class="flex items-center justify-center text-white text-3xl font-bold py-4 italic">
+		<p 
+		class="flex items-center justify-center text-white text-3xl font-bold py-4 italic">
 			NFTL Marketplace
 		</p>
 		{#if nfts}
