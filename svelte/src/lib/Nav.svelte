@@ -1,6 +1,6 @@
 <section class="py-5 text-white">
 	<div class="ml-10 italic font-bold flex">
-		<img src="/favicon.png" alt="logo" />
+		<img src="/favicon.png" alt="logo" class="w-10 h-10"/>
 		<p class="font-bold mt-1.5 ml-2">
 			NFTL<span class="font-thin">MarketPlace</span>
 		</p>
