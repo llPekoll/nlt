@@ -51,7 +51,7 @@
 					back = await back.json();
 					// let price = ethers.utils.formatUnits(meta.price,'ether');
 					let item = {
-						price: back.nft.price,
+						price: i.price,
 						tokenId: i.tokenId.toString(),
 						seller: i.seller,
 						owner: i.owner,
