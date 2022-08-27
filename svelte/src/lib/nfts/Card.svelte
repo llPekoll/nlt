@@ -1,6 +1,5 @@
 <script lang="ts">
 	export let nft;
-	export let toDispay;
 	export let onlyVerified = false;
 	let src = nft.image;
 	const link = `/nft/${nft.tokenId}`;
@@ -11,16 +10,9 @@
 
 	let owner = '0x0000000000000000000000000000000000000000'? nft.owner : nft.seller
 	owner = `${owner.substring(0,4)}...${owner.slice(-4)}`
-	// const hidden = nft.is_hidden || !toDispay;
-	
-	$:verified = onlyVerified && !nft.verified? false: true;
-	// 	if (onlyVerified){
-	// 					if(!nft.verified){
-	// 						verified = false
-	// 				}
-	// 		}
 
-	// }
+	$:verified = onlyVerified && !nft.verified? false: true;
+
 </script>
 
 {#if verified}

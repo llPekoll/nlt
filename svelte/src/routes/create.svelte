@@ -61,12 +61,16 @@
 			const signer = provider.getSigner();
 			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 
-            message = `/===== mint NFT ======/`;
+            message = `/===== Prepare for mint ======/`;
             const timestap = new Date().valueOf()
             const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${env.VITE_S3_ROOT}/${timestap}.json`
             let listingPrice = await contract.getListingPrice();
             listingPrice = listingPrice.toString()
 			price = ethers.utils.parseUnits(price.toString, 'ether');
+            message = `/===== mint NFT ======/`;
+			console.log("price")
+			console.log(price)
+			console.log(listingPrice)
 			let createdNFT = await contract.createToken(tokenUri, price,{value:listingPrice});
 			const res = await createdNFT.wait();
             const tokenId = res.events[0].args[2].toString()
@@ -170,7 +174,7 @@
 						id="dropzone-file"
 						name="image"
 						type="file"
-						class="hidden"  
+						class="hidden"
 						required
 						accept="image/png, image/jpg, image/jpeg, image/gif"
 					/>
