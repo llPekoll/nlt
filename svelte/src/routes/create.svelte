@@ -63,10 +63,16 @@
 
             message = `/===== Prepare for mint ======/`;
             const timestap = new Date().valueOf()
+            message = `/===== 1 ======/`;
             const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${env.VITE_S3_ROOT}/${timestap}.json`
+            message = `/===== 2 ======/`;
             let listingPrice = await contract.getListingPrice();
+            message = `/===== 3 ======/`;
             listingPrice = listingPrice.toString()
-			price = ethers.utils.parseUnits(price.toString, 'ether');
+            message = `/===== 4 ======/`;
+            message = `price`;
+            message = `price = > ${price}`;
+			price = ethers.utils.parseUnits(price.toString(), 'ether');
             message = `/===== mint NFT ======/`;
 			console.log("price")
 			console.log(price)
