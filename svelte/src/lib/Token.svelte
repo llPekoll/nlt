@@ -59,8 +59,8 @@
             let feeBlockchain = await contract.getListingPrice();
             feeBlockchain = feeBlockchain.toString()
 
-            fee = (parseInt(listingPrice.toString())+parseInt(feeBlockchain)).toString()
-			feeDisp = (parseInt(fee)/10**18).toFixed(5)
+            fee = ((parseInt(listingPrice.toString())+parseInt(feeBlockchain))).toString()
+			feeDisp = (parseInt(fee)/10**17).toFixed(5)
 		}
 		await getBNBFeesDisplay()
 
