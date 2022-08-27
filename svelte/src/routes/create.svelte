@@ -45,7 +45,12 @@
         const account = accounts[0];
 		await ethereum.request({
     		method: 'wallet_switchEthereumChain',
-    		params: [{ chainId: '0x61' }],
+    		params: [
+					{
+						// chainId: '0x61'
+						chainId: '0x38'
+					}
+				]
  		})
 		message = 'poccessing';
 		const formData = new FormData(e.target);
@@ -61,7 +66,7 @@
             const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${env.VITE_S3_ROOT}/${timestap}.json`
             let listingPrice = await contract.getListingPrice();
             listingPrice = listingPrice.toString()
-			price = ethers.utils.parseUnits(price.toString(), 'ether');
+			price = ethers.utils.parseUnits(price.toString, 'ether');
 			let createdNFT = await contract.createToken(tokenUri, price,{value:listingPrice});
 			const res = await createdNFT.wait();
             const tokenId = res.events[0].args[2].toString()

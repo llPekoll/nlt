@@ -42,7 +42,12 @@
 		// Meta mask request for correct blockchain
 		await ethereum.request({
     		method: 'wallet_switchEthereumChain',
-    		params: [{ chainId: '0x61' }], //97 in hexa
+    		params: [
+					{
+						// chainId: '0x61'
+						chainId: '0x38'
+					}
+				]
  		})
 
 		// get fee in bnb for 
