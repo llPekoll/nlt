@@ -127,9 +127,10 @@
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
             const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
-    
+			let price = nft.price/1000000000;
+            message = `/==== price ${price} ====/`
 			const transaction = await contract.createMarketSaleNFTL(nft.tokenId,0, {
-                value: nft.price
+                value: price
 			});
 			const tx = await transaction.wait();
             console.log('transaction')
@@ -218,6 +219,7 @@
 	<div class="w-4/5 flex rounded-lg shadow-lg shadow-white">
 		{#if nft}
 			<img src={nft.image} alt="nft" class="rounded-tl-lg rounded-bl-lg w-1/2" />
+			
 			<div class="bg-gray-100 rounded-tr-lg rounded-br-lg w-2/3 p-4 pl-6">
 				<p class="text-3xl font-bold italic capitalize pt-7">{nft.name}</p>
 				<p class=" ml-5 text-gray-600 italic pb-7">- {nft.description}.</p>
