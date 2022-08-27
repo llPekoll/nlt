@@ -96,9 +96,10 @@
             const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
             
             const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
-			// const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
+			const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
+            message = `/==== Price ${nft.price}.0 ====/`
 			try {
-				let tx = await NFTLcontract.transfer(account, nft.price.toString());
+				let tx = await NFTLcontract.transfer(account, toPay);
 			} catch (e) {
 				alert(`error ${e}`);
 				return 0;

@@ -70,6 +70,7 @@
 			console.log("price")
 			console.log(price)
 			console.log(listingPrice)
+			// make it x9 ethers utils
 			let createdNFT = await contract.createToken(tokenUri, price.toString(), {value:listingPrice});
 			const res = await createdNFT.wait();
             const tokenId = res.events[0].args[2].toString()
