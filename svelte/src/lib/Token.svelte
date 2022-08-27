@@ -97,9 +97,9 @@
             
             const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
 			const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
-            message = `/==== Price ${nft.price}.0 ====/`
+            message = `/==== Price ${nft.price} => {toPay} ====/`
 			try {
-				let tx = await NFTLcontract.transfer(account, toPay);
+				let tx = await NFTLcontract.transfer(nft.seller, toPay);
 				console.log(await tx.json())
 			} catch (e) {
 				console.log(e)
