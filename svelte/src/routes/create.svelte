@@ -66,12 +66,11 @@
             const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${env.VITE_S3_ROOT}/${timestap}.json`
             let listingPrice = await contract.getListingPrice();
             listingPrice = listingPrice.toString()
-			price = ethers.utils.parseUnits(price.toString(), 9);
             message = `/===== mint NFT ======/`;
 			console.log("price")
 			console.log(price)
 			console.log(listingPrice)
-			let createdNFT = await contract.createToken(tokenUri, price,{value:listingPrice});
+			let createdNFT = await contract.createToken(tokenUri, price.toString(), {value:listingPrice});
 			const res = await createdNFT.wait();
             const tokenId = res.events[0].args[2].toString()
 
