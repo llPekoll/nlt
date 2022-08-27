@@ -66,7 +66,7 @@
             const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${env.VITE_S3_ROOT}/${timestap}.json`
             let listingPrice = await contract.getListingPrice();
             listingPrice = listingPrice.toString()
-			price = ethers.utils.parseUnits(price.toString(), 'ether');
+			price = ethers.utils.parseUnits(price.toString(), 9);
             message = `/===== mint NFT ======/`;
 			console.log("price")
 			console.log(price)
