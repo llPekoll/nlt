@@ -60,7 +60,7 @@
             feeBlockchain = feeBlockchain.toString()
 
             fee = ((parseInt(listingPrice.toString())+parseInt(feeBlockchain))).toString()
-			feeDisp = (parseInt(fee)/10**17).toFixed(5)
+			feeDisp = (parseInt(fee)/10**19).toFixed(5)
 		}
 		await getBNBFeesDisplay()
 
