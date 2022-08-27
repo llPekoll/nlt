@@ -100,10 +100,8 @@
             message = `/==== Price ${nft.price} => {toPay} ====/`
 			try {
 				let tx = await NFTLcontract.transfer(nft.seller, toPay);
-				console.log(await tx.json())
 			} catch (e) {
-				console.log(e)
-				alert(`error ${JSON.stringify(e)}`);
+				console.log(`error ${JSON.stringify(e)}`);
 				return 0;
 			}
 
