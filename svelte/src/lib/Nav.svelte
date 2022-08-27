@@ -2,7 +2,7 @@
 	<div class="ml-10 italic font-bold flex">
 		<img src="/favicon.png" alt="logo" />
 		<p class="font-bold mt-1.5 ml-2">
-			NLT<span class="font-thin">MarketPlace</span>
+			NFTL<span class="font-thin">MarketPlace</span>
 		</p>
 	</div>
 	<nav>
@@ -15,8 +15,8 @@
 				<a href="/create" class="px-2"> Create </a>
 				|
 				<a href="/game" class="px-2"> Games </a>
-				|
-				<a href="/lore" class="px-2"> Lore </a>
+				<!-- |
+				<a href="/lore" class="px-2"> Lore </a> -->
 			</li>
 		</ul>
 	</nav>
