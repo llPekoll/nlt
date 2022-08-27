@@ -127,10 +127,10 @@
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
             const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
-			let price = nft.price/1000000000;
-            message = `/==== price ${price} ====/`
+			// let price = nft.price/1000000000;
+            // message = `/==== price ${price} ====/`
 			const transaction = await contract.createMarketSaleNFTL(nft.tokenId,0, {
-                value: price
+                value: nft.price
 			});
 			const tx = await transaction.wait();
             console.log('transaction')
