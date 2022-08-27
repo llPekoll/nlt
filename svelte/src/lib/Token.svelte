@@ -91,14 +91,14 @@ it's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
 			const signer = provider.getSigner();
             const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
             
-            // const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
-			// const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
-			// try {
-			// 	let tx = await NFTLcontract.transfer(account, toPay);
-			// } catch (e) {
-			// 	console.log('error', e);
-			// 	return 0;
-			// }
+            const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
+			const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
+			try {
+				let tx = await NFTLcontract.transfer(account, toPay);
+			} catch (e) {
+				alert(`error ${e}`);
+				return 0;
+			}
 
 			const transaction = await contract.createMarketSale(nft.tokenId, {
                 value: fee
