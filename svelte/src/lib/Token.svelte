@@ -89,7 +89,6 @@
 		if (!window.confirm(`Are you sure? Do you really want to purchase this NFT?\nit's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
 				return;
 		}
-		try {
             message = '/==== Gettings Contract ====/'
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
@@ -97,25 +96,27 @@
             
             const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
 			const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
+			message = '/==== Payment in NFTL ====/'
 			try {
-				let tx = await NFTLcontract.transfer(nft.seller, toPay);
+				await NFTLcontract.transfer(nft.seller, toPay);
 			} catch (e) {
 				console.log(`error ${JSON.stringify(e)}`);
 			}
 
-			const transaction = await contract.createMarketSale(nft.tokenId, {
-                value: fee
-			});
-			const tx = await transaction.wait();
-            console.log('transaction')
-            console.log(tx)
-
-			message = '/==== Sold ====/'
+			message = '/==== Transfer NFT ====/'
+			try{
+				const transaction = await contract.createMarketSale(nft.tokenId, {
+					value: fee
+				});
+				await transaction.wait();
+				
+			} catch (e){
+				console.log(`error ${JSON.stringify(e)}`);
+			}
+			message = '/==== NFT Transfered ====/'
 			alert('You successfully bought the NFT!');
 			goto('/mynfts');
-		} catch (e) {
-			alert('Upload Error' + e);
-		}
+
 	};
 	const buyNFTBlockChain = async (tokenId) => {
 		if (!window.confirm(`Are you sure? Do you really want to purchase this NFT?\nit's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`)) {
