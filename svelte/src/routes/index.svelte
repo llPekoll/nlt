@@ -110,7 +110,7 @@
 					<p class=" text-sm text-white inline ml-2 absolute">Only Verified</p>
 				</label>
 			</form>
-			<form class="text-center mx-auto">
+			<!-- <form class="text-center mx-auto">
 				<input
 					type="text"
 					bind:checked={tagsFilterelts}
@@ -119,7 +119,7 @@
 					<span class="checkbox" />
 					<p class=" text-sm text-white inline ml-2 absolute">Filter By</p>
 				</label>
-			</form>
+			</form> -->
 			<div class="flex flex-wrap items-center justify-center">
 				{#each nfts as nft}
 					<button
