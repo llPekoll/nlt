@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Loader from './../lib/Loader.svelte';
-	import marketPlace from '$lib/Marketplace.json';
+	import marketPlace from '$lib/Marketplace.json'; // mainnet
+	// import marketPlaceTest from '$lib/Marketplace.json'; // make the good one for test net
 	import { ethers } from 'ethers';
 	import Share from '$lib/Share.svelte';
 	import { onMount } from 'svelte';
@@ -10,7 +11,8 @@
 	import Footer from '$lib/Footer.svelte';
 
 	export let trad;
-
+	const chainId = "0x38"; // mainnet
+	// const chainId = "0x61"; // testnet
 	let nfts;
 
 	// let loadingState = 'not-loaded';
@@ -19,6 +21,7 @@
 	let account;
 	let onlyVerified = false;
 	let updateCu
+	let tagsFilterelts;
 	onMount(async () => {
 		const loadNFTs = async () => {
 			const accounts = await window.ethereum
@@ -33,8 +36,7 @@
 				method: 'wallet_switchEthereumChain',
 				params: [
 					{
-						// chainId: '0x61'
-						chainId: '0x38'
+						chainId
 					}
 				]
 			});
@@ -42,6 +44,7 @@
 			const signer = provider.getSigner();
 			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 			let transaction = await contract.fetchMarketItems();
+			// await contract.withdraw();
 			let items = await Promise.all(
 				transaction.map(async (i) => {
 					const tokenUri = await contract.tokenURI(i.tokenId);
@@ -69,14 +72,6 @@
 		};
 		nfts = await loadNFTs();
 
-		updateCu =  () =>{
-			const provider = new ethers.providers.Web3Provider(window.ethereum);
-			const signer = provider.getSigner();
-			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
-			let price = 10
-			price = ethers.utils.parseUnits(price.toString(), 'ether');
-			let transaction = contract.addCurrency("0x81663d5149cADBbc48CF1a7F21b05719Ee1420A9",price)
-		}
 	});
 	const changePage = async (e) => {
 		pageIndex += e;
@@ -113,6 +108,16 @@
 				<label for="checkbox">
 					<span class="checkbox" />
 					<p class=" text-sm text-white inline ml-2 absolute">Only Verified</p>
+				</label>
+			</form>
+			<form class="text-center mx-auto">
+				<input
+					type="text"
+					bind:checked={tagsFilterelts}
+				/>
+				<label for="checkbox">
+					<span class="checkbox" />
+					<p class=" text-sm text-white inline ml-2 absolute">Filter By</p>
 				</label>
 			</form>
 			<div class="flex flex-wrap items-center justify-center">

@@ -24,6 +24,7 @@ class Tag(models.Model):
 
 class Collection(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    # not_for_resell = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

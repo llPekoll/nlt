@@ -101,7 +101,6 @@
 				let tx = await NFTLcontract.transfer(nft.seller, toPay);
 			} catch (e) {
 				console.log(`error ${JSON.stringify(e)}`);
-				return 0;
 			}
 
 			const transaction = await contract.createMarketSale(nft.tokenId, {
@@ -329,7 +328,7 @@
 					>
 				</p>
 					<div class="clear-both text-right -pt-10 text-xs">
-						*make sure you have a leat <span class="text-normal">~ {feeDisp}BNB</span> to complete the transaction
+						*make sure you have a least <span class="text-normal">~ {feeDisp}BNB</span> to complete the transaction
 					</div>
                 {:else}
 				<p class="text-xl text-right pt-10 ">

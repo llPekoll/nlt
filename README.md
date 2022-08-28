@@ -22,13 +22,18 @@ npx hardhat help
 - [x] display owner 
 - [x] pay in nftl
 - [x] only PNG, jpg, webp files from image accepted
-- [ ] filters
 - [x] burn on smart contract
 - [x] proper connection button
 - [x] check if enough credit
 - [x] resize images
+- [x] compile NFTL contract to pay NFTs in NFTL --> Aborted
 - [ ] flappy on in another app
-- [ ] compile NFTL contract to pay NFTs in NFTL
+- [ ] filters
+- [ ] image propser size
+- [ ] NFT contract for dev testnet
+- [ ] Pagination
+- [ ] not for resell -> WIP
+
 ## ---- django -----
 
 - [x] update owner ----> moved to BlockChain
