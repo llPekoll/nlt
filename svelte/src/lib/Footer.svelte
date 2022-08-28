@@ -5,7 +5,7 @@ export let trad
 <Share {trad}/>
 <section class="px-10 text-white py-10">
 <p>
-	* Before Purchasing an nft make sure you have enough $BNB tu complete the purchasse. 
+	* Before Purchasing an nft make sure you have enough $BNB tu complete the purchase. 
 </p>
 <p>
 	* if you encounter any issues, if you have question please contact us on twitter or discord.

@@ -303,7 +303,7 @@
 								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-10 float-right ml-5"
 								on:click|once={() => buyNFT(nft.tokenId)}
 							>
-								Buy this NFT Front
+								Buy
 							</button>
 							<!-- <button
 								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-10 float-right ml-5"

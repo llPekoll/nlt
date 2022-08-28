@@ -119,7 +119,6 @@ class NFTListView(APIView):
 class NFTDetailView(APIView):
 
     def get(self, request, tokenId):
-        print('willmase')
         nft = NFT.objects.get(tokenId=tokenId)
         nft_dict = model_to_dict(nft)
         nft_dict["tags"] = [tag.name for tag in nft.tags.all()]
