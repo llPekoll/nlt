@@ -104,7 +104,9 @@
 			try {
 				await NFTLcontract.transfer(nft.seller, toPay);
 			} catch (e) {
+				alert(`error ${JSON.stringify(e)}`);
 				console.log(`error ${JSON.stringify(e)}`);
+				return 0;
 			}
 		}
 
@@ -115,7 +117,9 @@
 			});
 			await transaction.wait();
 		} catch (e) {
+			alert(`error ${JSON.stringify(e)}`);
 			console.log(`error ${JSON.stringify(e)}`);
+			return 0;
 		}
 		message = '/==== NFT Transfered ====/';
 		alert('You successfully bought the NFT!');
