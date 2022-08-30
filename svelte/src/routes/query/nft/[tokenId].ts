@@ -1,13 +1,13 @@
 /** @type {import('@sveltejs/kit').RequestHandler} */
 
 export const get = async ({ params }) => {
-    const env = import.meta.env;
+	const env = import.meta.env;
 	const tokenId = params.tokenId;
 	const res2 = await fetch(`${env.VITE_BACKEND_DNS}/nft/${tokenId}`);
 	const nft = await res2.json();
 	return {
 		body: {
-			nft,
+			nft
 		}
 	};
 };

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import marketPlace from '$lib/Marketplace.json';
+	import { marketplace, chainId } from '$lib/settings.js';
 	import { onMount } from 'svelte';
 	import Card from '$lib/nfts/Card.svelte';
-	import { fade, fly } from 'svelte/transition';
-	import Token from '$lib/Token.svelte'
-	import {ethers} from 'ethers';
+	import { fly } from 'svelte/transition';
+	import Token from '$lib/Token.svelte';
+	import { ethers } from 'ethers';
 	import Footer from '$lib/Footer.svelte';
 
 	export let trad;
@@ -12,89 +12,110 @@
 	let nftsListed = [];
 	let empty = true;
 	let pageIndex: number = 1;
-	let first_entry
-	let last_entry
-	let total_entry
+	let first_entry;
+	let last_entry;
+	let total_entry;
 	let account;
 	onMount(async () => {
-		 const accounts = await window.ethereum
-                .request({
-                    method: 'eth_requestAccounts'
-                })
-                .catch((err) => {
-                    console.log(err.code);
-                });
-            account = accounts[0];
-		const loadNFTs = async (e) =>{
+		const accounts = await window.ethereum
+			.request({
+				method: 'eth_requestAccounts'
+			})
+			.catch((err) => {
+				console.log(err.code);
+			});
+		account = accounts[0];
+		await ethereum.request({
+			method: 'wallet_switchEthereumChain',
+			params: [
+				{
+					chainId
+				}
+			]
+		});
+		const loadNFTs = async (e) => {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
-			// const NFTLContract = new ethers.Contract(NFTLAddress, NFT.abi, provider);
+			const contract = new ethers.Contract(marketplace.address, marketplace.abi, signer);
 			let transaction;
-			if(e ==1){
-				transaction = await contract.fetchMyNFTs()
+			if (e == 1) {
+				transaction = await contract.fetchMyNFTs();
 			}
-			if(e==2){
-				transaction = await contract.fetchItemsListed()
+			if (e == 2) {
+				transaction = await contract.fetchItemsListed();
 			}
-			let items = await Promise.all(transaction.map(async i =>{
-				const tokenUri = await contract.tokenURI(i.tokenId);
-				let meta = await fetch(tokenUri);
-				meta = await meta.json()
-				// let price = ethers.utils.formatUnits(meta.price,'ether');
-				let item = {
-					price: meta.price,
-					tokenId: i.tokenId.toString(),
-					seller:i.seller,
-					owner: i.owner,
-					image: meta.image,
-					name: meta.name,
-					description: meta.description
-				}
-				return item
-			}))
-			return items
-		}
+			let items = await Promise.all(
+				transaction.map(async (i) => {
+					const tokenUri = await contract.tokenURI(i.tokenId);
+					let meta = await fetch(tokenUri);
+					meta = await meta.json();
+					// let price = ethers.utils.formatUnits(meta.price,'ether');
+					let item = {
+						price: meta.price,
+						tokenId: i.tokenId.toString(),
+						seller: i.seller,
+						owner: i.owner,
+						image: meta.image,
+						name: meta.name,
+						description: meta.description
+					};
+					return item;
+				})
+			);
+			return items;
+		};
 		nftsBought = await loadNFTs(1);
 		nftsListed = await loadNFTs(2);
-	})
-	let selectedNft = ''
-	let detailsVisible = false
+	});
+	let selectedNft = '';
+	let detailsVisible = false;
 </script>
 
 {#if detailsVisible}
-	<p in:fly="{{ x: 100, duration: 500 }}" >
-		<Token nft={selectedNft} {account} bind:detailsVisible/>
+	<p in:fly={{ x: 100, duration: 500 }}>
+		<Token nft={selectedNft} {account} bind:detailsVisible />
 	</p>
 {:else}
-<section in:fly="{{ x: -100, duration: 500 }}">
-	{#if !empty}
-		<p class="flex items-center justify-center">you have no NFTs</p>
-	{/if}
+	<section in:fly={{ x: -100, duration: 500 }}>
+		{#if !empty}
+			<p class="flex items-center justify-center">you have no NFTs</p>
+		{/if}
 
-	<p class="flex items-center justify-center text-white">My Nfts</p>
-	<div class="flex flex-wrap items-center justify-center">
-		{#if nftsBought}
-			<div class="flex flex-wrap items-center justify-center">
-				{#each nftsBought as nft}
-				<button on:click={()=>{detailsVisible = true; selectedNft = nft}} class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow">
-					<Card {nft} toDispay="false" />
-				</button>
-				{/each}
-			</div>
-		{/if}
-		{#if nftsListed}
-			<div class="flex flex-wrap items-center justify-center">
-				{#each nftsListed as nft}
-				<button on:click={()=>{detailsVisible = true; selectedNft = nft}} class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow">
-					<Card {nft} toDispay="false" />
-				</button>
-				{/each}
-			</div>
-		{/if}
-	</div>
-</section>
+		<p class="flex items-center justify-center text-white">My Nfts</p>
+		<div class="flex flex-wrap items-center justify-center">
+			{#if nftsBought}
+				<div class="flex flex-wrap items-center justify-center">
+					{#each nftsBought as nft}
+						<button
+							on:click={() => {
+								detailsVisible = true;
+								selectedNft = nft;
+							}}
+							class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow"
+						>
+							<Card {nft} toDispay="false" />
+						</button>
+					{/each}
+				</div>
 			{/if}
+			{#if nftsListed}
+				<div class="flex flex-wrap items-center justify-center">
+					{#each nftsListed as nft}
+						<button
+							on:click={() => {
+								detailsVisible = true;
+								selectedNft = nft;
+							}}
+							class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow"
+						>
+							<Card {nft} toDispay="false" />
+						</button>
+					{/each}
+				</div>
+			{/if}
+		</div>
+	</section>
+{/if}
 <!-- <div class="flex flex-col items-center">
 
 	<span class="text-sm text-white dark:text-gray-400">

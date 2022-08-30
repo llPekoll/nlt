@@ -13,7 +13,7 @@
 
 	let nftOwner;
 	let isListed;
-    let message;
+	let message;
 
 	onMount(async () => {
 		const accounts = await window.ethereum
@@ -29,7 +29,7 @@
 		const loadNFTs = async () => {
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			
+
 			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
 			console.log('sako');
 			const tokenUri = await contract.tokenURI(parseInt(tokenId) + 1);
@@ -49,15 +49,15 @@
 				isHidden: nft.is_hidden,
 				tags: nft.tags
 			};
-			console.log("listedToken.tokenId");
-			console.log("owner");
+			console.log('listedToken.tokenId');
+			console.log('owner');
 			console.log(listedToken.owner);
-            tokenId = listedToken.tokenId.toString()
+			tokenId = listedToken.tokenId.toString();
 			console.log(tokenId);
 			nftOwner = false;
 			isListed = true;
-            console.log('isListed')
-            console.log(isListed)
+			console.log('isListed');
+			console.log(isListed);
 			return item;
 		};
 		nftDataFromBlockChain = await loadNFTs();
@@ -65,8 +65,8 @@
 
 	const buyNFT = async (tokenId) => {
 		try {
-            console.log(tokenId)
-            message = 'gettings contract'
+			console.log(tokenId);
+			message = 'gettings contract';
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
 			const marketContract = new ethers.Contract(
@@ -74,7 +74,7 @@
 				marketPlace.abiMarket,
 				signer
 			);
-            const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
+			const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
 			// const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
 			// const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
 			// try {
@@ -83,32 +83,32 @@
 			// 	console.log('error', e);
 			// 	return 0;
 			// }
-            message = 'fetching fees'
+			message = 'fetching fees';
 			let taxes = await fetch(`/query/mycom/${nft.price}`);
 			const { value } = await taxes.json();
-            console.log('jar')
-            console.log(tokenId)
-            // const jose = await nftContract.owner();
-            // console.log(await jose)
-            // return
+			console.log('jar');
+			console.log(tokenId);
+			// const jose = await nftContract.owner();
+			// console.log(await jose)
+			// return
 			const listingPrice = ethers.utils.parseUnits(value.value, 'ether');
-            let feeBlockchain = await marketContract.getListingFee();
-            feeBlockchain = feeBlockchain.toString()
-            message = 'request for sale'
-			console.log('listing Price')
+			let feeBlockchain = await marketContract.getListingFee();
+			feeBlockchain = feeBlockchain.toString();
+			message = 'request for sale';
+			console.log('listing Price');
 
-            const taxe = (parseInt(listingPrice.toString())+parseInt(feeBlockchain)).toString()
-            console.log(taxe)
-			const transaction = await marketContract.n2DMarketSale(marketPlace.addressNFT, tokenId +1, {
-                value: taxe
+			const taxe = (parseInt(listingPrice.toString()) + parseInt(feeBlockchain)).toString();
+			console.log(taxe);
+			const transaction = await marketContract.n2DMarketSale(marketPlace.addressNFT, tokenId + 1, {
+				value: taxe
 			});
 			await transaction.wait();
 			const approve = await nftContract.approve(marketPlace.addressMarket, tokenId);
 			await approve.wait();
-            message = 'push sale'
+			message = 'push sale';
 			const res = await fetch(`/query/nft/${tokenId}`, {
 				method: 'PATCH',
-				body: JSON.stringify({ owner: currAddress,islisted:false })
+				body: JSON.stringify({ owner: currAddress, islisted: false })
 			});
 			const ulta = await res.json();
 			alert('You successfully bought the NFT!');
@@ -133,37 +133,35 @@
 	};
 
 	const listOnMarket = async (e) => {
-        message = 'gettings contract'
+		message = 'gettings contract';
 		const provider = new ethers.providers.Web3Provider(window.ethereum);
 		const signer = provider.getSigner();
 		const marketContract = new ethers.Contract(
-            marketPlace.addressMarket,
+			marketPlace.addressMarket,
 			marketPlace.abiMarket,
 			signer
 		);
 
-        message = 'fetching fees'
-        let listingPrice = await contractMarket.getListingFee();
-        listingPrice = listingPrice.toString()
+		message = 'fetching fees';
+		let listingPrice = await contractMarket.getListingFee();
+		listingPrice = listingPrice.toString();
 
-        message = 'resquest approuval'
-        message = 'List token'
-        console.log(tokenId)
-		const transaction = await marketContract.createVaultItem(
-            marketPlace.addressNFT,
-			tokenId,
-			{ value: listingPrice }
-		);
+		message = 'resquest approuval';
+		message = 'List token';
+		console.log(tokenId);
+		const transaction = await marketContract.createVaultItem(marketPlace.addressNFT, tokenId, {
+			value: listingPrice
+		});
 		await transaction.wait();
-            message = 'push results'
-        const res = await fetch(`/query/nft/${tokenId}`, {
-            method: 'PATCH',
-            body: JSON.stringify({ listed: true })
-        });
-        const ulta = await res.json();
-            message = 'NFT listed'
-        alert('You successfully Listed the NFT!');
-        goto('/mynfts');
+		message = 'push results';
+		const res = await fetch(`/query/nft/${tokenId}`, {
+			method: 'PATCH',
+			body: JSON.stringify({ listed: true })
+		});
+		const ulta = await res.json();
+		message = 'NFT listed';
+		alert('You successfully Listed the NFT!');
+		goto('/mynfts');
 	};
 </script>
 
@@ -195,10 +193,13 @@
 
 				{#if nftDataFromBlockChain}
 					{#if nftOwner}
-						{#if isListed} <!-- NFT ready to be bought -->
-							<p class="mt-10 text-red-500 italic font-semibold text-right"> NFT Listed On The Way to Be sold we Wish you Luck!</p>
+						{#if isListed}
+							<!-- NFT ready to be bought -->
+							<p class="mt-10 text-red-500 italic font-semibold text-right">
+								NFT Listed On The Way to Be sold we Wish you Luck!
+							</p>
 						{:else}<!-- Here we setup the price and list it -->
-							 <form class="pt-7">
+							<form class="pt-7">
 								<input
 									type="checkbox"
 									class="checkbox-input"
@@ -247,36 +248,38 @@
 						{/if}
 					{:else}
 						<!-- no the owner just a simple other visitor -->
-						{#if isListed} <!-- Buy the NFT -->
+						{#if isListed}
+							<!-- Buy the NFT -->
 							<button
 								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-10 float-right ml-5"
 								on:click|once={() => buyNFT(tokenId)}
 							>
 								Buy this NFT
 							</button>
-						{:else} <!-- can't do nothing nft not for sale -->
-                            <p class="text-right italic text-lg font-semibold text-red-500 mt-10"> NFT not Listed </p>
-                       {/if}
-                    {/if}
-				{/if} 
-                {#if isListed}
-				<p class="text-xl text-right pt-12 pr-5">
-                
-					<span class="text-xs font-thin">Price:</span>{nft.price}<span class="font-bold italic"
-						>$NFTL</span
-					>
-				</p>
-                {:else}
-				<p class="text-xl text-right pt-10 ">
-                
-					<span class="text-xs font-thin">Price:</span>{nft.price}<span class="font-bold italic"
-						>$NFTL</span
-					>
-				</p>
-                {/if}
-                {#if message}
-                    {message}
-                    {/if}
+						{:else}
+							<!-- can't do nothing nft not for sale -->
+							<p class="text-right italic text-lg font-semibold text-red-500 mt-10">
+								NFT not Listed
+							</p>
+						{/if}
+					{/if}
+				{/if}
+				{#if isListed}
+					<p class="text-xl text-right pt-12 pr-5">
+						<span class="text-xs font-thin">Price:</span>{nft.price}<span class="font-bold italic"
+							>$NFTL</span
+						>
+					</p>
+				{:else}
+					<p class="text-xl text-right pt-10 ">
+						<span class="text-xs font-thin">Price:</span>{nft.price}<span class="font-bold italic"
+							>$NFTL</span
+						>
+					</p>
+				{/if}
+				{#if message}
+					{message}
+				{/if}
 			</div>
 		{/if}
 	</div>

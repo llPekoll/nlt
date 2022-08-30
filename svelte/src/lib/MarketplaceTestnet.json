@@ -1,5 +1,5 @@
 {
-	"address": "0x31f9fa88d5318853097C016Bf29a6ED8e8100f42",
+	"address": "0x34B8290B6284Ab90f954F7f82992F44ed1F9363E",
 	"abi": [
 		{ "type": "constructor", "payable": false, "inputs": [] },
 		{
@@ -46,29 +46,6 @@
 		},
 		{
 			"type": "function",
-			"name": "AllowedCrypto",
-			"constant": true,
-			"stateMutability": "view",
-			"payable": false,
-			"inputs": [{ "type": "uint256" }],
-			"outputs": [
-				{ "type": "address", "name": "paytoken" },
-				{ "type": "uint256", "name": "costvalue" }
-			]
-		},
-		{
-			"type": "function",
-			"name": "addCurrency",
-			"constant": false,
-			"payable": false,
-			"inputs": [
-				{ "type": "address", "name": "_paytoken" },
-				{ "type": "uint256", "name": "_costvalue" }
-			],
-			"outputs": []
-		},
-		{
-			"type": "function",
 			"name": "approve",
 			"constant": false,
 			"payable": false,
@@ -112,30 +89,6 @@
 			"stateMutability": "payable",
 			"payable": true,
 			"inputs": [{ "type": "uint256", "name": "tokenId" }],
-			"outputs": []
-		},
-		{
-			"type": "function",
-			"name": "createMarketSaleNFTL",
-			"constant": false,
-			"stateMutability": "payable",
-			"payable": true,
-			"inputs": [
-				{ "type": "uint256", "name": "tokenId" },
-				{ "type": "uint256", "name": "_pid" }
-			],
-			"outputs": []
-		},
-		{
-			"type": "function",
-			"name": "createMarketSaleNFTLPlusTax",
-			"constant": false,
-			"stateMutability": "payable",
-			"payable": true,
-			"inputs": [
-				{ "type": "uint256", "name": "tokenId" },
-				{ "type": "uint256", "name": "_pid" }
-			],
 			"outputs": []
 		},
 		{
@@ -280,6 +233,18 @@
 		},
 		{
 			"type": "function",
+			"name": "resellToken",
+			"constant": false,
+			"stateMutability": "payable",
+			"payable": true,
+			"inputs": [
+				{ "type": "uint256", "name": "tokenId" },
+				{ "type": "uint256", "name": "price" }
+			],
+			"outputs": []
+		},
+		{
+			"type": "function",
 			"name": "safeTransferFrom",
 			"constant": false,
 			"payable": false,
@@ -364,38 +329,11 @@
 		},
 		{
 			"type": "function",
-			"name": "updateListingTax",
-			"constant": false,
-			"stateMutability": "payable",
-			"payable": true,
-			"inputs": [{ "type": "uint256", "name": "_taxeValue" }],
-			"outputs": []
-		},
-		{
-			"type": "function",
 			"name": "withdraw",
 			"constant": false,
 			"stateMutability": "payable",
 			"payable": true,
 			"inputs": [],
-			"outputs": []
-		},
-		{
-			"type": "function",
-			"name": "withdrawCurrency",
-			"constant": false,
-			"stateMutability": "payable",
-			"payable": true,
-			"inputs": [{ "type": "uint256", "name": "_pid" }],
-			"outputs": []
-		},
-		{
-			"type": "function",
-			"name": "withdrawCurrencyAll",
-			"constant": false,
-			"stateMutability": "payable",
-			"payable": true,
-			"inputs": [{ "type": "uint256", "name": "_pid" }],
 			"outputs": []
 		}
 	]

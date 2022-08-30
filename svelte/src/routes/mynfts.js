@@ -6,7 +6,7 @@ export const get = async () => {
 	const trad = await res.json();
 	return {
 		body: {
-			trad,
+			trad
 		}
 	};
 };

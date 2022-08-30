@@ -8,7 +8,7 @@ export const get = async ({ params }) => {
 	const value = await res.json();
 	return {
 		body: {
-			value,
+			value
 		}
 	};
 };

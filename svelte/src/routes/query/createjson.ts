@@ -27,7 +27,7 @@ export const post: RequestHandler = async ({ request }) => {
 	let image = data.image;
 	const fileName = `${root}/${tokenId}_${image}`.replace(/\s/g, '');
 	const tokenUri = data.tokenUri;
-	const jasonName = tokenUri.replace(`${env.VITE_CDN_EXPOSE_URL}/`,'');
+	const jasonName = tokenUri.replace(`${env.VITE_CDN_EXPOSE_URL}/`, '');
 	const name = data.name;
 	const price = data.price;
 	const creator = data.creator;
@@ -35,7 +35,7 @@ export const post: RequestHandler = async ({ request }) => {
 	const tags = data.tags;
 	const collection = data.collection;
 	const isHidden = data.isHidden;
-    image = `${env.VITE_CDN_URL}/${fileName}`;
+	image = `${env.VITE_CDN_URL}/${fileName}`;
 
 	const jason = {
 		name,
@@ -75,6 +75,6 @@ export const post: RequestHandler = async ({ request }) => {
 	});
 	return {
 		status: 200,
-		body: {  }
+		body: {}
 	};
 };

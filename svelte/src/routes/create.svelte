@@ -1,18 +1,18 @@
 <script lang="ts">
-    import { env } from '$lib/env';
+	import { env } from '$lib/env';
 	import { goto } from '$app/navigation';
 	import Tags from 'svelte-tags-input';
-	import marketPlace from '$lib/Marketplace.json';
+	import { marketplace, chainId } from '$lib/settings.js';
 	import { ethers } from 'ethers';
-    import Loader from '$lib/Loader.svelte';
+	import Loader from '$lib/Loader.svelte';
 
 	let key;
 	let value;
-    let message = '';
+	let message = '';
 	let tags = '';
 	let price;
 
-    // attributes
+	// attributes
 	let attributes = [];
 	const addAttributes = () => {
 		attributes = [
@@ -35,47 +35,48 @@
 	}
 
 	const onSubmit = async (e) => {
-         const accounts = await window.ethereum
-                .request({
-                    method: 'eth_requestAccounts'
-                })
-                .catch((err) => {
-                    console.log(err.code);
-                });
-        const account = accounts[0];
+		const accounts = await window.ethereum
+			.request({
+				method: 'eth_requestAccounts'
+			})
+			.catch((err) => {
+				console.log(err.code);
+			});
+		const account = accounts[0];
 		await ethereum.request({
-    		method: 'wallet_switchEthereumChain',
-    		params: [
-					{
-						// chainId: '0x61'
-						chainId: '0x38'
-					}
-				]
- 		})
+			method: 'wallet_switchEthereumChain',
+			params: [
+				{
+					chainId
+				}
+			]
+		});
 		message = 'poccessing';
 		const formData = new FormData(e.target);
 
 		try {
-            message = 'gettings contracts';
+			message = 'gettings contracts';
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
+			const contract = new ethers.Contract(marketplace.address, marketplace.abi, signer);
 
-            message = `/===== Prepare for mint ======/`;
-            const timestap = new Date().valueOf()
-            const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${env.VITE_S3_ROOT}/${timestap}.json`
-            let listingPrice = await contract.getListingPrice();
-            listingPrice = listingPrice.toString()
-            message = `/===== mint NFT ======/`;
-			console.log("price")
-			console.log(price)
-			console.log(listingPrice)
+			message = `/===== Prepare for mint ======/`;
+			const timestap = new Date().valueOf();
+			const tokenUri = `${env.VITE_CDN_EXPOSE_URL}/${env.VITE_S3_ROOT}/${timestap}.json`;
+			let listingPrice = await contract.getListingPrice();
+			listingPrice = listingPrice.toString();
+			message = `/===== mint NFT ======/`;
+			console.log('price');
+			console.log(price);
+			console.log(listingPrice);
 			// make it x9 ethers utils
-			let createdNFT = await contract.createToken(tokenUri, price.toString(), {value:listingPrice});
+			let createdNFT = await contract.createToken(tokenUri, price.toString(), {
+				value: listingPrice
+			});
 			const res = await createdNFT.wait();
-            const tokenId = res.events[0].args[2].toString()
+			const tokenId = res.events[0].args[2].toString();
 
-            message = `/===== Pushing to MarketPlace ======/`;
+			message = `/===== Pushing to MarketPlace ======/`;
 
 			const attributesFormated = attributes.map(function (e) {
 				return { trait_type: e.trait_type, value: e.value };
@@ -85,7 +86,7 @@
 			// send to S3 bucket
 			const payload = {
 				tokenId,
-                tokenUri,
+				tokenUri,
 				creator: account,
 				attributes: attributesFormated,
 				name: formData.get('name'),
@@ -106,7 +107,7 @@
 				method: 'POST',
 				body: formData
 			});
-            message = `/===== NFT Listed ======/`;
+			message = `/===== NFT Listed ======/`;
 			message = 'success';
 			alert(`NFT uploaded with success`);
 			goto('/');
@@ -114,36 +115,36 @@
 			alert(`Error : ${e}`);
 		}
 	};
-    let input;
-    let img;
-    let showImage = false;
-    const onChange = () =>{
-        const file = input.files[0];
-    if (file) {
+	let input;
+	let img;
+	let showImage = false;
+	const onChange = () => {
+		const file = input.files[0];
+		if (file) {
 			showImage = true;
 
-      const reader = new FileReader();
-      reader.addEventListener("load", function () {
-        img.setAttribute("src", reader.result);
-      });
-      reader.readAsDataURL(file);
-			
+			const reader = new FileReader();
+			reader.addEventListener('load', function () {
+				img.setAttribute('src', reader.result);
+			});
+			reader.readAsDataURL(file);
+
 			return;
-    } 
-		showImage = false; 
-    }
+		}
+		showImage = false;
+	};
 </script>
 
 <div class="flex items-center justify-center py-10">
-	<div class="card w-2/3 bg-gray-200 rounded-lg py-10 px-10 shadow-lg">
+	<div class="card w-4/5 bg-gray-200 rounded-lg py-10 shadow-lg">
 		<div class="text-xl font-bold text-center">
 			NFT<span class="italic font-thin">Creation</span>
 		</div>
-        {#if showImage}
-		    <img bind:this={img} src="" alt="Preview" class="w-32 h-32 text-center mx-auto mt-10"/>
-	    {/if}
+		{#if showImage}
+			<img bind:this={img} src="" alt="Preview" class="w-32 h-32 text-center mx-auto mt-10" />
+		{/if}
 		<form method="post" enctype="multipart/form-data" on:submit|preventDefault={onSubmit}>
-			<div class="flex justify-center items-center w-2/3 mx-auto py-5">
+			<div class="flex justify-center items-center w-4/5 mx-auto py-5">
 				<label
 					for="dropzone-file"
 					class="flex flex-col justify-center items-center w-full h-32 bg-gray-50 rounded-lg border-2 border-gray-300 border-dashed cursor-pointer dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
@@ -169,8 +170,8 @@
 						<p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG or GIF</p>
 					</div>
 					<input
-                        bind:this={input}
-                        on:change={onChange}
+						bind:this={input}
+						on:change={onChange}
 						id="dropzone-file"
 						name="image"
 						type="file"
@@ -180,14 +181,14 @@
 					/>
 				</label>
 			</div>
-			<div class=" w-2/3 mx-auto">
+			<div class=" w-4/5 mx-auto">
 				<div class="relative z-0 mb-6 w-full group ">
 					<input
 						type="text"
 						name="name"
 						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						required
-                        placeholder=" "
+						placeholder=" "
 					/>
 					<label
 						for="floating_email"
@@ -196,15 +197,15 @@
 					>
 				</div>
 			</div>
-			<div class=" w-2/3 mx-auto">
+			<div class=" w-4/5 mx-auto">
 				<div class="relative z-0 mb-6 w-full group ">
 					<input
 						type="number"
 						name="price"
-                        min="1000"
+						min="1000"
 						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						required
-                        placeholder=" "
+						placeholder=" "
 						bind:value={price}
 					/>
 					<label
@@ -214,13 +215,13 @@
 					>
 				</div>
 			</div>
-			<div class=" w-2/3 mx-auto">
+			<div class=" w-4/5 mx-auto">
 				<div class="relative z-0 mb-6 w-full group ">
 					<input
 						type="text"
 						name="collection"
 						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
+						placeholder=" "
 					/>
 					<label
 						for="floating_email"
@@ -230,14 +231,14 @@
 				</div>
 			</div>
 
-			<div class=" w-2/3 mx-auto">
+			<div class=" w-4/5 mx-auto">
 				<div class="relative z-0 mb-6 w-full group ">
 					<input
 						type="text"
 						name="description"
 						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						required
-                        placeholder=" "
+						placeholder=" "
 					/>
 					<label
 						for="floating_email"
@@ -246,23 +247,23 @@
 					>
 				</div>
 			</div>
-			<!-- <div class="w-2/3 mx-auto">
+			<!-- <div class="w-4/5 mx-auto">
 				<input name="is-hidden" type="checkbox" class="checkbox-input" id="checkbox" />
 				<label for="checkbox">
 					<span class="checkbox" />
 					<p class=" text-sm text-gray-500 inline ml-2 absolute">Display the NFT in the market place</p>
 				</label>
 			</div> -->
-			<div class=" w-2/3 mx-auto py-3">
+			<div class=" w-4/5 mx-auto py-3">
 				<label for="tags" class="text-left text-sm text-gray-500"
 					>Tags
 					<Tags on:tags={handleTags} addKeys={[9]} />
 				</label>
 			</div>
 			{#if attributes.length > 0}
-				<div class="w-2/3 mx-auto text-gray-500 text-center mx-auto text-xl"> -- Attributes --</div>
+				<div class="w-4/5 mx-auto text-gray-500 text-center mx-auto text-xl">-- Attributes --</div>
 			{/if}
-			<ul class="w-2/3 mx-auto text-gray-500 mt-3">
+			<ul class="w-4/5 mx-auto text-gray-500 mt-3">
 				{#each attributes as attribute}
 					<li>
 						<span>{attribute.trait_type}</span>
@@ -271,15 +272,15 @@
 					</li>
 				{/each}
 			</ul>
-			<form on:submit|preventDefault={addAttributes} class=" w-2/3 mx-auto mt-4">
+			<form on:submit|preventDefault={addAttributes} class=" w-4/5 mx-auto mt-4">
 				<label for="attribute" class="block text-gray-500 text-center">Add an attribute</label>
-				<div class="flex items-center mt-2">
+				<div class="flex items-center mt-2 ">
 					<div class="relative z-0 mb-6 w-1/2 group ">
 						<input
 							type="text"
 							bind:value={key}
 							required
-                            placeholder=" "
+							placeholder=" "
 							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						/>
 						<label
@@ -288,7 +289,7 @@
 							>Key</label
 						>
 					</div>
-					<div class="relative z-0 mb-6 w-1/2 group ">
+					<div class="relative z-0 mb-6 w-1/2 group">
 						<input
 							type="text"
 							bind:value
@@ -306,25 +307,25 @@
 				<button
 					on:submit|preventDefault={addAttributes}
 					type="submit"
-					class="block bg-blue-500 px-5 py-1 rounded text-white text-center mx-auto  mt-2"
+					class="block bg-green-400 px-5 py-0.5 rounded text-white text-center mx-auto mt-2 font-thin"
 				>
 					add
 				</button>
 			</form>
 			<div class=" my-10">
 				{#if message == ''}
-					<div class="text-center">
-						<button type="submit" class="bg-blue-500 py-2 px-10 rounded-lg shadow-md text-white">
+					<div class="text-center text-xl  w-4/5 mx-auto">
+						<button type="submit" class="bg-blue-500 py-2 px-10 rounded-lg shadow-md text-white w-full">
 							submit
 						</button>
 					</div>
 				{:else}
-                        <div class="text-center">
-                            {message}
-                            <div class="w-1/6 mx-auto filter-green">
-                            <Loader version=1/>
-                            </div>
-                        </div>
+					<div class="text-center">
+						{message}
+						<div class="w-1/6 mx-auto filter-green">
+							<Loader version="1" />
+						</div>
+					</div>
 				{/if}
 			</div>
 		</form>
@@ -332,9 +333,9 @@
 </div>
 
 <style>
-    .filter-green{
-        filter: invert(0%) sepia(100%) saturate(7500%) hue-rotate(234deg) brightness(118%) contrast(87%);
-    }
+	.filter-green {
+		filter: invert(0%) sepia(100%) saturate(7500%) hue-rotate(234deg) brightness(118%) contrast(87%);
+	}
 	.box {
 		width: 100%;
 		height: 90vh;

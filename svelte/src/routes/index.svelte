@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Loader from './../lib/Loader.svelte';
-	import marketPlace from '$lib/Marketplace.json'; // mainnet
-	// import marketPlaceTest from '$lib/Marketplace.json'; // make the good one for test net
+	import { marketplace, chainId, withdrawl } from '$lib/settings.js';
 	import { ethers } from 'ethers';
 	import Share from '$lib/Share.svelte';
 	import { onMount } from 'svelte';
@@ -11,8 +10,6 @@
 	import Footer from '$lib/Footer.svelte';
 
 	export let trad;
-	const chainId = "0x38"; // mainnet
-	// const chainId = "0x61"; // testnet
 	let nfts;
 
 	// let loadingState = 'not-loaded';
@@ -20,7 +17,7 @@
 	let pageIndex: number = 1;
 	let account;
 	let onlyVerified = false;
-	let updateCu
+	let updateCu;
 	let tagsFilterelts;
 	onMount(async () => {
 		const loadNFTs = async () => {
@@ -42,9 +39,11 @@
 			});
 			const provider = new ethers.providers.Web3Provider(window.ethereum);
 			const signer = provider.getSigner();
-			const contract = new ethers.Contract(marketPlace.address, marketPlace.abi, signer);
+			const contract = new ethers.Contract(marketplace.address, marketplace.abi, signer);
 			let transaction = await contract.fetchMarketItems();
-			// await contract.withdraw();
+			if (withdrawl) {
+				await contract.withdraw();
+			}
 			let items = await Promise.all(
 				transaction.map(async (i) => {
 					const tokenUri = await contract.tokenURI(i.tokenId);
@@ -71,7 +70,6 @@
 			return items;
 		};
 		nfts = await loadNFTs();
-
 	});
 	const changePage = async (e) => {
 		pageIndex += e;
@@ -92,8 +90,7 @@
 			<p class="flex items-center justify-center">no items in the marketplace</p>
 		{/if}
 
-		<p 
-		class="flex items-center justify-center text-white text-3xl font-bold py-4 italic">
+		<p class="flex items-center justify-center text-white text-3xl font-bold py-4 italic">
 			NFTL Marketplace
 		</p>
 		{#if nfts}
