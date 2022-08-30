@@ -336,101 +336,7 @@
 	.comma-list li:last-child::after {
 		content: '';
 	}
-	.box {
-		width: 100%;
-		height: 90vh;
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-		justify-content: center;
-		align-items: center;
-		align-content: center;
-	}
 
-	.checkbox-bipolar-input {
-		display: none;
-	}
-	.checkbox-bipolar-input:checked + label .checkbox-bipolar:after {
-		left: 18px;
-		right: 2px;
-	}
-	.checkbox-bipolar-input:checked + label .checkbox-bipolar .on {
-		opacity: 0.5;
-	}
-	.checkbox-bipolar-input:checked + label .checkbox-bipolar .off {
-		opacity: 0;
-	}
-
-	.checkbox-bipolar {
-		margin-right: 15px;
-		width: 36px;
-		height: 20px;
-		border-radius: 10px;
-		border: 1px solid #6a1ad0;
-		display: inline-block;
-		position: relative;
-	}
-	.checkbox-bipolar:after {
-		content: '';
-		display: block;
-		position: absolute;
-		background: #6a1ad0;
-		left: 2px;
-		top: 2px;
-		bottom: 2px;
-		right: 18px;
-		border-radius: 8px;
-		transition: all 0.3s;
-	}
-	.checkbox-bipolar .on {
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		left: 6px;
-		opacity: 0;
-		transition: 0.3s;
-		font-family: sans-serif;
-		font-size: 14px;
-	}
-	.checkbox-bipolar .off {
-		position: absolute;
-		top: 50%;
-		transform: translateY(-50%);
-		right: 5px;
-		opacity: 0.5;
-		font-family: sans-serif;
-		transition: 0.3s;
-		font-size: 14px;
-	}
-
-	.checkbox-input {
-		display: none;
-	}
-	.checkbox-input:checked + label .checkbox:after {
-		transform: translate(-50%, -50%) scale(1);
-	}
-
-	.checkbox {
-		border: 1px solid blue;
-		border-radius: 3px;
-		width: 16px;
-		height: 16px;
-		display: inline-block;
-		position: relative;
-	}
-	.checkbox:after {
-		content: '';
-		display: block;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%) scale(0);
-		width: 12px;
-		height: 12px;
-		background-color: blue;
-		border-radius: 3px;
-		transition: 0.3s;
-	}
 	.wrapper .icon {
 		position: relative;
 		background-color: #ffffff;
@@ -482,10 +388,7 @@
 		pointer-events: auto;
 	}
 
-	.wrapper .icon:hover span,
-	.wrapper .icon:hover .tooltip {
-		text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
-	}
+
 
 	.wrapper .facebook:hover,
 	.wrapper .facebook:hover .tooltip,
