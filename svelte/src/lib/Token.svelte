@@ -222,7 +222,7 @@
 						</p>
 					{:else}<!-- Here we setup the price and list it -->
 						<form class="pt-7">
-							<input
+							<!-- <input
 								type="checkbox"
 								class="checkbox-input"
 								id="checkbox"
@@ -231,7 +231,7 @@
 								on:change={() => {
 									updatenft('list');
 								}}
-							/>
+							/> -->
 							<!-- <label for="checkbox">
 									<span class="checkbox" />
 									<p class=" text-sm text-gray-500 inline ml-2 absolute">Hide the NFT</p>
