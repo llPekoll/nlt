@@ -33,6 +33,8 @@ npx hardhat help
 - [ ] NFT contract for dev testnet
 - [ ] Pagination
 - [ ] not for resell -> WIP
+- [ ] display money not enough
+
 
 ## ---- django -----
 
