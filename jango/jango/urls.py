@@ -3,6 +3,5 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("flappy.urls")),
     path("", include("marketplace.urls")),
 ]

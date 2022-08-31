@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import marketPlace from '$lib/Marketplace.json';
 	import nftl from '$lib/nftl.json';
 	import { onMount } from 'svelte';
@@ -75,22 +75,12 @@
 				signer
 			);
 			const nftContract = new ethers.Contract(marketPlace.addressNFT, marketPlace.abiNFT, signer);
-			// const NFTLcontract = new ethers.Contract(nftl.address, nftl.abi, signer);
-			// const toPay = ethers.utils.parseUnits(`${nft.price}.0`, 9);
-			// try {
-			// 	let tx = await NFTLcontract.transfer(currAddress, toPay);
-			// } catch (e) {
-			// 	console.log('error', e);
-			// 	return 0;
-			// }
+
 			message = 'fetching fees';
 			let taxes = await fetch(`/query/mycom/${nft.price}`);
 			const { value } = await taxes.json();
 			console.log('jar');
 			console.log(tokenId);
-			// const jose = await nftContract.owner();
-			// console.log(await jose)
-			// return
 			const listingPrice = ethers.utils.parseUnits(value.value, 'ether');
 			let feeBlockchain = await marketContract.getListingFee();
 			feeBlockchain = feeBlockchain.toString();
@@ -194,11 +184,11 @@
 				{#if nftDataFromBlockChain}
 					{#if nftOwner}
 						{#if isListed}
-							<!-- NFT ready to be bought -->
+							
 							<p class="mt-10 text-red-500 italic font-semibold text-right">
 								NFT Listed On The Way to Be sold we Wish you Luck!
 							</p>
-						{:else}<!-- Here we setup the price and list it -->
+						{:else}
 							<form class="pt-7">
 								<input
 									type="checkbox"
@@ -247,9 +237,9 @@
 							</form>
 						{/if}
 					{:else}
-						<!-- no the owner just a simple other visitor -->
+						
 						{#if isListed}
-							<!-- Buy the NFT -->
+							
 							<button
 								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-10 float-right ml-5"
 								on:click|once={() => buyNFT(tokenId)}
@@ -257,7 +247,7 @@
 								Buy this NFT
 							</button>
 						{:else}
-							<!-- can't do nothing nft not for sale -->
+							
 							<p class="text-right italic text-lg font-semibold text-red-500 mt-10">
 								NFT not Listed
 							</p>
@@ -387,4 +377,4 @@
 		border-radius: 3px;
 		transition: 0.3s;
 	}
-</style>
+</style> -->

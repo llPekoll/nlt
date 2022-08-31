@@ -8,9 +8,6 @@ const config = {
 		vite: {
 			rollupOptions: {
 				external: [/^node:.*/]
-			},
-			optimizeDeps: {
-				include: ['pixi.js']
 			}
 		}
 	},

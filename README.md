@@ -27,7 +27,7 @@ npx hardhat help
 - [x] check if enough credit
 - [x] resize images
 - [x] compile NFTL contract to pay NFTs in NFTL --> Aborted
-- [ ] flappy on in another app
+- [x] flappy on in another app
 - [ ] filters
 - [ ] image propser size
 - [ ] NFT contract for dev testnet
