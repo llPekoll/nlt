@@ -102,7 +102,8 @@
 	let selectedNft = '';
 	let detailsVisible = false;	
 	$: searchForNFt = nfts.filter((nft)=>{
-		return nft.name.includes(searchTerm) || nft.collection.includes(searchTerm) || nft.tags.toString().includes(searchTerm)
+		let collection = nft.collection? nft.collection: '';
+		return nft.name.includes(searchTerm) || collection.includes(searchTerm) || nft.tags.toString().includes(searchTerm)
 	})
 	$: console.log(searchForNFt)
 	$: console.log(searchTerm)
