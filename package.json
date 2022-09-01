@@ -10,6 +10,7 @@
     "ethers": "^5.6.9",
     "global": "^4.4.0",
     "hardhat": "^2.9.9",
+    "svelte-paginate": "^0.0.1",
     "vercel": "^27.3.3"
   },
   "devDependencies": {

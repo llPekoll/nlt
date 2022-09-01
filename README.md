@@ -28,10 +28,10 @@ npx hardhat help
 - [x] resize images
 - [x] compile NFTL contract to pay NFTs in NFTL --> Aborted
 - [x] flappy on in another app
-- [ ] filters
-- [ ] image proper size
 - [x] NFT contract for dev testnet
-- [ ] Pagination
+- [x] Pagination
+- [x] filters
+- [ ] image proper size
 - [ ] not for resell, can not be relisted-> WIP
 - [ ] display money not enough
 
