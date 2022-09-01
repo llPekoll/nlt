@@ -37,6 +37,7 @@
 	let items = nfts;
 	let currentPage = 1
 	let pageSize = 4
+	let searchTerm='';
 	onMount(async () => {
 		const loadNFTs = async () => {
 			const accounts = await window.ethereum
@@ -80,7 +81,8 @@
 						description: meta.description,
 						verified: back.nft.verified,
 						tags: back.nft.tags,
-						attributes: back.nft.attributes
+						attributes: back.nft.attributes,
+						collection: back.nft.collection
 					};
 					return item;
 				})
@@ -98,7 +100,12 @@
 		nfts = await res.json();
 	};
 	let selectedNft = '';
-	let detailsVisible = false;
+	let detailsVisible = false;	
+	$: searchForNFt = nfts.filter((nft)=>{
+		return nft.name.includes(searchTerm) || nft.collection.includes(searchTerm) || nft.tags.toString().includes(searchTerm)
+	})
+	$: console.log(searchForNFt)
+	$: console.log(searchTerm)
 </script>
 
 {#if detailsVisible}
@@ -106,7 +113,7 @@
 		<Token nft={selectedNft} {account} bind:detailsVisible />
 	</p>
 {:else}
-	<section in:fly={{ x: -100, duration: 500 }}>
+	<section in:fly={{ x: -100, duration: 500 }} class="py-5">
 		{#if !empty}
 			<p class="flex items-center justify-center">no items in the marketplace</p>
 		{/if}
@@ -115,7 +122,8 @@
 			NFTL Marketplace
 		</p>
 		{#if nfts}
-			<form class="text-center mx-auto">
+		<div class="flex items-center justify-center">
+			<form class='w-1/5'>
 				<input
 					name="is-hidden"
 					type="checkbox"
@@ -128,34 +136,23 @@
 					<p class=" text-sm text-white inline ml-2 absolute">Only Verified</p>
 				</label>
 			</form>
-			<!-- <form class="text-center mx-auto">
+			<form>
 				<input
 					type="text"
-					bind:checked={tagsFilterelts}
+					bind:value={searchTerm}
+					class="rounded"
 				/>
 				<label for="checkbox">
-					<span class="checkbox" />
-					<p class=" text-sm text-white inline ml-2 absolute">Filter By</p>
+					<p class=" text-sm text-white inline ml-2 absolute pt-0.5">Filter by name, collection or tag</p>
 				</label>
-			</form> -->
-			<!-- <div class="flex flex-wrap items-center justify-center">
-				{#each nfts as nft}
-					<button
-						on:click={() => {
-							detailsVisible = true;
-							selectedNft = nft;
-						}}
-						class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow"
-					>
-						<Card {nft} toDispay="false" {onlyVerified} />
-					</button>
-				{/each}
-			</div> -->
+			</form>
+		</div>
+		
 		{/if}
 	</section>
-
+{#if searchTerm}
 <ul class="items">
-  {#each paginatedItems as item}
+  {#each searchForNFt as item}
       	<button
 			on:click={() => {
 				detailsVisible = true;
@@ -167,104 +164,34 @@
 		</button>
   {/each}
 </ul>
-<div class=" mx-auto text-center w-1/2 py-10">
-<LightPaginationNav
-  totalItems="{items.length}"
-  pageSize="{pageSize}"
-  currentPage="{currentPage}"
-  limit="{1}"
-  showStepOptions="{true}"
-  on:setPage="{(e) => currentPage = e.detail.page}"
-/>
+{:else}
+	<ul class="flex-wrap items-center justify-center mx-auto text-center">
+	{#each paginatedItems as item}
+			<button
+				on:click={() => {
+					detailsVisible = true;
+					selectedNft = item;
+				}}
+				class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow"
+			>
+				<Card nft={item} toDispay="false" {onlyVerified} />
+			</button>
+	{/each}
+	</ul>
+	<div class=" mx-auto text-center w-1/2 py-10">
+	<LightPaginationNav
+	totalItems="{items.length}"
+	pageSize="{pageSize}"
+	currentPage="{currentPage}"
+	limit="{1}"
+	showStepOptions="{true}"
+	on:setPage="{(e) => currentPage = e.detail.page}"
+	/>
 </div>
 {/if}
 
-<div class="flex flex-col items-center">
-	<!-- Help text -->
-	<span class="text-sm text-white dark:text-gray-400">
-		<!-- Showing <span class="font-semibold text-gray-300 dark:text-white">{nfts.first_entry}</span> -->
-		<!-- to <span class="font-semibold text-gray-300 dark:text-white">{nfts.last_entry}</span> of -->
-		<!-- <span class="font-semibold text-gray-300 dark:text-white">{nfts.total_entry}</span> Entries -->
-	</span>
-	<div class="inline-flex mt-2 xs:mt-0">
-		<!-- Buttons -->
-		<!-- {#if nfts.total_entry > 10}
+{/if}
 
-{#if pageIndex !== 1}
-
-<button
-
-class="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-
->
-
-<svg
-
-aria-hidden="true"
-
-class="mr-2 w-5 h-5"
-
-fill="currentColor"
-
-viewBox="0 0 20 20"
-
-xmlns="http://www.w3.org/2000/svg"
-
-><path
-
-fill-rule="evenodd"
-
-d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-
-clip-rule="evenodd"
-
-/></svg
-
->
-
-Prev
-
-</button>
-                                {/if} -->
-		<!-- {#if nfts.last_entry == nfts.total_entry}
-
-<button
-
-class="inline-flex items-center py-2 px-4 text-sm font-medium text-white bg-gray-800 rounded-r border-0 border-l border-gray-700 hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-
->
-
-Next
-
-<svg
-
-aria-hidden="true"
-
-class="ml-2 w-5 h-5"
-
-fill="currentColor"
-
-viewBox="0 0 20 20"
-
-xmlns="http://www.w3.org/2000/svg"
-
-><path
-
-fill-rule="evenodd"
-
-d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-
-clip-rule="evenodd"
-
-/></svg
-
->
-
-</button>
-                                {/if} -->
-		<!-- {/if} -->
-	</div>
-</div>
 <Footer {trad} />
 
 <style>
@@ -371,4 +298,5 @@ clip-rule="evenodd"
 		border-radius: 3px;
 		transition: 0.3s;
 	}
+	/* input */
 </style>
