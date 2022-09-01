@@ -8,9 +8,23 @@
 	import Token from '$lib/Token.svelte';
 	import { fade, fly } from 'svelte/transition';
 	import Footer from '$lib/Footer.svelte';
+	import { paginate, LightPaginationNav } from 'svelte-paginate'
+
 
 	export let trad;
-	let nfts;
+	let rstNft = {
+						price: 1,
+						tokenId: "jose",
+						seller: 'sell',
+						owner: 'own',
+						image: 'img',
+						name: 'metta',
+						description: 'sako',
+						verified: true,
+						tags: ['jose'],
+						attributes: []
+					};
+	let nfts = [];
 
 	// let loadingState = 'not-loaded';
 	let empty = true;
@@ -19,6 +33,10 @@
 	let onlyVerified = false;
 	let updateCu;
 	let tagsFilterelts;
+
+	let items = nfts;
+	let currentPage = 1
+	let pageSize = 4
 	onMount(async () => {
 		const loadNFTs = async () => {
 			const accounts = await window.ethereum
@@ -70,7 +88,10 @@
 			return items;
 		};
 		nfts = await loadNFTs();
+		items = nfts.reverse();
+		paginatedItems = paginate({ items, pageSize, currentPage })
 	});
+	$: paginatedItems = paginate({ items, pageSize, currentPage })
 	const changePage = async (e) => {
 		pageIndex += e;
 		const res = await fetch(`/query/nfts/${pageIndex}`);
@@ -117,7 +138,7 @@
 					<p class=" text-sm text-white inline ml-2 absolute">Filter By</p>
 				</label>
 			</form> -->
-			<div class="flex flex-wrap items-center justify-center">
+			<!-- <div class="flex flex-wrap items-center justify-center">
 				{#each nfts as nft}
 					<button
 						on:click={() => {
@@ -129,9 +150,33 @@
 						<Card {nft} toDispay="false" {onlyVerified} />
 					</button>
 				{/each}
-			</div>
+			</div> -->
 		{/if}
 	</section>
+
+<ul class="items">
+  {#each paginatedItems as item}
+      	<button
+			on:click={() => {
+				detailsVisible = true;
+				selectedNft = item;
+			}}
+			class=" bg-white hover:bg-gray-100 rounded-lg hover:scale-105 transition-transform m-4 shadow"
+		>
+			<Card nft={item} toDispay="false" {onlyVerified} />
+		</button>
+  {/each}
+</ul>
+<div class=" mx-auto text-center w-1/2 py-10">
+<LightPaginationNav
+  totalItems="{items.length}"
+  pageSize="{pageSize}"
+  currentPage="{currentPage}"
+  limit="{1}"
+  showStepOptions="{true}"
+  on:setPage="{(e) => currentPage = e.detail.page}"
+/>
+</div>
 {/if}
 
 <div class="flex flex-col items-center">
