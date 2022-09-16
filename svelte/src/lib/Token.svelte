@@ -55,7 +55,7 @@
 			feeBlockchain = feeBlockchain.toString();
 
 			fee = (parseInt(listingPrice.toString())/10 + parseInt(feeBlockchain)).toString();
-			feeDisp = (parseInt(fee) / 10 ** 19).toFixed(5)+0.001;
+			feeDisp = ((parseInt(fee) / 10 ** 19)+0.001).toFixed(5);
 		};
 		await getBNBFeesDisplay();
 
