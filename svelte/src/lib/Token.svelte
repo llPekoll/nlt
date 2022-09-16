@@ -83,7 +83,7 @@
 	const buyNFT = async (tokenId) => {
 		if (
 			!window.confirm(
-				`Are you sure? Do you really want to purchase this NFT?\nit's about ${meta.nft.price}$NFTL and ~${feeDisp}$BNB fees`
+				`Are you sure? Do you really want to purchase this NFT?\nit's about ${meta.nft.price}$NFTL and ~${feeDisp+0.001}$BNB fees`
 			)
 		) {
 			return;
@@ -298,7 +298,7 @@
 						>
 					</p>
 					<div class="clear-both text-right -pt-10 text-xs">
-						*make sure you have a least <span class="text-normal">~ {feeDisp}BNB</span> to complete the
+						*make sure you have a least <span class="text-normal">~ {feeDisp+0.001}BNB</span> to complete the
 						transaction
 					</div>
 				{:else}
