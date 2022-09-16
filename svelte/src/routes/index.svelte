@@ -118,7 +118,6 @@
 		{#if !empty}
 			<p class="flex items-center justify-center">no items in the marketplace</p>
 		{/if}
-
 		<p class="flex items-center justify-center text-white text-3xl font-bold py-4 italic">
 			NFTL Marketplace
 		</p>
@@ -148,7 +147,6 @@
 				</label>
 			</form>
 		</div>
-		
 		{/if}
 	</section>
 {#if searchTerm}

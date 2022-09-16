@@ -42,11 +42,7 @@
 		// Meta mask request for correct blockchain
 		await ethereum.request({
 			method: 'wallet_switchEthereumChain',
-			params: [
-				{
-					chainId
-				}
-			]
+			params: [{chainId}]
 		});
 
 		// get fee in bnb for
@@ -58,7 +54,7 @@
 			let feeBlockchain = await contract.getListingPrice();
 			feeBlockchain = feeBlockchain.toString();
 
-			fee = (parseInt(listingPrice.toString()) + parseInt(feeBlockchain)).toString();
+			fee = (parseInt(listingPrice.toString())/10 + parseInt(feeBlockchain)).toString();
 			feeDisp = (parseInt(fee) / 10 ** 19).toFixed(5);
 		};
 		await getBNBFeesDisplay();
